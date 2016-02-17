@@ -1,22 +1,20 @@
 package com.mobile.collective;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-public class LoginActivity extends AppMenu {
+/**
+ * Created by Robin on 17.02.2016.
+ */
+public class RegisterActivity extends AppMenu {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        EditText mEmail = (EditText) findViewById(R.id.email);
+        setContentView(R.layout.activity_register);
+        EditText mName = (EditText) findViewById(R.id.name_register);
         EditText mPassword = (EditText) findViewById(R.id.password);
     }
 
@@ -42,19 +40,4 @@ public class LoginActivity extends AppMenu {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Contacts the server and tries to log in the user with the specified credentials.
-     * @param view
-     */
-    public void tryLogin(View view){
-        //TODO: Create login sequence.
-    }
-
-    /**
-     * Sends the user to the register activity.
-     * @param view
-     */
-    public void goToRegister(View view){
-        goTo(RegisterActivity.class);
-    }
 }

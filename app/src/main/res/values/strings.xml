@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">Collective</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Login Screen-->
+    <string name="email_autofill">example@mail.com</string>
+    <string name="password_fill">******</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forgot_password">Forgot Password</string>
+
+    <!-- Register Screen-->
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="re_password">Re-type password:</string>
+    <string name="email">Email:</string>
+    <string name="name_autotfill">John Doe</string>
+
 </resources>
