@@ -1,4 +1,4 @@
-package com.mobile.collective;
+package com.mobile.collective.implementation.model;
 
 import android.graphics.Color;
 

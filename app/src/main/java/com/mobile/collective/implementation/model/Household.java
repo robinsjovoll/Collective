@@ -1,4 +1,7 @@
-package com.mobile.collective;
+package com.mobile.collective.implementation.model;
+
+import com.mobile.collective.implementation.model.Task;
+import com.mobile.collective.implementation.model.User;
 
 import java.util.ArrayList;
 

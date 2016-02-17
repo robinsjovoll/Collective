@@ -1,5 +1,7 @@
-package com.mobile.collective;
+package com.mobile.collective.implementation.model;
 
+
+import com.mobile.collective.framework.Pair;
 
 import java.util.ArrayList;
 import java.util.Date;
