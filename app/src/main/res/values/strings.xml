@@ -15,5 +15,17 @@
     <string name="re_password">Re-type password:</string>
     <string name="email">Email:</string>
     <string name="name_autotfill">John Doe</string>
+    <string name="invalid_username">Username is invalid. It can only contain letters, numbers, punction marks, underscores and hyphens</string>
+    <string name="invalid_email">Email is invalid</string>
+    <string name="invalid_password">Password is invalid. It must contain one digit, one lowercase letter, one uppercase letter and be at least 6 characters long</string>
+    <string name="invalid_repassword">Password and re-typed password are not the equal</string>
+
+    <!--Profile strings-->
+    <string name="isLoggedInn">isLoggedInn</string>
+
+    <!--PUBLIC FINAL STRINGS-->
+    <!--Consider making these strings unreadable-->
+    <string name="profile_preferences">UserPrefsFile</string>
+    <string name="userInfo">userInfo</string>
 
 </resources>

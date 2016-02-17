@@ -1,20 +1,21 @@
-package com.mobile.collective;
+package com.mobile.collective.implementation.view;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-/**
- * Created by Robin on 17.02.2016.
- */
-public class RegisterActivity extends AppMenu {
+import com.mobile.collective.R;
+import com.mobile.collective.framework.AppMenu;
+
+public class LoginActivity extends AppMenu {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        EditText mName = (EditText) findViewById(R.id.name_register);
+        setContentView(R.layout.activity_login);
+        EditText mEmail = (EditText) findViewById(R.id.email);
         EditText mPassword = (EditText) findViewById(R.id.password);
     }
 
@@ -40,4 +41,19 @@ public class RegisterActivity extends AppMenu {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Contacts the server and tries to log in the user with the specified credentials.
+     * @param view
+     */
+    public void tryLogin(View view){
+        //TODO: Create login sequence.
+    }
+
+    /**
+     * Sends the user to the register activity.
+     * @param view
+     */
+    public void goToRegister(View view){
+        goTo(RegisterActivity.class);
+    }
 }

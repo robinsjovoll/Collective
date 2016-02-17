@@ -1,4 +1,4 @@
-package com.mobile.collective;
+package com.mobile.collective.framework;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -6,21 +6,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_background"
-    tools:context=".LoginActivity">
+    tools:context=".implementation.view.LoginActivity">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/toolbar"
+    <!--<include-->
+        <!--android:id="@+id/tool_bar"-->
+        <!--layout="@layout/toolbar"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        />
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/login"
+        android:id="@+id/LoginInformation"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="73dp"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="440px"
         android:layout_height="80px"
         android:layout_gravity="center"
-        android:layout_marginTop="280px"
-        android:background="#ffffff"
+        android:paddingLeft="20px"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/input_stroke"
         android:id="@+id/email"
         android:hint="@string/email_autofill"/>
 
@@ -28,7 +42,8 @@
         android:id="@+id/password"
         android:layout_width="440px"
         android:layout_gravity="center"
-        android:background="#ffffff"
+        android:background="@drawable/input_stroke"
+        android:paddingLeft="20px"
         android:layout_height="80px"
         android:layout_marginTop="20px"
         android:inputType="textPassword"
@@ -36,7 +51,7 @@
 
     <Button
         android:layout_width="440px"
-        android:layout_height="80px"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/loginbtn"
         android:background="@drawable/btn_normal"
@@ -55,7 +70,7 @@
 
         <Button
             android:layout_width="215px"
-            android:layout_height="80px"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/register"
             android:background="@drawable/btn_normal"
@@ -65,7 +80,7 @@
             android:text="Register"/>
         <Button
             android:layout_width="215px"
-            android:layout_height="80px"
+            android:layout_height="wrap_content"
             android:id="@+id/forgotpass"
             android:layout_marginLeft="10px"
             android:background="@drawable/btn_normal"
