@@ -1,22 +1,22 @@
-package com.mobile.collective;
+package com.mobile.collective.implementation.view;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity {
+import com.mobile.collective.R;
+import com.mobile.collective.framework.AppMenu;
+
+public class LoginActivity extends AppMenu {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        EditText mEmail = (EditText) findViewById(R.id.email);
+        EditText mPassword = (EditText) findViewById(R.id.password);
     }
 
     @Override
@@ -39,5 +39,21 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Contacts the server and tries to log in the user with the specified credentials.
+     * @param view
+     */
+    public void tryLogin(View view){
+        //TODO: Create login sequence.
+    }
+
+    /**
+     * Sends the user to the register activity.
+     * @param view
+     */
+    public void goToRegister(View view){
+        goTo(RegisterActivity.class);
     }
 }
