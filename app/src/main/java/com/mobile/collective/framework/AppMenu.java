@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by Robin on 17/02/2016.
  */
 public abstract class AppMenu extends AppCompatActivity {
+    private static AndroidFileIO fileIO;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle){
@@ -39,4 +40,10 @@ public abstract class AppMenu extends AppCompatActivity {
         return getString(resId);
     }
 
+    public static AndroidFileIO getFileIO() {
+        return fileIO;
+    }
+    public static void setFileIO(AndroidFileIO fileIO) {
+        AppMenu.fileIO = fileIO;
+    }
 }

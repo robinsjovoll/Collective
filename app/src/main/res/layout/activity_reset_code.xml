@@ -21,8 +21,8 @@
         android:textSize="30dp"
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/login"
-        android:id="@+id/LoginInformation"
+        android:text="@string/reset_code"
+        android:id="@+id/ResetPasswordInformation"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:layout_marginTop="73dp"
@@ -35,60 +35,41 @@
         android:paddingLeft="20px"
         android:layout_marginTop="50dp"
         android:background="@drawable/input_stroke"
-        android:id="@+id/email"
-        android:hint="@string/email_autofill"/>
+        android:id="@+id/code_reset"
+        android:hint="@string/code"/>
 
     <EditText
-        android:id="@+id/password"
         android:layout_width="540px"
-        android:layout_gravity="center"
-        android:background="@drawable/input_stroke"
-        android:paddingLeft="20px"
         android:layout_height="100px"
+        android:layout_gravity="center"
+        android:paddingLeft="20px"
         android:layout_marginTop="20px"
+        android:background="@drawable/input_stroke"
         android:inputType="textPassword"
-        android:hint="******"/>
+        android:id="@+id/new_password"
+        android:hint="@string/new_password"/>
+
 
     <Button
         android:layout_width="540px"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/loginbtn"
+        android:id="@+id/continueBtn_code"
         android:background="@drawable/btn_normal"
         android:textColor="#ffffff"
         android:textAlignment="center"
         android:layout_marginTop="20px"
-        android:onClick="tryLogin"
-        android:text="Login"/>
+        android:text="@string/continue_reset"/>
 
-    <LinearLayout
+    <Button
         android:layout_width="540px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10px"
         android:layout_gravity="center"
-        android:orientation="horizontal" >
-
-        <Button
-            android:layout_width="265px"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/register"
-            android:background="@drawable/btn_normal"
-            android:textColor="#ffffff"
-            android:textAlignment="center"
-            android:onClick="goToRegister"
-            android:text="Register"/>
-        <Button
-            android:layout_width="265px"
-            android:layout_height="wrap_content"
-            android:id="@+id/forgotpass"
-            android:layout_marginLeft="10px"
-            android:background="@drawable/btn_normal"
-            android:textColor="#ffffff"
-            android:onClick="resetPassword"
-            android:textAlignment="center"
-            android:text="Forgot  Password"/>
-
-        </LinearLayout>
+        android:id="@+id/cancelBtn_code"
+        android:background="@drawable/btn_normal"
+        android:textColor="#ffffff"
+        android:textAlignment="center"
+        android:layout_marginTop="20px"
+        android:text="@string/cancel_reset"/>
 
 </LinearLayout>

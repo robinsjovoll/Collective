@@ -1,22 +1,37 @@
 package com.mobile.collective.implementation.view;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mobile.collective.R;
+import com.mobile.collective.client_server.HttpType;
+import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class LoginActivity extends AppMenu {
+
+    EditText eEmail, ePassword;
+    HashMap<String,String> params = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        EditText mEmail = (EditText) findViewById(R.id.email);
-        EditText mPassword = (EditText) findViewById(R.id.password);
+        eEmail = (EditText) findViewById(R.id.email);
+        ePassword = (EditText) findViewById(R.id.password);
     }
 
     @Override
@@ -46,7 +61,27 @@ public class LoginActivity extends AppMenu {
      * @param view
      */
     public void tryLogin(View view){
-        //TODO: Create login sequence.
+        String email = eEmail.getText().toString();
+        String password = ePassword.getText().toString();
+
+        params.put("email", email);
+        params.put("password", password);
+        ServerRequest sr = new ServerRequest();
+        JSONObject json = sr.getJSON(HttpType.LOGIN,"http://192.168.1.102:8080/login",params);
+        try {
+            if(json.getBoolean("res")){
+                Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                JSONObject userinfo = getFileIO().readUserInformation();
+                userinfo.put("token",json.getString("token"));
+                userinfo.put("grav",json.getString("grav"));
+                getFileIO().writeUserInformationSaveFile(userinfo);
+//                goTo(MainAcitvity.class);
+            }else{
+                Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -55,5 +90,101 @@ public class LoginActivity extends AppMenu {
      */
     public void goToRegister(View view){
         goTo(RegisterActivity.class);
+    }
+
+    /**
+     * Resets the password of a specified email account.
+     * @param view
+     */
+    public void resetPassword(View view){
+        final Dialog reset = new Dialog(LoginActivity.this);
+        reset.setTitle("Reset Password");
+        reset.setContentView(R.layout.activity_reset_password);
+        final EditText eEmail = (EditText) reset.findViewById(R.id.email_reset);
+        Button cont = (Button) reset.findViewById(R.id.continueBtn);
+        Button cancel = (Button) reset.findViewById(R.id.cancelBtn);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reset.dismiss();
+            }
+        });
+        cont.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("LoginActivity","ContinueClicked");
+                final String resetEmail = eEmail.getText().toString();
+                params = new HashMap<String, String>();
+                params.put("email", resetEmail);
+                ServerRequest sr = new ServerRequest();
+                JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD,"http://192.168.1.102:8080/api/resetpass", params);
+
+                if (json != null) {
+                    try {
+                        String jsonstr = json.getString("response");
+                        if(json.getBoolean("res")){
+                            Log.e("JSON", jsonstr);
+                            Toast.makeText(getApplication(), jsonstr, Toast.LENGTH_LONG).show();
+                            reset.setContentView(R.layout.activity_reset_code);
+                            Button cont_code = (Button)reset.findViewById(R.id.continueBtn_code);
+                            final EditText code = (EditText)reset.findViewById(R.id.code_reset);
+                            final EditText newpass = (EditText)reset.findViewById(R.id.new_password);
+                            Button cancel1 = (Button)reset.findViewById(R.id.cancelBtn_code);
+                            cancel1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    reset.dismiss();
+                                }
+                            });
+                            cont_code.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String code_txt = code.getText().toString();
+                                    String npass_txt = newpass.getText().toString();
+                                    Log.e("Code",code_txt);
+                                    Log.e("New pass", npass_txt);
+                                    params = new HashMap<String, String>();
+                                    params.put("email",resetEmail);
+                                    params.put("code", code_txt);
+                                    params.put("newpass", npass_txt);
+                                    ServerRequest sr = new ServerRequest();
+                                    JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD,"http://192.168.1.102:8080/api/resetpass/chg", params);
+
+                                    if (json != null) {
+                                        try {
+
+                                            String jsonstr = json.getString("response");
+                                            if(json.getBoolean("res")){
+                                                reset.dismiss();
+                                                Toast.makeText(getApplication(),jsonstr,Toast.LENGTH_LONG).show();
+
+                                            }else{
+                                                Toast.makeText(getApplication(),jsonstr,Toast.LENGTH_LONG).show();
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                }
+                            });
+                        }else{
+
+                            Toast.makeText(getApplication(),jsonstr,Toast.LENGTH_LONG).show();
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+
+        });
+
+        reset.show();
+
     }
 }

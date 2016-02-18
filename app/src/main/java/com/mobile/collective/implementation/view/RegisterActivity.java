@@ -1,5 +1,7 @@
 package com.mobile.collective.implementation.view;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,19 +91,19 @@ public class RegisterActivity extends AppMenu {
         String email = eEmail.getText().toString();
         String password = ePassword.getText().toString();
         String rePassword = eRePassword.getText().toString();
-//        if(!validUsername(username)){
-//            Toast.makeText(getApplicationContext(), getString(R.string.invalid_username), Toast.LENGTH_LONG).show();
-//            return;
-//        if(!validEmail(email)){
-//            Toast.makeText(getApplicationContext(), getString(R.string.invalid_email), Toast.LENGTH_LONG).show();
-//            return;
-//        }else if(!validPassword(password)){
-//            Toast.makeText(getApplicationContext(), getString(R.string.invalid_password), Toast.LENGTH_LONG).show();
-//            return;
-//        }else if(!password.equals(rePassword)){
-//            Toast.makeText(getApplicationContext(), getString(R.string.invalid_repassword), Toast.LENGTH_LONG).show();
-//            return;
-//        }else{
+        if(!validUsername(username)) {
+            Toast.makeText(getApplicationContext(), getString(R.string.invalid_username), Toast.LENGTH_LONG).show();
+            return;
+        }else if(!validEmail(email)){
+            Toast.makeText(getApplicationContext(), getString(R.string.invalid_email), Toast.LENGTH_LONG).show();
+            return;
+        }else if(!validPassword(password)){
+            Toast.makeText(getApplicationContext(), getString(R.string.invalid_password), Toast.LENGTH_LONG).show();
+            return;
+        }else if(!password.equals(rePassword)){
+            Toast.makeText(getApplicationContext(), getString(R.string.invalid_repassword), Toast.LENGTH_LONG).show();
+            return;
+        }else{
             params.put("email",email);
             params.put("username",username);
             params.put("password",password);
@@ -112,12 +114,23 @@ public class RegisterActivity extends AppMenu {
                     String jsonstr = json.getString("response");
 
                     Toast.makeText(getApplication(),jsonstr,Toast.LENGTH_LONG).show();
-
+                    if(json.getBoolean("res")){
+                        SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPrefProf.edit();
+                        edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
+                        edit.commit();
+                        JSONObject userinfo = new JSONObject();
+                        userinfo.put("email", email);
+                        userinfo.put("username", username);
+                        userinfo.put("password", password);
+                        getFileIO().writeUserInformationSaveFile(userinfo);
+                        goTo(LoginActivity.class);
+                    }
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-//        }
+        }
     }
 
     /**

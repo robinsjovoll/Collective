@@ -27,11 +27,10 @@ public class ServerRequest {
     static JSONObject jObj = null;
     static String json = "";
 
-
     public ServerRequest() {
     }
 
-    public JSONObject getJSONFromUrl(HttpType type,String urltxt, HashMap<String,String> params) {
+    public JSONObject postRequest(HttpType type, String urltxt, HashMap<String, String> params) {
 
         URL url = null;
         try {
@@ -123,7 +122,10 @@ public class ServerRequest {
         protected JSONObject doInBackground(Params... args) {
 
             ServerRequest request = new ServerRequest();
-            JSONObject json = request.getJSONFromUrl(type,args[0].url,args[0].params);
+            JSONObject json = null;
+            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD){
+                json = request.postRequest(type, args[0].url, args[0].params);
+            }
 
             return json;
         }

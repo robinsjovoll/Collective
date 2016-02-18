@@ -5,9 +5,18 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mobile.collective.R;
+import com.mobile.collective.client_server.HttpType;
+import com.mobile.collective.client_server.ServerRequest;
+import com.mobile.collective.framework.AndroidFileIO;
 import com.mobile.collective.framework.AppMenu;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 /**
@@ -28,7 +37,7 @@ public class LoadingActivity extends AppMenu {
         //Load things
         //Sets all the static classes for the application
 //        setAppAssets(new Assets(this));
-//        setFileIO(new AndroidFileIO(this));
+        setFileIO(new AndroidFileIO(this));
 //        setMainController(new MainController(getFileIO(), this));
 
 
@@ -55,7 +64,9 @@ public class LoadingActivity extends AppMenu {
                     boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
                     if (!isLoggedInn) {
                         //ONLY DONE THE FIRST TIME THE APPLICATION IS CREATED
-//                        getMainController().createUserInformation();
+//                        JSONObject initialUserinfo = new JSONObject();
+//
+//                        getFileIO().writeInitialUserInformation();
                     }
 
                     //Loads the statistics from the phone internal storage
@@ -83,13 +94,23 @@ public class LoadingActivity extends AppMenu {
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
             Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if (isLoggedInn) {
-//                goTo(MainMenu.class);
+                JSONObject userinfo = getFileIO().readUserInformation();
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("email",userinfo.getString("email"));
+                    params.put("password",userinfo.getString("password"));
+                    ServerRequest sr = new ServerRequest();
+                    JSONObject json = sr.getJSON(HttpType.LOGIN,"http://192.168.1.102:8080/login",params);
+                    if(json.getBoolean("res")){
+                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+//                        goTo(MainActivity.class);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 goTo(LoginActivity.class);
             } else {
-                //Initialize the next Activity if not logged inn and set the logged inn boolean to true, so that the next time the user starts the application he/she will not go to the introduction menu.
-                SharedPreferences.Editor edit = sharedPref.edit();
-                edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
-                edit.commit();
                 goTo(LoginActivity.class);
             }
         }
