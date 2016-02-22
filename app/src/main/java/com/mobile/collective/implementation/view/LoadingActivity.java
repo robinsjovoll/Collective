@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 
 /**
- * Created by Robin on 20/02/2016.
+ * Created by Robin on 17/02/2016.
  */
 public class LoadingActivity extends AppMenu {
 
@@ -73,7 +73,9 @@ public class LoadingActivity extends AppMenu {
                     if(json != null & json.getBoolean("res")){
                         Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
 //                        goTo(MainActivity.class);
-                    }else{
+                    }else if(json != null & json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")){
+                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                    }else {
                         Toast.makeText(getApplication(), getString(R.string.restart_app), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {

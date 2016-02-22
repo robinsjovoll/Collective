@@ -14,6 +14,7 @@ import com.mobile.collective.R;
 import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
+import com.mobile.collective.implementation.controller.MainMenuController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +22,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Created by Robin on 17/02/2016.
+ */
 public class LoginActivity extends AppMenu {
 
     EditText eEmail, ePassword;
@@ -72,10 +76,12 @@ public class LoginActivity extends AppMenu {
             if(json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                 JSONObject userinfo = getFileIO().readUserInformation();
+                userinfo.put("email",email);
+                userinfo.put("password",password);
                 userinfo.put("token",json.getString("token"));
                 userinfo.put("grav",json.getString("grav"));
                 getFileIO().writeUserInformationSaveFile(userinfo);
-//                goTo(MainAcitvity.class);
+                goTo(MainMenuController.class);
             }else{
                 Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();
             }
@@ -157,6 +163,8 @@ public class LoginActivity extends AppMenu {
                                             if(json.getBoolean("res")){
                                                 reset.dismiss();
                                                 Toast.makeText(getApplication(),jsonstr,Toast.LENGTH_LONG).show();
+                                                JSONObject userInfo = getFileIO().readUserInformation();
+                                                userInfo.put("password",npass_txt);
 
                                             }else{
                                                 Toast.makeText(getApplication(),jsonstr,Toast.LENGTH_LONG).show();

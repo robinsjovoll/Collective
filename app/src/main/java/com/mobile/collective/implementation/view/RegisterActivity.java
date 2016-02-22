@@ -163,4 +163,10 @@ public class RegisterActivity extends AppMenu {
         return passwordMatcher.matches();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, 0);
+        goTo(LoginActivity.class);
+    }
 }

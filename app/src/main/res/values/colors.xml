@@ -4,6 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="primary_background">#ff6000</color>
-    <color name="TabScroller">#FFFFFF</color> <!-- Find a color scheme -->
     <color name="white">#FFFFFF</color>
 </resources>

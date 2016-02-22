@@ -30,8 +30,10 @@ public abstract class AppMenu extends AppCompatActivity {
      */
     public void goTo(Class javaClass) {
         Intent intent = new Intent(this, javaClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
-        finish();
+        finish(); //Ends the previous activity
+        overridePendingTransition(0, 0);
     }
 
     private String getStringResourceByName(String aString) {
@@ -46,4 +48,5 @@ public abstract class AppMenu extends AppCompatActivity {
     public static void setFileIO(AndroidFileIO fileIO) {
         AppMenu.fileIO = fileIO;
     }
+
 }

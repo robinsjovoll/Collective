@@ -4,6 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.mobile.collective.implementation.view.NewsfeedTab;
+import com.mobile.collective.implementation.view.ScoreTab;
+import com.mobile.collective.implementation.view.SettingsTab;
+import com.mobile.collective.implementation.view.TaskTab;
+
 
 /**
  * Created by Robin on 21/02/2016.
@@ -17,7 +22,10 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     /**
      * Different menus/tabs.
      */
-
+    private ScoreTab scoreTab;
+    private TaskTab taskTab;
+    private NewsfeedTab newsfeedTab;
+    private SettingsTab settingsTab;
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
@@ -27,6 +35,11 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 
+        scoreTab = new ScoreTab();
+        taskTab = new TaskTab();
+        newsfeedTab = new NewsfeedTab();
+        settingsTab = new SettingsTab();
+
 
 
     }
@@ -35,20 +48,19 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        if(position == 0) // if the position is 0 we are returning the First tab
-        {
+        if(position == 0){ // if the position is 0 we are returning the First tab
+            return taskTab;
         }
-        else if(position == 1)             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-        {
+        else if(position == 1)    {         // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+            return  scoreTab;
         }
-        else if(position == 2)             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-        {
+        else if(position == 2) {            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+            return newsfeedTab;
         }
-        else         // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-        {
+        else {        // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+            return settingsTab;
         }
 
-    return null;
     }
 
     // This method return the titles for the Tabs in the Tab Strip
