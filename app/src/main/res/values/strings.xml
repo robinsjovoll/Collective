@@ -2,6 +2,9 @@
     <string name="app_name">Collective</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Loading Screen-->
+    <string name="restart_app">Unable to connect to server. Please restart the application.</string>
+
     <!-- Login Screen-->
     <string name="email_autofill">example@mail.com</string>
     <string name="password_fill">******</string>
@@ -19,7 +22,6 @@
     <string name="code">Code</string>
     <string name="new_password">New password</string>
 
-
     <!-- Register Screen-->
     <string name="username">Username:</string>
     <string name="password">Password:</string>
@@ -30,6 +32,18 @@
     <string name="invalid_email">Email is invalid</string>
     <string name="invalid_password">Password is invalid. It must contain one digit, one lowercase letter, one uppercase letter and be at least 6 characters long</string>
     <string name="invalid_repassword">Password and re-typed password are not the equal</string>
+
+    <!-- Score Screen-->
+    <string name="score_title">Score</string>
+
+    <!-- Task Screen-->
+    <string name="task_title">Tasks</string>
+
+    <!-- Feed Screen-->
+    <string name="feed_title">Newsfeed</string>
+
+    <!-- Settings Screen-->
+    <string name="setting_title">Settings</string>
 
     <!--Profile strings-->
     <string name="isLoggedInn">isLoggedInn</string>
