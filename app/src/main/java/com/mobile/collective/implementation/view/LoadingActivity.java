@@ -5,13 +5,22 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mobile.collective.R;
+import com.mobile.collective.client_server.HttpType;
+import com.mobile.collective.client_server.ServerRequest;
+import com.mobile.collective.framework.AndroidFileIO;
 import com.mobile.collective.framework.AppMenu;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 /**
- * Created by Kristian on 11/09/2015.
+ * Created by Robin on 20/02/2016.
  */
 public class LoadingActivity extends AppMenu {
 
@@ -28,8 +37,7 @@ public class LoadingActivity extends AppMenu {
         //Load things
         //Sets all the static classes for the application
 //        setAppAssets(new Assets(this));
-//        setFileIO(new AndroidFileIO(this));
-//        setMainController(new MainController(getFileIO(), this));
+        setFileIO(new AndroidFileIO(this));
 
 
         //After done loading
@@ -44,38 +52,9 @@ public class LoadingActivity extends AppMenu {
         //The code to be executed in a background thread.
         @Override
         protected Void doInBackground(Void... params) {
-             /* This code creates/saves the user data and loads all the application assets
-.             */
-            try {
-                //Get the current thread's token
-                synchronized (this) {
-                    //IMPORTANT, needs to be done first
-                    //If the user already "logged" inn
-                    SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
-                    boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
-                    if (!isLoggedInn) {
-                        //ONLY DONE THE FIRST TIME THE APPLICATION IS CREATED
-//                        getMainController().createUserInformation();
-                    }
-
-                    //Loads the statistics from the phone internal storage
-//                    getMainController().loadUserInformation();
-//                    if(HTTPSender.info == null || !HTTPSender.info.isLoggedIn()){
-//                        Log.e("LoadingScreen", "Did not log in the first time");
-//                        getMainController().reCreateUserInformation();
-//                    }
-
-
-                }
-            } catch (Exception e) {
-                Log.e("LoadScreen", "LOADING APPLICATION DATA FAILED");
-                e.printStackTrace();
-            }
-
-            return null;
+             return null;
         }
 
-        //after executing the code in the thread
         @Override
         protected void onPostExecute(Void result) {
 
@@ -83,13 +62,26 @@ public class LoadingActivity extends AppMenu {
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
             Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if (isLoggedInn) {
-//                goTo(MainMenu.class);
+                JSONObject userinfo = getFileIO().readUserInformation();
+                HashMap<String,String> params = new HashMap<>();
+                try {
+                    params.put("email",userinfo.getString("email"));
+                    params.put("password",userinfo.getString("password"));
+                    ServerRequest sr = new ServerRequest();
+                    JSONObject json = sr.getJSON(HttpType.LOGIN,"http://192.168.1.102:8080/login",params);
+
+                    if(json != null & json.getBoolean("res")){
+                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+//                        goTo(MainActivity.class);
+                    }else{
+                        Toast.makeText(getApplication(), getString(R.string.restart_app), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 goTo(LoginActivity.class);
             } else {
-                //Initialize the next Activity if not logged inn and set the logged inn boolean to true, so that the next time the user starts the application he/she will not go to the introduction menu.
-                SharedPreferences.Editor edit = sharedPref.edit();
-                edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
-                edit.commit();
                 goTo(LoginActivity.class);
             }
         }

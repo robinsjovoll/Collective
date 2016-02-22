@@ -29,8 +29,8 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:layout_width="440px"
-        android:layout_height="80px"
+        android:layout_width="540px"
+        android:layout_height="100px"
         android:layout_gravity="center"
         android:paddingLeft="20px"
         android:layout_marginTop="50dp"
@@ -40,17 +40,17 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="440px"
+        android:layout_width="540px"
         android:layout_gravity="center"
         android:background="@drawable/input_stroke"
         android:paddingLeft="20px"
-        android:layout_height="80px"
+        android:layout_height="100px"
         android:layout_marginTop="20px"
         android:inputType="textPassword"
         android:hint="******"/>
 
     <Button
-        android:layout_width="440px"
+        android:layout_width="540px"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/loginbtn"
@@ -62,14 +62,14 @@
         android:text="Login"/>
 
     <LinearLayout
-        android:layout_width="440px"
+        android:layout_width="540px"
         android:layout_height="wrap_content"
         android:layout_marginTop="10px"
         android:layout_gravity="center"
         android:orientation="horizontal" >
 
         <Button
-            android:layout_width="215px"
+            android:layout_width="265px"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/register"
@@ -79,14 +79,15 @@
             android:onClick="goToRegister"
             android:text="Register"/>
         <Button
-            android:layout_width="215px"
+            android:layout_width="265px"
             android:layout_height="wrap_content"
             android:id="@+id/forgotpass"
             android:layout_marginLeft="10px"
             android:background="@drawable/btn_normal"
             android:textColor="#ffffff"
+            android:onClick="resetPassword"
             android:textAlignment="center"
-            android:text="Forgot Password"/>
+            android:text="Forgot  Password"/>
 
         </LinearLayout>
 
