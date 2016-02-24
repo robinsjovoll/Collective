@@ -68,7 +68,7 @@ public class LoadingActivity extends AppMenu {
                     params.put("email",userinfo.getString("email"));
                     params.put("password",userinfo.getString("password"));
                     ServerRequest sr = new ServerRequest();
-                    JSONObject json = sr.getJSON(HttpType.LOGIN,"http://192.168.1.102:8080/login",params);
+                    JSONObject json = sr.getJSON(HttpType.LOGIN,getIpAddress()+":8080/login",params);
 
                     if(json != null & json.getBoolean("res")){
                         Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();

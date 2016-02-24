@@ -71,7 +71,7 @@ public class LoginActivity extends AppMenu {
         params.put("email", email);
         params.put("password", password);
         ServerRequest sr = new ServerRequest();
-        JSONObject json = sr.getJSON(HttpType.LOGIN,"http://192.168.1.102:8080/login",params);
+        JSONObject json = sr.getJSON(HttpType.LOGIN,getIpAddress()+":8080/login",params);
         try {
             if(json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
@@ -123,7 +123,7 @@ public class LoginActivity extends AppMenu {
                 params = new HashMap<String, String>();
                 params.put("email", resetEmail);
                 ServerRequest sr = new ServerRequest();
-                JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD,"http://192.168.1.102:8080/api/resetpass", params);
+                JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD,getIpAddress()+":8080/api/resetpass", params);
 
                 if (json != null) {
                     try {
@@ -154,7 +154,7 @@ public class LoginActivity extends AppMenu {
                                     params.put("code", code_txt);
                                     params.put("newpass", npass_txt);
                                     ServerRequest sr = new ServerRequest();
-                                    JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD,"http://192.168.1.102:8080/api/resetpass/chg", params);
+                                    JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD,getIpAddress()+":8080/api/resetpass/chg", params);
 
                                     if (json != null) {
                                         try {

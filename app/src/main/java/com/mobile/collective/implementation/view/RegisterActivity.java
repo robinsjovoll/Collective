@@ -108,7 +108,7 @@ public class RegisterActivity extends AppMenu {
             params.put("username",username);
             params.put("password",password);
             ServerRequest sr = new ServerRequest();
-            JSONObject json = sr.getJSON(HttpType.REGISTER,"http://192.168.1.102:8080/register",params);
+            JSONObject json = sr.getJSON(HttpType.REGISTER,getIpAddress()+":8080/register",params);
             if(json != null){
                 try{
                     String jsonstr = json.getString("response");
