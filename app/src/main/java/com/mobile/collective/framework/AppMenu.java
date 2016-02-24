@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.mobile.collective.implementation.model.User;
+
 /**
  * Created by Robin on 17/02/2016.
  */
 public abstract class AppMenu extends AppCompatActivity {
     private static AndroidFileIO fileIO;
     private static final String IP_ADDRESS = "http://10.20.86.37";
+    public User user;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle){
