@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 public abstract class AppMenu extends AppCompatActivity {
     private static AndroidFileIO fileIO;
+    private static final String IP_ADDRESS = "http://10.20.86.37";
 
     @Override
     public void onCreate(Bundle savedInstanceBundle){
@@ -30,8 +31,10 @@ public abstract class AppMenu extends AppCompatActivity {
      */
     public void goTo(Class javaClass) {
         Intent intent = new Intent(this, javaClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
-        finish();
+        finish(); //Ends the previous activity
+        overridePendingTransition(0, 0);
     }
 
     private String getStringResourceByName(String aString) {
@@ -45,5 +48,9 @@ public abstract class AppMenu extends AppCompatActivity {
     }
     public static void setFileIO(AndroidFileIO fileIO) {
         AppMenu.fileIO = fileIO;
+    }
+
+    public static String getIpAddress() {
+        return IP_ADDRESS;
     }
 }

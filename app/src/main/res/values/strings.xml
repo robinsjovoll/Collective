@@ -40,7 +40,7 @@
     <string name="task_title">Tasks</string>
 
     <!-- Feed Screen-->
-    <string name="feed_title">Newsfeed</string>
+    <string name="feed_title">Feed</string>
 
     <!-- Settings Screen-->
     <string name="setting_title">Settings</string>
