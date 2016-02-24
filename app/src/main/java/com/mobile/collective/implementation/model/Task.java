@@ -10,19 +10,19 @@ public class Task {
 
     private int points;
     private String description, name;
-    private boolean continuous;
+    private boolean continuous, approved;
     private ArrayList<Pair<Date, User>> history;
 
-    public Task(int points, String description, String name, boolean continuous, ArrayList<Pair<Date, User>> history){
+    public Task(int points, String description, String name, boolean continuous){
         this.points = points;
         this.description = description;
         this.name = name;
-        this.history = history;
+        this.continuous = continuous;
+        this.history = new ArrayList<>();
     }
 
     public int getPoints(){
-        return this.points;
-    }
+        return this.points; }
 
     public void setPoints(int points){
         this.points = points;
@@ -52,7 +52,15 @@ public class Task {
         this.continuous = continuous;
     }
 
+    public boolean getApproved(){
+        return this.approved;
+    }
+
+    public void approveTask(){
+        this.approved = true;
+    }
+
     public void updateHistory(Date date, User user){
-        history.add(new Pair<Date, User>(date, user));
+        this.history.add(new Pair<>(date, user));
     }
 }

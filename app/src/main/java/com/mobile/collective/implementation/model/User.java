@@ -10,10 +10,12 @@ public class User {
     private int flatPin;
     private boolean isAdmin;
 
-    public User(String name, String mail, Color color, String hash, String salt, boolean isAdmin){
+    public User(String name, String mail, String hash, String salt, boolean isAdmin){
         this.name = name;
         this.mail = mail;
-        this.color = color;
+//      this.color = color;
+        this.hash = hash;
+        this.salt = salt;
         this.score = 0;
         this.isAdmin = false;
     }
@@ -23,7 +25,7 @@ public class User {
     }
 
     public void makeAdmin(){
-        isAdmin = true;
+        this.isAdmin = true;
     }
 
     public boolean isAdmin(){
@@ -50,5 +52,12 @@ public class User {
         this.score += offset;
     }
 
-    public void setFlatPin(int pin){ this.flatPin = pin; }
+    public void setFlatPin(int pin){
+        this.flatPin = pin;
+    }
+
+    public int getFlatPin(){
+        return this.flatPin;
+    }
+
 }
