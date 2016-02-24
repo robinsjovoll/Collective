@@ -12,6 +12,7 @@ import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AndroidFileIO;
 import com.mobile.collective.framework.AppMenu;
+import com.mobile.collective.implementation.controller.MainMenuController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +73,7 @@ public class LoadingActivity extends AppMenu {
 
                     if(json != null & json.getBoolean("res")){
                         Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
-//                        goTo(MainActivity.class);
+                        goTo(MainMenuController.class);
                     }else if(json != null & json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")){
                         Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                     }else {
@@ -82,7 +83,6 @@ public class LoadingActivity extends AppMenu {
                     e.printStackTrace();
                 }
 
-                goTo(LoginActivity.class);
             } else {
                 goTo(LoginActivity.class);
             }
