@@ -7,6 +7,7 @@ public class User {
     private Color color;
     private String hash, salt;
     private int score;
+    private int flatPin;
     private boolean isAdmin;
 
     public User(String name, String mail, Color color, String hash, String salt, boolean isAdmin){
@@ -14,7 +15,7 @@ public class User {
         this.mail = mail;
         this.color = color;
         this.score = 0;
-        this.isAdmin = isAdmin;
+        this.isAdmin = false;
     }
 
     public String getName(){
@@ -49,4 +50,5 @@ public class User {
         this.score += offset;
     }
 
+    public void setFlatPin(int pin){ this.flatPin = pin; }
 }
