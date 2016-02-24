@@ -13,7 +13,7 @@ public class User {
         this.mail = mail;
         this.color = color;
         this.score = 0;
-    } //test
+    }
 
     public String getName(){
         return this.name;
