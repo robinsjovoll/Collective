@@ -7,16 +7,26 @@ public class User {
     private Color color;
     private String hash, salt;
     private int score;
+    private boolean isAdmin;
 
-    public User(String name, String mail, Color color, String hash, String salt){
+    public User(String name, String mail, Color color, String hash, String salt, boolean isAdmin){
         this.name = name;
         this.mail = mail;
         this.color = color;
         this.score = 0;
+        this.isAdmin = isAdmin;
     }
 
     public String getName(){
         return this.name;
+    }
+
+    public void makeAdmin(){
+        isAdmin = true;
+    }
+
+    public boolean isAdmin(){
+        return isAdmin;
     }
 
     public void setMail(String mail){
@@ -38,4 +48,5 @@ public class User {
     public void increaseScore(int offset){
         this.score += offset;
     }
+
 }
