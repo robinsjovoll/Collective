@@ -16,9 +16,8 @@ import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 
 
-
 /**
- * Created by Robin on 16/09/2015.
+ * Created by Robin on 22/02/2016.
  */
 public class MainMenuController extends AppMenu {
 
@@ -59,7 +58,7 @@ public class MainMenuController extends AppMenu {
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.TabScroller);
+                return getResources().getColor(R.color.white);
             }
         });
 
