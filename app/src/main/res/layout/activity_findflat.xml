@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Find your flat"
+        android:id="@+id/textView"
+        android:layout_marginTop="158dp"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="400px"
+        android:layout_height="80px"
+        android:id="@+id/flatPin_edittext"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF"
+        android:hint="Flat PIN"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find"
+        android:id="@+id/find_button"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/flatPin_edittext"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_normal"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create new flat"
+        android:id="@+id/createNew_button"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/find_button"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn_normal"
+        android:textColor="#FFFFFF"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp" />
+</RelativeLayout>
