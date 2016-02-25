@@ -42,8 +42,8 @@ public class ServerRequest {
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type",

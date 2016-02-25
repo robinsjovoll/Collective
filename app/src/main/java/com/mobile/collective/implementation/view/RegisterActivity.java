@@ -129,6 +129,8 @@ public class RegisterActivity extends AppMenu {
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else {
+                Toast.makeText(getApplication(), getString(R.string.restart_app), Toast.LENGTH_LONG).show();
             }
         }
     }

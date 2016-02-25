@@ -73,7 +73,7 @@ public class LoginActivity extends AppMenu {
         ServerRequest sr = new ServerRequest();
         JSONObject json = sr.getJSON(HttpType.LOGIN,getIpAddress()+":8080/login",params);
         try {
-            if(json.getBoolean("res")){
+            if(json != null && json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                 JSONObject userinfo = getFileIO().readUserInformation();
                 userinfo.put("email",email);
@@ -82,8 +82,10 @@ public class LoginActivity extends AppMenu {
                 userinfo.put("grav",json.getString("grav"));
                 getFileIO().writeUserInformationSaveFile(userinfo);
                 goTo(MainMenuController.class);
-            }else{
+            }else if (json != null && !json.getBoolean("res")){
                 Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(getApplication(), getString(R.string.restart_app), Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
