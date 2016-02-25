@@ -1,6 +1,8 @@
 package com.mobile.collective.implementation.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AndroidFileIO;
 import com.mobile.collective.framework.AppMenu;
+import com.mobile.collective.implementation.controller.LoadingController;
 import com.mobile.collective.implementation.controller.MainMenuController;
 
 import org.json.JSONException;
@@ -24,6 +27,9 @@ import java.util.HashMap;
  * Created by Robin on 17/02/2016.
  */
 public class LoadingActivity extends AppMenu {
+
+    private LoadingController loadingController;
+    private boolean loggedIn = false;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -39,7 +45,7 @@ public class LoadingActivity extends AppMenu {
         //Sets all the static classes for the application
 //        setAppAssets(new Assets(this));
         setFileIO(new AndroidFileIO(this));
-
+        loadingController = new LoadingController(this);
 
         //After done loading
         new LoadViewTask().execute();
@@ -53,6 +59,13 @@ public class LoadingActivity extends AppMenu {
         //The code to be executed in a background thread.
         @Override
         protected Void doInBackground(Void... params) {
+
+            SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+            boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
+            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
+            if(isLoggedInn){
+                loggedIn = loadingController.checkNetwork();
+            }
              return null;
         }
 
@@ -63,26 +76,30 @@ public class LoadingActivity extends AppMenu {
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
             Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if (isLoggedInn) {
-                JSONObject userinfo = getFileIO().readUserInformation();
-                HashMap<String,String> params = new HashMap<>();
-                try {
-                    params.put("email",userinfo.getString("email"));
-                    params.put("password",userinfo.getString("password"));
-                    ServerRequest sr = new ServerRequest();
-                    JSONObject json = sr.getJSON(HttpType.LOGIN,getIpAddress()+":8080/login",params);
+                if(loggedIn){
+                    JSONObject userinfo = getFileIO().readUserInformation();
+                    HashMap<String, String> params = new HashMap<>();
+                    try {
+                        params.put("email", userinfo.getString("email"));
+                        params.put("password", userinfo.getString("password"));
+                        ServerRequest sr = new ServerRequest();
+                        JSONObject json = sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/login", params);
 
-                    if(json != null & json.getBoolean("res")){
-                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
-                        goTo(MainMenuController.class);
-                    }else if(json != null & json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")){
-                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(getApplication(), getString(R.string.restart_app), Toast.LENGTH_LONG).show();
+                        if (json != null && json.getBoolean("res")) {
+                            Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                        } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
+                            Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("LoadingController", "Something went wrong connecting to the server.");
+//                    createDialog();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    goTo(MainMenuController.class);
+                }else {
+                    Log.e("LoadingActivity", "Something went wrong when trying to login in the LoadingController");
                 }
-
             } else {
                 goTo(LoginActivity.class);
             }
@@ -93,5 +110,8 @@ public class LoadingActivity extends AppMenu {
     public void onBackPressed() {
 
     }
+
+
+
 
 }

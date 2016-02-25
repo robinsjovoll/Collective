@@ -2,8 +2,11 @@
     <string name="app_name">Collective</string>
     <string name="action_settings">Settings</string>
 
+    <!--Error dialog for when network is not active on startup -->
+    <string name="require_network_on_startup">Network connection is required on startup</string>
+
     <!-- Loading Screen-->
-    <string name="restart_app">Unable to connect to server. Please restart the application.</string>
+    <string name="restart_app">Unable to connect to server. Please turn on network connection.</string>
 
     <!-- Login Screen-->
     <string name="email_autofill">example@mail.com</string>

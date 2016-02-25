@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.mobile.collective.implementation.controller.MainMenuController;
+
 /**
  * Created by Robin on 17/02/2016.
  */
 public abstract class AppMenu extends AppCompatActivity {
     private static AndroidFileIO fileIO;
-    private static final String IP_ADDRESS = "http://10.20.86.37";
+    private static final String IP_ADDRESS = "http://192.168.1.102";
 
     @Override
     public void onCreate(Bundle savedInstanceBundle){
@@ -50,6 +52,7 @@ public abstract class AppMenu extends AppCompatActivity {
     public static void setFileIO(AndroidFileIO fileIO) {
         AppMenu.fileIO = fileIO;
     }
+
 
     public static String getIpAddress() {
         return IP_ADDRESS;
