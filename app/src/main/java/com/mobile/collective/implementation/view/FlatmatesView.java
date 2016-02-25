@@ -11,10 +11,6 @@ import android.widget.TextView;
 import com.mobile.collective.R;
 import com.mobile.collective.framework.AppMenu;
 
-
-/**
- * Created by pette on 24.02.2016.
- */
 public class FlatmatesView extends AppMenu {
 
     TextView displayRights;
@@ -25,12 +21,12 @@ public class FlatmatesView extends AppMenu {
 
         displayRights = (TextView)findViewById(R.id.display_rights);
 
-        if(this.user.isAdmin()) {
+        /*if(this.user.isAdmin()) {
             displayRights.setText("(Admin view)");
         }
         else {
             displayRights.setText("(User view)");
-        }
+        }*/
 
 
     }
