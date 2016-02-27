@@ -6,4 +6,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="primary_background">#ff6000</color>
     <color name="white">#FFFFFF</color>
+    <color name="Transparrent">#0000FFFF</color>
 </resources>

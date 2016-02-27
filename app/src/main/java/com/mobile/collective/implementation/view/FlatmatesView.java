@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mobile.collective.R;
 import com.mobile.collective.framework.AppMenu;
+import com.mobile.collective.implementation.model.User;
 
 
 /**
@@ -18,6 +19,7 @@ import com.mobile.collective.framework.AppMenu;
 public class FlatmatesView extends AppMenu {
 
     TextView displayRights;
+    User user;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

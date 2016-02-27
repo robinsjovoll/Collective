@@ -1,5 +1,6 @@
 package com.mobile.collective.implementation.controller;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -8,12 +9,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 import com.mobile.collective.R;
+import com.mobile.collective.client_server.HttpType;
+import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 /**
@@ -91,6 +103,48 @@ public class MainMenuController extends AppMenu {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Suggests a new task for the flat.
+     * @param view
+     */
+    public void suggestNewTask(View view){
+        final Dialog suggest_task = new Dialog(MainMenuController.this);
+        suggest_task.setTitle("Suggest New Task");
+        suggest_task.setContentView(R.layout.dialog_newtask);
+        final EditText eTaskName = (EditText) suggest_task.findViewById(R.id.description_edittext);
+        final EditText eTaskScore = (EditText) suggest_task.findViewById(R.id.points_edittext);
+        Button submit = (Button) suggest_task.findViewById(R.id.submit_btn);
+        Button cancel = (Button) suggest_task.findViewById(R.id.cancelBtn_newTask);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                suggest_task.dismiss();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String taskName = eTaskName.getText().toString();
+                final String taskScore = eTaskScore.getText().toString();
+                HashMap<String,String> params = new HashMap<String, String>();
+                params.put("taskName", taskName);
+                params.put("taskScore",taskScore);
+                ServerRequest sr = new ServerRequest();
+                JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD, getIpAddress() + ":8080/addTask", params);
+
+                if(json != null){
+                    try {
+                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        suggest_task.show();
     }
 
 }
