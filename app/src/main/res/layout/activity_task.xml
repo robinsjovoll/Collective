@@ -20,7 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/task_title"
         android:id="@+id/LoginInformation"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:gravity="center" />
 
@@ -48,8 +48,48 @@
             />
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/suggested_tasks_title"
+        android:layout_below="@id/LoginInformation"
+        android:textSize="20dp"
+        android:layout_marginTop="110px"
+        android:layout_marginLeft="20px"
+        android:textColor="@color/white"
+        android:text="@string/suggested_tasks_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
 
 
+    <ListView
+        android:id="@+id/suggested_task_list"
+        android:layout_width="match_parent"
+        android:layout_below="@id/suggested_tasks_title"
+        android:layout_marginTop="20px"
+        android:layout_height="350px"
+        android:background="@drawable/list_ui"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/accepted_tasks_title"
+        android:layout_below="@id/suggested_task_list"
+        android:textSize="20dp"
+        android:layout_marginTop="20px"
+        android:layout_marginLeft="20px"
+        android:textColor="@color/white"
+        android:text="@string/accepted_tasks_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+
+    <ListView
+        android:id="@+id/accepted_task_list"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20px"
+        android:layout_below="@id/accepted_tasks_title"
+        android:layout_height="450px"
+        android:background="@drawable/list_ui"/>
 
 
 

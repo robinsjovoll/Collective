@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
@@ -19,6 +21,8 @@ import com.mobile.collective.R;
 import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
+import com.mobile.collective.framework.CustomAcceptedListAdapter;
+import com.mobile.collective.framework.CustomSuggestedListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 
@@ -32,6 +36,22 @@ import java.util.HashMap;
  * Created by Robin on 22/02/2016.
  */
 public class MainMenuController extends AppMenu {
+
+    private boolean initTasks;
+    private ListView suggestedTaskList;
+    private ListView acceptedTaskList;
+    private String[] itemname ={
+            "Safari",
+            "Camera",
+            "Global",
+            "FireFox",
+            "UC Browser",
+            "Android Folder",
+            "VLC Player",
+            "Cold War"
+    };
+
+
 
     Toolbar toolbar;
     ViewPager pager;
@@ -81,6 +101,12 @@ public class MainMenuController extends AppMenu {
 
         //Not functional ( view is not made yet)
         //((TextView) findViewById(R.id.start_tur)).setTypeface(Assets.getTypeface(this, Assets.baskerville_old_face_regular));
+
+        ServerRequest sr = new ServerRequest();
+        HashMap<String,String> params = new HashMap<>();
+        params.put("flatPIN","123");
+        JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
+        Log.e("MainMenu", json.toString());
 
     }
 
@@ -147,4 +173,45 @@ public class MainMenuController extends AppMenu {
         suggest_task.show();
     }
 
+    /**
+     * Initializes the task tab.
+     */
+    public void initTasksTab(){
+        initTasks = true;
+        CustomSuggestedListAdapter customSuggestedListAdapter=new CustomSuggestedListAdapter(this, itemname);
+        suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
+        suggestedTaskList.setAdapter(customSuggestedListAdapter);
+
+        suggestedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                String Slecteditem= itemname[+position];
+                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        CustomAcceptedListAdapter acceptedListAdapter=new CustomAcceptedListAdapter(this, itemname);
+        acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+        acceptedTaskList.setAdapter(acceptedListAdapter);
+
+        acceptedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+                String Slecteditem= itemname[+position];
+                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public boolean isInitTasks() {
+        return initTasks;
+    }
 }

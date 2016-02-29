@@ -41,6 +41,8 @@
 
     <!-- Task Screen-->
     <string name="task_title">Tasks</string>
+    <string name="suggested_tasks_title">New suggestions:</string>
+    <string name="accepted_tasks_title">Accepted tasks:</string>
 
     <!-- Feed Screen-->
     <string name="feed_title">Feed</string>

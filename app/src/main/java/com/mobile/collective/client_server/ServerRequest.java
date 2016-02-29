@@ -30,6 +30,62 @@ public class ServerRequest {
     public ServerRequest() {
     }
 
+    public JSONObject getRequest(HttpType type, String urltxt, HashMap<String, String> params) {
+
+        URL url = null;
+        try {
+            Log.e("ServerRequest", "URL: " + urltxt);
+            url = new URL(urltxt);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+            conn.setDoOutput(true);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
+            conn.setFixedLengthStreamingMode(
+                    getQuery(params).getBytes().length);
+            PrintWriter out = new PrintWriter(conn .getOutputStream());
+            out.print(getQuery(params));
+            out.close();
+            System.out.println("Response Code: " + conn.getResponseCode());
+            //TODO: MAKE THIS A GET METHOD.
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+            Log.e("ServerRequest","Response: " + json);
+
+//            OutputStream os = conn.getOutputStream();
+//            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+//            writer.write(getQuery(params));
+//            writer.flush();
+//            writer.close();
+//            os.close();
+
+//            conn.connect();
+
+//            System.out.println(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        try {
+            jObj = new JSONObject(json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+
+
+        return jObj;
+
+    }
+
     public JSONObject postRequest(HttpType type, String urltxt, HashMap<String, String> params) {
 
         URL url = null;
@@ -125,6 +181,8 @@ public class ServerRequest {
             JSONObject json = null;
             if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD){
                 json = request.postRequest(type, args[0].url, args[0].params);
+            }if(type == HttpType.GETTASKS){
+                json = request.getRequest(type, args[0].url, args[0].params);
             }
 
             return json;
