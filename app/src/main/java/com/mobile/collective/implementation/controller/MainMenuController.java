@@ -84,7 +84,6 @@ public class MainMenuController extends AppMenu {
         // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setMainMenuController(this);
-        tabs.setMainPagesInitialized(true);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
         // Setting Custom Color for the Scroll bar indicator of the Tab View
@@ -107,6 +106,7 @@ public class MainMenuController extends AppMenu {
         params.put("flatPIN","123");
         JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
         Log.e("MainMenu", json.toString());
+        //TODO: Move this to initTaskTab
 
     }
 
@@ -214,4 +214,5 @@ public class MainMenuController extends AppMenu {
     public boolean isInitTasks() {
         return initTasks;
     }
+
 }
