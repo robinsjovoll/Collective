@@ -1,8 +1,11 @@
 package com.mobile.collective.framework;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.mobile.collective.implementation.model.User;
 
 /**
  * Created by Robin on 17/02/2016.
@@ -52,5 +55,10 @@ public abstract class AppMenu extends AppCompatActivity {
 
     public static String getIpAddress() {
         return IP_ADDRESS;
+    }
+
+    @Override
+    public Context getApplicationContext() {
+        return super.getApplicationContext();
     }
 }

@@ -1,7 +1,7 @@
 package com.mobile.collective.implementation.controller;
 
-
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
@@ -28,8 +28,9 @@ public class MainMenuController extends AppMenu {
     CharSequence Titles[];
     int numboftabs =4;
 
-    public void onCreate(Bundle savedInstanceBundle){
-        super.onCreate(savedInstanceBundle);
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Titles= new CharSequence[]{
@@ -38,18 +39,18 @@ public class MainMenuController extends AppMenu {
                     getResources().getString(R.string.feed_title),
                     getResources().getString(R.string.setting_title)};
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+//        setSupportActionBar(toolbar);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter =  new MainViewPagerAdapter(getSupportFragmentManager(),Titles, numboftabs);
 
         // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.main_pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
         // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.main_tabs);
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setMainMenuController(this);
         tabs.setMainPagesInitialized(true);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
@@ -58,9 +59,10 @@ public class MainMenuController extends AppMenu {
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.white);
+                return ContextCompat.getColor(getApplicationContext(), R.color.tabsScrollColor);
             }
         });
+
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
@@ -90,8 +92,5 @@ public class MainMenuController extends AppMenu {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 }
