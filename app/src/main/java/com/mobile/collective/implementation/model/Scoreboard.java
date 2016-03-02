@@ -1,6 +1,6 @@
 package com.mobile.collective.implementation.model;
 
-import com.mobile.collective.framework.Pair;
+import android.util.Pair;
 import java.util.ArrayList;
 
 public class Scoreboard {
