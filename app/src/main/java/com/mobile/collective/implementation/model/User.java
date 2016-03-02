@@ -6,7 +6,7 @@ public class User {
     private String name, mail;
     private Color color;
     private String hash, salt;
-    private int score;
+    private int periodScore, globalScore;
     private int flatPin;
     private boolean isAdmin;
 
@@ -16,7 +16,8 @@ public class User {
 //      this.color = color;
         this.hash = hash;
         this.salt = salt;
-        this.score = 0;
+        this.periodScore = 0;
+        this.globalScore = 0;
         this.isAdmin = false;
     }
 
@@ -40,16 +41,16 @@ public class User {
         return this.mail;
     }
 
-    public int getScore(){
-        return this.score;
+    public int getPeriodScore(){
+        return this.periodScore;
     }
 
     public void resetScore(){
-        this.score = 0;
+        this.periodScore = 0;
     }
 
     public void increaseScore(int offset){
-        this.score += offset;
+        this.periodScore += offset;
     }
 
     public void setFlatPin(int pin){

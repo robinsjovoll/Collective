@@ -1,7 +1,5 @@
 package com.mobile.collective.implementation.model;
 
-import com.mobile.collective.implementation.model.Task;
-import com.mobile.collective.implementation.model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,36 +12,11 @@ public class Flat {
     private String prize;
     private User admin; //In case of only one admin per flat.
 
-
-    //suggest increase and decrease period in the create flat-view: <|-| BIWEEKLY |+|>
-    private enum Period{
-        WEEKLY, BIWEEKLY, MONTHLY {
-            //return current if no next.
-            public Period next(){
-                return this;
-            }
-            //return current if no previous.
-            public Period previous(){
-                return this;
-            }
-        };
-
-        public Period next(){
-            return values()[ordinal() + 1];
-        }
-
-        public Period previous(){
-            return values()[ordinal() - 1];
-        }
-    }
-
-    public Flat(User user, Period period, String prize){
-        this.period = period;
-        this.prize = prize;
-        this.flatPin = generatePin();
+    public Flat(User user, int flatPin){
+        this.period = Period.BIWEEKLY;
         this.flatmates = new ArrayList<>();
         this.tasks = new ArrayList<>();
-        addDefaultTasks();
+        this.flatPin = flatPin;
 
         this.flatmates.add(user);
         user.makeAdmin();
@@ -104,14 +77,4 @@ public class Flat {
             tasks.remove(task);
         }
     }
-
-    private int generatePin(){
-        //TODO
-        return 0;
-    }
-
-    private void addDefaultTasks(){
-        //TODO
-    }
-
 }
