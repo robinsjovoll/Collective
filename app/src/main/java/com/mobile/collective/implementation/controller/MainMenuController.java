@@ -26,9 +26,11 @@ import com.mobile.collective.framework.CustomSuggestedListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -101,12 +103,7 @@ public class MainMenuController extends AppMenu {
         //Not functional ( view is not made yet)
         //((TextView) findViewById(R.id.start_tur)).setTypeface(Assets.getTypeface(this, Assets.baskerville_old_face_regular));
 
-        ServerRequest sr = new ServerRequest();
-        HashMap<String,String> params = new HashMap<>();
-        params.put("flatPIN","123");
-        JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
-        Log.e("MainMenu", json.toString());
-        //TODO: Move this to initTaskTab
+
 
     }
 
@@ -154,13 +151,13 @@ public class MainMenuController extends AppMenu {
             public void onClick(View v) {
                 final String taskName = eTaskName.getText().toString();
                 final String taskScore = eTaskScore.getText().toString();
-                HashMap<String,String> params = new HashMap<String, String>();
+                HashMap<String, String> params = new HashMap<String, String>();
                 params.put("taskName", taskName);
-                params.put("taskScore",taskScore);
+                params.put("taskScore", taskScore);
                 ServerRequest sr = new ServerRequest();
                 JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD, getIpAddress() + ":8080/addTask", params);
 
-                if(json != null){
+                if (json != null) {
                     try {
                         Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
@@ -178,37 +175,71 @@ public class MainMenuController extends AppMenu {
      */
     public void initTasksTab(){
         initTasks = true;
-        CustomSuggestedListAdapter customSuggestedListAdapter=new CustomSuggestedListAdapter(this, itemname);
-        suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
-        suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
-        suggestedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ServerRequest sr = new ServerRequest();
+        HashMap<String,String> params = new HashMap<>();
+        params.put("flatPIN", "123");
+        JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
+        Log.e("MainMenu", json.toString());
+        try {
+            if(json != null){
+                if(json.getBoolean("res")) {
+                    JSONArray tasks = json.getJSONArray("response");
+                    String[] acceptedTaskNames = new String[tasks.length()];
+                    String[] suggestedTaskScores = new String[tasks.length()];
+                    String[] acceptedTaskScores = new String[tasks.length()];
+                    String[] suggestedTaskNames = new String[tasks.length()];
+                    for (int i = 0; i < tasks.length(); i++) {
+                        if(tasks.getJSONObject(i).getBoolean("suggested")){
+                            suggestedTaskNames[i] = tasks.getJSONObject(i).getString("taskName");
+                            suggestedTaskScores[i] = tasks.getJSONObject(i).getString("taskScore");
+                        }else{
+                            acceptedTaskNames[i] = tasks.getJSONObject(i).getString("taskName");
+                            acceptedTaskScores[i] = tasks.getJSONObject(i).getString("taskScore");
+                        }
+                    }
+                    CustomSuggestedListAdapter customSuggestedListAdapter=new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores);
+                    suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
+                    suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
-                String Slecteditem= itemname[+position];
-                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+                    suggestedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            // TODO Auto-generated method stub
+                            String Slecteditem= itemname[+position];
+                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+                    CustomAcceptedListAdapter acceptedListAdapter=new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores);
+                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+                    acceptedTaskList.setAdapter(acceptedListAdapter);
+
+                    acceptedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            // TODO Auto-generated method stub
+                            String Slecteditem= itemname[+position];
+                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }else{
+                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG);
+                }
+            }else {
+                Log.e("MainMenuContorller", "Could not connect to server");
             }
-        });
 
-        CustomAcceptedListAdapter acceptedListAdapter=new CustomAcceptedListAdapter(this, itemname);
-        acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
-        acceptedTaskList.setAdapter(acceptedListAdapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        acceptedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
-                String Slecteditem= itemname[+position];
-                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     public boolean isInitTasks() {
