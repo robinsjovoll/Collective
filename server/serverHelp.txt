@@ -1,0 +1,3 @@
+app.js : Add this in the root folder "node-android"
+routes.js : Create a folder called "routes" in the root folder "node-android" and add routes.js to this folder
+the rest: Create a folder called "config" in the "node_modules" folder and add these files to this folder
