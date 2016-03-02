@@ -10,6 +10,7 @@ public class Flat {
     private ArrayList<Task> tasks;
     private Period period;
     private String prize;
+    private Scoreboard scoreboard;
     private User admin; //In case of only one admin per flat.
 
     public Flat(User user, int flatPin){
@@ -17,8 +18,8 @@ public class Flat {
         this.flatmates = new ArrayList<>();
         this.tasks = new ArrayList<>();
         this.flatPin = flatPin;
-
         this.flatmates.add(user);
+        this.scoreboard = new Scoreboard(flatmates, this.period);
         user.makeAdmin();
         this.admin = user;
     }
@@ -42,6 +43,8 @@ public class Flat {
     public Period getPeriod(){
         return this.period;
     }
+
+    public Scoreboard getScoreboard() { return this.scoreboard; }
 
     public boolean addFlatmate(User user){
         return this.flatmates.add(user);
