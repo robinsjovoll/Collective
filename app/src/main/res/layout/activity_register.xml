@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_background"
+    android:background="@drawable/gradient_bg"
     tools:context=".implementation.view.RegisterActivity">
 
     <TextView
@@ -136,7 +136,7 @@
         android:layout_height="80px"
         android:layout_gravity="center"
         android:id="@+id/loginbtn"
-        android:background="@drawable/btn_normal"
+        android:background="@drawable/gradient_btn"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textAlignment="center"

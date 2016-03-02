@@ -42,12 +42,12 @@
         android:layout_marginTop="20dp" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="200px"
         android:layout_height="wrap_content"
         android:text="Submit"
+        android:textColor="#FFFFFF"
         android:id="@+id/button"
-        android:background="@drawable/btn_normal"
+        android:background="@drawable/gradient_btn"
         android:layout_below="@+id/points_edittext"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" />

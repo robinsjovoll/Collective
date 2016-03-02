@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_background"
+    android:background="@drawable/gradient_bg"
     tools:context=".implementation.view.LoginActivity">
 
     <!--<include-->
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/continueBtn_code"
-        android:background="@drawable/btn_normal"
+        android:background="@drawable/gradient_btn"
         android:textColor="#ffffff"
         android:textAlignment="center"
         android:layout_marginTop="20px"
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/cancelBtn_code"
-        android:background="@drawable/btn_normal"
+        android:background="@drawable/gradient_btn"
         android:textColor="#ffffff"
         android:textAlignment="center"
         android:layout_marginTop="20px"
