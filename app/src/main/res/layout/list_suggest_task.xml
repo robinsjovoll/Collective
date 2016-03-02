@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100px"
             android:layout_gravity="center"
-            android:id="@+id/register"
+            android:id="@+id/approveBtn"
             android:background="@drawable/btn_normal"
             android:textColor="#ffffff"
             android:textAlignment="center"
@@ -68,13 +68,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="100px"
-            android:id="@+id/forgotpass"
+            android:id="@+id/disapproveBtn"
             android:layout_marginLeft="20px"
             android:layout_gravity="center"
             android:background="@drawable/btn_normal"
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:text="@string/disapprove"
+            android:onClick="approveTask"
             android:textSize="10sp"/>
 
     </LinearLayout>

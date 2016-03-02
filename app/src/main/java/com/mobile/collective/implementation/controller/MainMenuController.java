@@ -1,6 +1,8 @@
 package com.mobile.collective.implementation.controller;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -13,7 +15,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -29,9 +34,12 @@ import com.mobile.collective.framework.SlidingTabLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -42,11 +50,15 @@ public class MainMenuController extends AppMenu {
     private boolean initTasks;
     private ListView suggestedTaskList;
     private ListView acceptedTaskList;
-    String selectedTaskName = null;
+//    String selectedTaskName = null;
     String[] acceptedTaskNames;
     String[] suggestedTaskScores;
     String[] acceptedTaskScores;
     String[] suggestedTaskNames;
+    Boolean[] approveDisapproveBtn;
+
+    CustomSuggestedListAdapter customSuggestedListAdapter;
+    CustomAcceptedListAdapter acceptedListAdapter;
 
 
 
@@ -138,7 +150,6 @@ public class MainMenuController extends AppMenu {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initTasksTab();
                 suggest_task.dismiss();
             }
         });
@@ -150,12 +161,16 @@ public class MainMenuController extends AppMenu {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("taskName", taskName);
                 params.put("taskScore", taskScore);
+//                params.put("flatPIN","123");
                 ServerRequest sr = new ServerRequest();
                 JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD, getIpAddress() + ":8080/addTask", params);
 
                 if (json != null) {
                     try {
                         Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                        if(json.getBoolean("res")){
+                            initTasksTab();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -180,47 +195,63 @@ public class MainMenuController extends AppMenu {
             if(json != null){
                 if(json.getBoolean("res")) {
                     JSONArray tasks = json.getJSONArray("response");
-                    acceptedTaskNames = new String[tasks.length()];
-                    suggestedTaskScores = new String[tasks.length()];
-                    acceptedTaskScores = new String[tasks.length()];
-                    suggestedTaskNames = new String[tasks.length()];
+                    ArrayList<String> tempAcceptedTaskNames = new ArrayList<>();
+                    ArrayList<String> tempSuggestedTaskNames = new ArrayList<>();
+                    ArrayList<String> tempAcceptedTaskScores = new ArrayList<>();
+                    ArrayList<String> tempSuggestedTaskScores = new ArrayList<>();
+                    approveDisapproveBtn = new Boolean[tasks.length()];
                     for (int i = 0; i < tasks.length(); i++) {
                         if(!tasks.getJSONObject(i).getBoolean("approved")){
-                            suggestedTaskNames[i] = tasks.getJSONObject(i).getString("taskName");
-                            suggestedTaskScores[i] = tasks.getJSONObject(i).getString("taskScore");
+                            tempSuggestedTaskNames.add(tasks.getJSONObject(i).getString("taskName"));
+                            tempSuggestedTaskScores.add(tasks.getJSONObject(i).getString("taskScore"));
+                            JSONArray jsonArray = (JSONArray)tasks.getJSONObject(i).get("approvedByUser");
+                            ArrayList<String> approvedByUsers = new ArrayList<String>();
+                            for (int j=0; j<jsonArray.length(); j++) {
+                                approvedByUsers.add( jsonArray.getString(j) );
+                            }
+//                            Log.e("Main", approvedByUsers.toString());
+                            if(!approvedByUsers.contains(getFileIO().readUserInformation().getString("email"))){
+                                approveDisapproveBtn[i] = true;
+                            }else {
+                                approveDisapproveBtn[i] = false;
+                            }
                         }else{
-                            acceptedTaskNames[i] = tasks.getJSONObject(i).getString("taskName");
-                            acceptedTaskScores[i] = tasks.getJSONObject(i).getString("taskScore");
+                            tempAcceptedTaskNames.add( tasks.getJSONObject(i).getString("taskName"));
+                            tempAcceptedTaskScores.add(tasks.getJSONObject(i).getString("taskScore"));
                         }
                     }
-                    CustomSuggestedListAdapter customSuggestedListAdapter=new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores);
+                    acceptedTaskNames = tempAcceptedTaskNames.toArray(new String[0]);
+                    acceptedTaskScores = tempAcceptedTaskScores.toArray(new String[0]);
+                    suggestedTaskNames = tempSuggestedTaskNames.toArray(new String[0]);
+                    suggestedTaskScores = tempSuggestedTaskScores.toArray(new String[0]);
+                    customSuggestedListAdapter = new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores, approveDisapproveBtn);
                     suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
                     suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
-                    suggestedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    suggestedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view,
+//                                                int position, long id) {
+//                            selectedTaskName = suggestedTaskNames[+position];
+//                            Log.e("MainMenuController", selectedTaskName + " is selected");
+//                        }
+//                    });
 
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                int position, long id) {
-                            selectedTaskName = suggestedTaskNames[+position];
-                            Log.e("MainMenuController", selectedTaskName + " is selected");
-                        }
-                    });
-
-                    CustomAcceptedListAdapter acceptedListAdapter=new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores);
+                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores);
                     acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
-                    acceptedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view,
-                                                int position, long id) {
-//                            String Slecteditem= itemname[+position];
-//                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
+//                    acceptedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//                        @Override
+//                        public void onItemClick(AdapterView<?> parent, View view,
+//                                                int position, long id) {
+////                            String Slecteditem= itemname[+position];
+////                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    });
                 }else{
                     Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG);
                 }
@@ -234,24 +265,64 @@ public class MainMenuController extends AppMenu {
 
     }
 
-    public boolean isInitTasks() {
-        return initTasks;
-    }
-
-    public void approveTask(View view){
-        HashMap<String,String> params = new HashMap<>();
+    /**
+     * Approves or disapproves a suggested task.
+     * @param view
+     */
+    public void approveTask(View view) {
+        JSONObject userinfo = getFileIO().readUserInformation();//TEMP
+        String email = "null";
+        try {//TEMP
+            email = userinfo.getString("email");//TEMP
+        } catch (JSONException e) {//TEMP
+            e.printStackTrace();//TEMP
+        }//TEMP
+        LinearLayout buttonParentView = (LinearLayout) view.getParent();
+        Button approveBtn = (Button) buttonParentView.getChildAt(0);
+        Button disapproveBtn = (Button) buttonParentView.getChildAt(1);
+        HashMap<String, String> params = new HashMap<>();
+        LinearLayout parentView = (LinearLayout) buttonParentView.getParent();
+        RelativeLayout taskNameAndScore = (RelativeLayout) parentView.getChildAt(1);
+        TextView taskName = (TextView) taskNameAndScore.getChildAt(0);
         params.put("flatPIN", "123");
-        params.put("taskName", selectedTaskName);
-        Log.e("MainMenuController", selectedTaskName);
+        params.put("taskName", taskName.getText().toString());
+        params.put("email",email);
         ServerRequest sr = new ServerRequest();
-        JSONObject jsonObject = sr.getJSON(HttpType.APPROVETASK,getIpAddress()+":8080/approveTask", params);
-        if(jsonObject != null){
-            try {
-                Toast.makeText(getApplicationContext(), jsonObject.getString("response"),Toast.LENGTH_LONG);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        int index = Arrays.asList(suggestedTaskNames).indexOf(taskName.getText().toString());
+        if (approveBtn.getVisibility() == View.VISIBLE) {
+            JSONObject jsonObject = sr.getJSON(HttpType.APPROVETASK, getIpAddress() + ":8080/approveTask", params);
+            if (jsonObject != null) {
+                try {
+                    Toast.makeText(getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_LONG).show();
+                    if (jsonObject.getBoolean("res")) {
+                        disapproveBtn.setVisibility(View.VISIBLE);
+                        approveBtn.setVisibility(View.INVISIBLE);
+                        buttonParentView.refreshDrawableState();
+                        approveDisapproveBtn[index] = false;
+//                        initTasksTab();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {
+            JSONObject jsonObject = sr.getJSON(HttpType.DISAPPROVETASK, getIpAddress() + ":8080/disapproveTask", params);
+            if (jsonObject != null) {
+                try {
+                    Toast.makeText(getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_LONG).show();
+                    if (jsonObject.getBoolean("res")) {
+                        disapproveBtn.setVisibility(View.INVISIBLE);
+                        approveBtn.setVisibility(View.VISIBLE);
+                        buttonParentView.refreshDrawableState();
+                        approveDisapproveBtn[index] = true;
+//                        initTasksTab();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        customSuggestedListAdapter.notifyDataSetChanged();
     }
 
 }
