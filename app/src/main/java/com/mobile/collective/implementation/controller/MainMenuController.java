@@ -42,16 +42,11 @@ public class MainMenuController extends AppMenu {
     private boolean initTasks;
     private ListView suggestedTaskList;
     private ListView acceptedTaskList;
-    private String[] itemname ={
-            "Safari",
-            "Camera",
-            "Global",
-            "FireFox",
-            "UC Browser",
-            "Android Folder",
-            "VLC Player",
-            "Cold War"
-    };
+    String selectedTaskName = null;
+    String[] acceptedTaskNames;
+    String[] suggestedTaskScores;
+    String[] acceptedTaskScores;
+    String[] suggestedTaskNames;
 
 
 
@@ -143,6 +138,7 @@ public class MainMenuController extends AppMenu {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initTasksTab();
                 suggest_task.dismiss();
             }
         });
@@ -180,17 +176,16 @@ public class MainMenuController extends AppMenu {
         HashMap<String,String> params = new HashMap<>();
         params.put("flatPIN", "123");
         JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
-        Log.e("MainMenu", json.toString());
         try {
             if(json != null){
                 if(json.getBoolean("res")) {
                     JSONArray tasks = json.getJSONArray("response");
-                    String[] acceptedTaskNames = new String[tasks.length()];
-                    String[] suggestedTaskScores = new String[tasks.length()];
-                    String[] acceptedTaskScores = new String[tasks.length()];
-                    String[] suggestedTaskNames = new String[tasks.length()];
+                    acceptedTaskNames = new String[tasks.length()];
+                    suggestedTaskScores = new String[tasks.length()];
+                    acceptedTaskScores = new String[tasks.length()];
+                    suggestedTaskNames = new String[tasks.length()];
                     for (int i = 0; i < tasks.length(); i++) {
-                        if(tasks.getJSONObject(i).getBoolean("suggested")){
+                        if(!tasks.getJSONObject(i).getBoolean("approved")){
                             suggestedTaskNames[i] = tasks.getJSONObject(i).getString("taskName");
                             suggestedTaskScores[i] = tasks.getJSONObject(i).getString("taskScore");
                         }else{
@@ -207,10 +202,8 @@ public class MainMenuController extends AppMenu {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
-                            // TODO Auto-generated method stub
-                            String Slecteditem= itemname[+position];
-                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
-
+                            selectedTaskName = suggestedTaskNames[+position];
+                            Log.e("MainMenuController", selectedTaskName + " is selected");
                         }
                     });
 
@@ -223,9 +216,8 @@ public class MainMenuController extends AppMenu {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
-                            // TODO Auto-generated method stub
-                            String Slecteditem= itemname[+position];
-                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+//                            String Slecteditem= itemname[+position];
+//                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -244,6 +236,22 @@ public class MainMenuController extends AppMenu {
 
     public boolean isInitTasks() {
         return initTasks;
+    }
+
+    public void approveTask(View view){
+        HashMap<String,String> params = new HashMap<>();
+        params.put("flatPIN", "123");
+        params.put("taskName", selectedTaskName);
+        Log.e("MainMenuController", selectedTaskName);
+        ServerRequest sr = new ServerRequest();
+        JSONObject jsonObject = sr.getJSON(HttpType.APPROVETASK,getIpAddress()+":8080/approveTask", params);
+        if(jsonObject != null){
+            try {
+                Toast.makeText(getApplicationContext(), jsonObject.getString("response"),Toast.LENGTH_LONG);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

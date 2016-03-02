@@ -62,7 +62,7 @@ public class LoadingActivity extends AppMenu {
 
             SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
-            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
+//            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if(isLoggedInn){
                 loggedIn = loadingController.checkNetwork();
             }
@@ -74,7 +74,7 @@ public class LoadingActivity extends AppMenu {
 
             SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
-            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
+//            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if (isLoggedInn) {
                 if(loggedIn){
                     JSONObject userinfo = getFileIO().readUserInformation();
