@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -107,6 +108,7 @@ public class LoginActivity extends AppMenu {
     public void resetPassword(View view){
         final Dialog reset = new Dialog(LoginActivity.this);
         reset.setTitle("Reset Password");
+        reset.requestWindowFeature(Window.FEATURE_NO_TITLE);
         reset.setContentView(R.layout.activity_reset_password);
         final EditText eEmail = (EditText) reset.findViewById(R.id.email_reset);
         Button cont = (Button) reset.findViewById(R.id.continueBtn);
