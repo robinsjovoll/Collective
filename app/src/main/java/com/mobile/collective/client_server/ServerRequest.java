@@ -198,7 +198,8 @@ public class ServerRequest {
             CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
             ServerRequest request = new ServerRequest();
             JSONObject json = null;
-            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD || type == HttpType.GETTASKS || type == HttpType.APPROVETASK || type == HttpType.DISAPPROVETASK) {
+            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD || type == HttpType.GETTASKS || type == HttpType.APPROVETASK || type == HttpType.DISAPPROVETASK
+                    || type == HttpType.DOTASK) {
                 json = request.postRequest(type, args[0].url, args[0].params);
             }
 //            }if(type == HttpType.GETTASKS){

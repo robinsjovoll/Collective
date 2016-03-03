@@ -1,6 +1,7 @@
 package com.mobile.collective.framework;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class CustomSuggestedListAdapter extends ArrayAdapter<String> {
         Button approvedBtn = (Button) rowView.findViewById(R.id.approveBtn);
         Button disapprovedBtn = (Button) rowView.findViewById(R.id.disapproveBtn);
 
+//        Log.e("Custom", "position: " + position);
         if(approvedDisapprovedBtn[position]){
             approvedBtn.setVisibility(View.VISIBLE);
             disapprovedBtn.setVisibility(View.INVISIBLE);
