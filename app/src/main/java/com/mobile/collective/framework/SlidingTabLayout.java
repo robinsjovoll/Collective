@@ -303,9 +303,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         @Override
         public void onPageSelected(int position) {
-            if(position == 1){
-                mainMenuController.initTasksTab();
-            }
             if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
                 mTabStrip.onViewPagerPageChanged(position, 0f);
                 scrollToTab(position, 0);
@@ -315,6 +312,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
+            }
+            if(position == 1){
+                mainMenuController.initTasksTab();
             }
         }
 

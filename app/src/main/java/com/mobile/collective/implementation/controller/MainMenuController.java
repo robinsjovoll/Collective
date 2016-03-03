@@ -140,6 +140,13 @@ public class MainMenuController extends AppMenu {
      * @param view
      */
     public void suggestNewTask(View view){
+        JSONObject userinfo = getFileIO().readUserInformation();//TEMP
+        String email = "null";
+        try {//TEMP
+            email = userinfo.getString("email");//TEMP
+        } catch (JSONException e) {//TEMP
+            e.printStackTrace();//TEMP
+        }//TEMP
         final Dialog suggest_task = new Dialog(MainMenuController.this);
         suggest_task.setTitle("Suggest New Task");
         suggest_task.setContentView(R.layout.dialog_newtask);
@@ -153,6 +160,7 @@ public class MainMenuController extends AppMenu {
                 suggest_task.dismiss();
             }
         });
+        final String finalEmail = email;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,6 +169,7 @@ public class MainMenuController extends AppMenu {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("taskName", taskName);
                 params.put("taskScore", taskScore);
+                params.put("email", finalEmail);
 //                params.put("flatPIN","123");
                 ServerRequest sr = new ServerRequest();
                 JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD, getIpAddress() + ":8080/addTask", params);
