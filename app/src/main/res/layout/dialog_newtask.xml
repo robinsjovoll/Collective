@@ -12,7 +12,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="40px"
         android:layout_marginLeft="40px"
-        android:layout_marginTop="50dp"
         android:paddingLeft="20px"
         android:background="#ffffff"
         android:inputType="textPersonName"
@@ -37,7 +36,6 @@
     <Button
         android:layout_width="540px"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="540px"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:textColor="#FFFFFF"
@@ -55,10 +53,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/cancelBtn_newTask"
-        android:background="@drawable/btn_normal"
         android:textColor="@color/white"
         android:textAlignment="center"
+        android:background="@drawable/gradient_btn"
         android:layout_marginTop="20px"
+        android:layout_marginBottom="10px"
         android:layout_below="@id/submit_btn"
         android:layout_centerHorizontal="true"
         android:text="@string/cancel_reset"/>
