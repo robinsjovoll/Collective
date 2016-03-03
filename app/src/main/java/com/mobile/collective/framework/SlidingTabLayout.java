@@ -22,6 +22,7 @@ import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -83,7 +84,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     //Created
     private MainMenuController mainMenuController;
-    private boolean mainPagesInitialized;
 
     public SlidingTabLayout(Context context) {
         this(context, null);
@@ -290,14 +290,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
                         positionOffsetPixels);
             }
 
-            //Always updates the views based on the models.
-//            if(mainPagesInitialized){
-//
-//            }
-//            if(mainPagesInitialized && mainMenu.getMainController() != null){
-//                mainMenu.setStatistics();
-//                mainMenu.initOptionsTab();
-//            }
         }
 
         @Override
@@ -320,6 +312,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
+            }
+            if(position == 1){
+                mainMenuController.initTasksTab();
             }
         }
 
@@ -345,7 +340,4 @@ public class SlidingTabLayout extends HorizontalScrollView {
         this.mainMenuController = mainMenuController;
     }
 
-    public void setMainPagesInitialized(boolean mainPagesInitialized) {
-        this.mainPagesInitialized = mainPagesInitialized;
-    }
 }

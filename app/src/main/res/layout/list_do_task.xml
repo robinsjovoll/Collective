@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="20px">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:id="@+id/acceptedTaskName"
+            android:text="TaskName"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:id="@+id/task_history"
+            android:background="@drawable/btn_normal"
+            android:textColor="#ffffff"
+            android:layout_alignParentRight="true"
+            android:textAlignment="center"
+            android:text="History"
+            android:layout_marginRight="20px"
+            android:textSize="10sp"/>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginLeft="20px"
+        android:id="@+id/acceptedTaskScore"
+        android:text="TaskScore"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="100px"
+        android:id="@+id/accept_task"
+        android:layout_gravity="right"
+        android:layout_marginRight="20px"
+        android:layout_marginBottom="5px"
+        android:background="@drawable/btn_normal"
+        android:textColor="#ffffff"
+        android:text="Accept"
+        android:textSize="10sp"/>
+
+
+</LinearLayout>

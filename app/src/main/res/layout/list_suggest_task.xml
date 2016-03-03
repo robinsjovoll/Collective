@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="20px"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/suggestedBy"
+        android:text="Suggested by"
+        />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20px"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:id="@+id/suggestedTaskName"
+            android:text="TaskName"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:layout_marginRight="20px"
+            android:id="@+id/suggestedTaskScore"
+            android:text="TaskScore"
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@id/suggestedTaskName"
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="5px"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:layout_gravity="center"
+            android:id="@+id/approveBtn"
+            android:background="@drawable/btn_normal"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:onClick="approveTask"
+            android:text="@string/approve"
+            android:textSize="10sp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:id="@+id/disapproveBtn"
+            android:layout_marginLeft="20px"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_normal"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:text="@string/disapprove"
+            android:onClick="approveTask"
+            android:textSize="10sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

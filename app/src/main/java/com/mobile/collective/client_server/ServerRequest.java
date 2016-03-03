@@ -10,10 +10,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,11 +35,81 @@ public class ServerRequest {
     public ServerRequest() {
     }
 
+    /**
+     * Get request over http. Note: To be able to do get requests with parameters, one have to use the post request.
+     * @param type
+     * @param urltxt
+     * @param params
+     * @return
+     */
+    public JSONObject getRequest(HttpType type, String urltxt, HashMap<String, String> params) {
+        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+        URL url = null;
+        try {
+            Log.e("ServerRequest", "URL: " + urltxt);
+            url = new URL(urltxt);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setFixedLengthStreamingMode(
+                    getQuery(params).getBytes().length);
+            PrintWriter out = new PrintWriter(conn .getOutputStream());
+            out.print(getQuery(params));
+            out.close();
+//            System.out.println("Response Code: " + conn.getResponseCode());
+//            InputStream in = new BufferedInputStream(conn.getInputStream());
+//            json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+//            Log.e("ServerRequest","Response: " + json);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            //print result
+            System.out.println(response.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        try {
+            jObj = new JSONObject(json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+
+
+        return jObj;
+
+    }
+
+    /**
+     * Post request over http.
+     * @param type
+     * @param urltxt
+     * @param params
+     * @return
+     */
     public JSONObject postRequest(HttpType type, String urltxt, HashMap<String, String> params) {
 
         URL url = null;
         try {
-            Log.e("ServerRequest", "URL: " + urltxt);
+//            Log.e("ServerRequest", "URL: " + urltxt);
             url = new URL(urltxt);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -120,12 +195,15 @@ public class ServerRequest {
         }
         @Override
         protected JSONObject doInBackground(Params... args) {
-
+            CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
             ServerRequest request = new ServerRequest();
             JSONObject json = null;
-            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD){
+            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD || type == HttpType.GETTASKS || type == HttpType.APPROVETASK || type == HttpType.DISAPPROVETASK) {
                 json = request.postRequest(type, args[0].url, args[0].params);
             }
+//            }if(type == HttpType.GETTASKS){
+//                json = request.postRequest(type, args[0].url, args[0].params);
+//            }
 
             return json;
         }

@@ -49,10 +49,10 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         if(position == 0){ // if the position is 0 we are returning the First tab
-            return tasksTab;
+            return scoreTab;
         }
         else if(position == 1)    {         // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-            return  scoreTab;
+            return  tasksTab;
         }
         else if(position == 2) {            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
             return newsfeedTab;
