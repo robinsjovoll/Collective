@@ -48,6 +48,8 @@
     <string name="are_you_sure">Er du sikker på at du vil gjøre oppgave: </string>
     <string name="delete">Fjern</string>
     <string name="all_fields_filled">Alle felt må være fylt ut</string>
+    <string name="do_task">Gjør oppgave</string>
+    <string name="history">Historie</string>
 
     <!-- Feed Screen-->
     <string name="feed_title">Historie</string>

@@ -27,7 +27,8 @@
             android:textColor="#ffffff"
             android:layout_alignParentRight="true"
             android:textAlignment="center"
-            android:text="History"
+            android:text="@string/history"
+            android:onClick="showTaskHistory"
             android:layout_marginRight="20px"
             android:textSize="10sp"/>
 
@@ -74,7 +75,7 @@
             android:background="@drawable/gradient_btn"
             android:textColor="#ffffff"
             android:onClick="taskDone"
-            android:text="Accept"
+            android:text="@string/do_task"
             android:textSize="10sp"/>
     </RelativeLayout>
 

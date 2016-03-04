@@ -26,6 +26,7 @@ import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.framework.CustomAcceptedListAdapter;
+import com.mobile.collective.framework.CustomComparator;
 import com.mobile.collective.framework.CustomSuggestedListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
@@ -37,6 +38,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -59,6 +62,8 @@ public class MainMenuController extends AppMenu {
     Boolean[] approveDisapproveBtn;
     CustomSuggestedListAdapter customSuggestedListAdapter;
     CustomAcceptedListAdapter acceptedListAdapter;
+    int taskFrequency;
+    String tempTaskName = "";
 
 
 
@@ -207,13 +212,13 @@ public class MainMenuController extends AppMenu {
             if(json != null){
                 if(json.getBoolean("res")) {
                     JSONArray tasks = json.getJSONArray("response");
+                    ArrayList<JSONObject> approvedTasks = new ArrayList<>();
                     ArrayList<String> tempAcceptedTaskNames = new ArrayList<>();
                     ArrayList<String> tempSuggestedTaskNames = new ArrayList<>();
                     ArrayList<String> tempAcceptedTaskScores = new ArrayList<>();
                     ArrayList<String> tempSuggestedTaskScores = new ArrayList<>();
                     ArrayList<Boolean> approvedDissaprovedTemp = new ArrayList<>();
                     for (int i = 0; i < tasks.length(); i++) {
-                        Log.e("MainMenu", "task: " + tasks.getJSONObject(i).getString("taskName") + "is approved: " + tasks.getJSONObject(i).getBoolean("approved"));
                         if(!tasks.getJSONObject(i).getBoolean("approved")){
                             tempSuggestedTaskNames.add(tasks.getJSONObject(i).getString("taskName"));
                             tempSuggestedTaskScores.add(tasks.getJSONObject(i).getString("taskScore"));
@@ -222,16 +227,21 @@ public class MainMenuController extends AppMenu {
                             for (int j=0; j<jsonArray.length(); j++) {
                                 approvedByUsers.add( jsonArray.getString(j) );
                             }
-//                            Log.e("Main", approvedByUsers.toString());
                             if(!approvedByUsers.contains(getFileIO().readUserInformation().getString("email"))){
                                 approvedDissaprovedTemp.add(true);
                             }else {
                                 approvedDissaprovedTemp.add(false);
                             }
                         }else{
-                            tempAcceptedTaskNames.add( tasks.getJSONObject(i).getString("taskName"));
-                            tempAcceptedTaskScores.add(tasks.getJSONObject(i).getString("taskScore"));
+                            approvedTasks.add(tasks.getJSONObject(i));
                         }
+                    }
+                    Collections.sort(approvedTasks, new CustomComparator());
+                    Collections.reverse(approvedTasks);
+                    Log.e("MainMenu", approvedTasks.toString());
+                    for(JSONObject acceptedTask : approvedTasks){
+                        tempAcceptedTaskNames.add(acceptedTask.getString("taskName"));
+                        tempAcceptedTaskScores.add(acceptedTask.getString("taskScore"));
                     }
                     acceptedTaskNames = tempAcceptedTaskNames.toArray(new String[0]);
                     acceptedTaskScores = tempAcceptedTaskScores.toArray(new String[0]);
@@ -242,30 +252,11 @@ public class MainMenuController extends AppMenu {
                     suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
                     suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
-//                    suggestedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view,
-//                                                int position, long id) {
-//                            selectedTaskName = suggestedTaskNames[+position];
-//                            Log.e("MainMenuController", selectedTaskName + " is selected");
-//                        }
-//                    });
 
                     acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores);
                     acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
-//                    acceptedTaskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view,
-//                                                int position, long id) {
-////                            String Slecteditem= itemname[+position];
-////                            Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                    });
                 }else{
                     Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG);
                 }
@@ -361,7 +352,7 @@ public class MainMenuController extends AppMenu {
         final String taskNameString = taskName.getText().toString();
         final String finalEmail = email;
         new AlertDialog.Builder(this)
-                .setMessage(getString(R.string.are_you_sure) + taskNameString)
+                .setMessage(getString(R.string.are_you_sure) + " " + taskNameString)
                 .setNegativeButton(R.string.cancel_reset, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -375,10 +366,6 @@ public class MainMenuController extends AppMenu {
                         params.put("taskName", taskNameString);
                         params.put("email", finalEmail);
                         params.put("flatPIN", "123");//TEMP
-//                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss");
-//                        sdf.setTimeZone(TimeZone.getTimeZone("CET"));
-//                        params.put("date", sdf.format(new Date(System.currentTimeMillis() % 1000)));
-//                        Log.e("MainMenu","date: " + params.get("date"));
                         ServerRequest sr = new ServerRequest();
                         JSONObject jsonObject = sr.getJSON(HttpType.DOTASK, getIpAddress() + ":8080/doTask", params);
                         if (jsonObject != null) {
@@ -391,6 +378,14 @@ public class MainMenuController extends AppMenu {
 
                     }
                 }).create().show();
+    }
+
+    /**
+     * Display the history of the specific task
+     * @param view
+     */
+    public void showTaskHistory(View view){
+        //TODO: Create this, server method already made /getTaskHistory
     }
 
 }
