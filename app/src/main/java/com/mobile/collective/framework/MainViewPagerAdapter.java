@@ -1,9 +1,11 @@
 package com.mobile.collective.framework;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.mobile.collective.implementation.controller.MainMenuController;
 import com.mobile.collective.implementation.view.NewsfeedTab;
 import com.mobile.collective.implementation.view.ScoreTab;
 import com.mobile.collective.implementation.view.SettingsTab;
@@ -29,7 +31,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public MainViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
+    public MainViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, MainMenuController mainMenuController) {
         super(fm);
 
         this.Titles = mTitles;
@@ -40,6 +42,11 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
         newsfeedTab = new NewsfeedTab();
         settingsTab = new SettingsTab();
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("MainController", mainMenuController);
+
+        tasksTab.setArguments(bundle);
+
 
 
     }
@@ -49,10 +56,10 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         if(position == 0){ // if the position is 0 we are returning the First tab
-            return scoreTab;
+            return tasksTab;
         }
         else if(position == 1)    {         // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
-            return  tasksTab;
+            return  scoreTab;
         }
         else if(position == 2) {            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
             return newsfeedTab;

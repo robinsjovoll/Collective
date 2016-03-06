@@ -322,7 +322,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (finalPos == 1){
+                            if (finalPos == 0){
                                 mainMenuController.initTasksTab();
                             }
                         }

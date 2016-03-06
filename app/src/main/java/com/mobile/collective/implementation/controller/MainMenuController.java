@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,7 +47,7 @@ import java.util.HashMap;
 /**
  * Created by Robin on 22/02/2016.
  */
-public class MainMenuController extends AppMenu {
+public class MainMenuController extends AppMenu implements Serializable {
 
     /**
      * ListView in the taskTab variables.
@@ -81,9 +83,12 @@ public class MainMenuController extends AppMenu {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
+        acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+
         Titles= new CharSequence[]{
-            getResources().getString(R.string.score_title),
-                    getResources().getString(R.string.task_title),
+            getResources().getString(R.string.task_title),
+                    getResources().getString(R.string.score_title),
                     getResources().getString(R.string.feed_title),
                     getResources().getString(R.string.setting_title)};
 
@@ -91,7 +96,7 @@ public class MainMenuController extends AppMenu {
 //        setSupportActionBar(toolbar);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new MainViewPagerAdapter(getSupportFragmentManager(),Titles, numboftabs);
+        adapter =  new MainViewPagerAdapter(getSupportFragmentManager(),Titles, numboftabs,this);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -114,12 +119,9 @@ public class MainMenuController extends AppMenu {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-        //Not functional ( view is not made yet)
-        //((TextView) findViewById(R.id.start_tur)).setTypeface(Assets.getTypeface(this, Assets.baskerville_old_face_regular));
-
-
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -253,12 +255,12 @@ public class MainMenuController extends AppMenu {
                     approveDisapproveBtn = approvedDissaprovedTemp.toArray(new Boolean[0]);
                     suggestedByArray = suggestedBy.toArray(new String[0]);
                     customSuggestedListAdapter = new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores, approveDisapproveBtn, suggestedByArray);
-                    suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
+//                    suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
                     suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
 
                     acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true); //TODO: GET THE ADMIN VARIABLE FROM USER CLASS.
-                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+//                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
                 }else{
@@ -530,4 +532,11 @@ public class MainMenuController extends AppMenu {
         editTask.show();
     }
 
+    public void setSuggestedTaskList(ListView suggestedTaskList) {
+        this.suggestedTaskList = suggestedTaskList;
+    }
+
+    public void setAcceptedTaskList(ListView acceptedTaskList) {
+        this.acceptedTaskList = acceptedTaskList;
+    }
 }
