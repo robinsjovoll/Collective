@@ -49,7 +49,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10px"
+        android:layout_marginTop="40px"
         android:layout_marginBottom="5px">
 
         <Button
@@ -61,7 +61,22 @@
             android:layout_marginLeft="20px"
             android:visibility="invisible"
             android:text="@string/delete"
+            android:textSize="10sp"
             android:onClick="deleteTask"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:id="@+id/editTask"
+            android:background="@drawable/gradient_btn"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="20px"
+            android:text="@string/edit"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:textSize="10sp"
+            android:onClick="editTask"
             />
 
         <Button

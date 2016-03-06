@@ -7,6 +7,7 @@
 
     <!-- Loading Screen-->
     <string name="restart_app">Klarte ikke koble til server. Slå på internett tilgang.</string>
+    <string name="restart_app_server">Noe gikk galt, klarte ikke koble til server.</string>
 
     <!-- Login Screen-->
     <string name="email_autofill">example@mail.com</string>
@@ -42,14 +43,27 @@
     <!-- Task Screen-->
     <string name="task_title">Oppgaver</string>
     <string name="suggested_tasks_title">Nye forslag:</string>
+    <string name="edit_task_title">Endre oppgave</string>
     <string name="accepted_tasks_title">Godkjente oppgaver:</string>
     <string name="approve">Godkjenn</string>
     <string name="disapprove">Avslå</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nei</string>
     <string name="are_you_sure">Er du sikker på at du vil gjøre oppgave: </string>
+    <string name="are_you_sure_delete">Er du sikker på at du vil slette oppgave: </string>
     <string name="delete">Fjern</string>
+    <string name="edit">Endre</string>
     <string name="all_fields_filled">Alle felt må være fylt ut</string>
     <string name="do_task">Gjør oppgave</string>
     <string name="history">Historie</string>
+    <string name="submit">Send</string>
+    <string name="description">Beskrivelse</string>
+    <string name="number_of_points">Antall poeng</string>
+    <string name="back">Tilbake</string>
+    <string name="history_dialog_title">Oppgave historie</string>
+    <string name="suggest_new_task">Foreslå ny oppgave</string>
+    <string name="new_task">Opprett ny</string>
+    <string name="score">Poeng: </string>
 
     <!-- Feed Screen-->
     <string name="feed_title">Historie</string>

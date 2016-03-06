@@ -22,9 +22,10 @@ public class CustomSuggestedListAdapter extends ArrayAdapter<String> {
     private final String[] suggestedTaskScores;
     private final String[] suggestedTaskNames;
     private final Boolean[] approvedDisapprovedBtn;
+    private final String[] suggestedBy;
 
 
-    public CustomSuggestedListAdapter(Activity context, String[] suggestedTaskNames, String[] suggestedTaskScores, Boolean[] approvedDisapprovedBtn) {
+    public CustomSuggestedListAdapter(Activity context, String[] suggestedTaskNames, String[] suggestedTaskScores, Boolean[] approvedDisapprovedBtn, String[] suggestedBy) {
         super(context, R.layout.list_suggest_task, suggestedTaskNames);
         // TODO Auto-generated constructor stub
 
@@ -32,12 +33,14 @@ public class CustomSuggestedListAdapter extends ArrayAdapter<String> {
         this.suggestedTaskNames=suggestedTaskNames;
         this.suggestedTaskScores = suggestedTaskScores;
         this.approvedDisapprovedBtn = approvedDisapprovedBtn;
+        this.suggestedBy = suggestedBy;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.list_suggest_task, null, true);
 
+        TextView suggestedByText = (TextView) rowView.findViewById(R.id.suggestedBy);
         TextView taskName = (TextView) rowView.findViewById(R.id.suggestedTaskName);
         TextView taskScore = (TextView) rowView.findViewById(R.id.suggestedTaskScore);
         Button approvedBtn = (Button) rowView.findViewById(R.id.approveBtn);
@@ -51,6 +54,7 @@ public class CustomSuggestedListAdapter extends ArrayAdapter<String> {
             disapprovedBtn.setVisibility(View.VISIBLE);
             approvedBtn.setVisibility(View.INVISIBLE);
         }
+        suggestedByText.setText("Foreslått av: " + suggestedBy[position]);
         taskName.setText(suggestedTaskNames[position]);
         taskScore.setText("Score: " + suggestedTaskScores[position]);
         return rowView;

@@ -28,6 +28,7 @@ import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.framework.CustomAcceptedListAdapter;
 import com.mobile.collective.framework.CustomComparator;
 import com.mobile.collective.framework.CustomSuggestedListAdapter;
+import com.mobile.collective.framework.CustomTaskHistoryListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 
@@ -35,14 +36,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
 
 
 /**
@@ -51,21 +48,26 @@ import java.util.TimeZone;
 public class MainMenuController extends AppMenu {
 
     /**
-     * ListView variables.
+     * ListView in the taskTab variables.
      */
     private ListView suggestedTaskList;
     private ListView acceptedTaskList;
-    String[] acceptedTaskNames;
-    String[] suggestedTaskScores;
-    String[] acceptedTaskScores;
-    String[] suggestedTaskNames;
-    Boolean[] approveDisapproveBtn;
-    CustomSuggestedListAdapter customSuggestedListAdapter;
-    CustomAcceptedListAdapter acceptedListAdapter;
-    int taskFrequency;
-    String tempTaskName = "";
+    private String[] acceptedTaskNames;
+    private String[] suggestedTaskScores;
+    private String[] acceptedTaskScores;
+    private String[] suggestedTaskNames;
+    private String[] suggestedByArray;
+    private Boolean[] approveDisapproveBtn;
+    private CustomSuggestedListAdapter customSuggestedListAdapter;
+    private CustomAcceptedListAdapter acceptedListAdapter;
 
-
+    /**
+     * ListView in history display variables.
+     */
+    private ListView taskHistoryList;
+    private String[] taskHistoryUsernames;
+    private String[] taskHistoryDates;
+    private CustomTaskHistoryListAdapter customTaskHistoryListAdapter;
 
     Toolbar toolbar;
     ViewPager pager;
@@ -145,7 +147,7 @@ public class MainMenuController extends AppMenu {
      * @param view
      */
     public void suggestNewTask(View view){
-        JSONObject userinfo = getFileIO().readUserInformation();//TEMP
+        JSONObject userinfo = getFileIO().readUserInformation();//TODO: GET EMAILFLAT PIN FROM USER MODEL
         String email = "null";
         try {//TEMP
             email = userinfo.getString("email");//TEMP
@@ -153,7 +155,7 @@ public class MainMenuController extends AppMenu {
             e.printStackTrace();//TEMP
         }//TEMP
         final Dialog suggest_task = new Dialog(MainMenuController.this);
-        suggest_task.setTitle("Suggest New Task");
+        suggest_task.setTitle(getResources().getString(R.string.suggest_new_task));
         suggest_task.setContentView(R.layout.dialog_newtask);
         final EditText eTaskName = (EditText) suggest_task.findViewById(R.id.description_edittext);
         final EditText eTaskScore = (EditText) suggest_task.findViewById(R.id.points_edittext);
@@ -212,6 +214,7 @@ public class MainMenuController extends AppMenu {
             if(json != null){
                 if(json.getBoolean("res")) {
                     JSONArray tasks = json.getJSONArray("response");
+                    ArrayList<String> suggestedBy = new ArrayList<>();
                     ArrayList<JSONObject> approvedTasks = new ArrayList<>();
                     ArrayList<String> tempAcceptedTaskNames = new ArrayList<>();
                     ArrayList<String> tempSuggestedTaskNames = new ArrayList<>();
@@ -222,6 +225,7 @@ public class MainMenuController extends AppMenu {
                         if(!tasks.getJSONObject(i).getBoolean("approved")){
                             tempSuggestedTaskNames.add(tasks.getJSONObject(i).getString("taskName"));
                             tempSuggestedTaskScores.add(tasks.getJSONObject(i).getString("taskScore"));
+                            suggestedBy.add(tasks.getJSONObject(i).getString("suggestedBy"));
                             JSONArray jsonArray = (JSONArray)tasks.getJSONObject(i).get("approvedByUser");
                             ArrayList<String> approvedByUsers = new ArrayList<String>();
                             for (int j=0; j<jsonArray.length(); j++) {
@@ -238,7 +242,6 @@ public class MainMenuController extends AppMenu {
                     }
                     Collections.sort(approvedTasks, new CustomComparator());
                     Collections.reverse(approvedTasks);
-                    Log.e("MainMenu", approvedTasks.toString());
                     for(JSONObject acceptedTask : approvedTasks){
                         tempAcceptedTaskNames.add(acceptedTask.getString("taskName"));
                         tempAcceptedTaskScores.add(acceptedTask.getString("taskScore"));
@@ -248,12 +251,13 @@ public class MainMenuController extends AppMenu {
                     suggestedTaskNames = tempSuggestedTaskNames.toArray(new String[0]);
                     suggestedTaskScores = tempSuggestedTaskScores.toArray(new String[0]);
                     approveDisapproveBtn = approvedDissaprovedTemp.toArray(new Boolean[0]);
-                    customSuggestedListAdapter = new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores, approveDisapproveBtn);
+                    suggestedByArray = suggestedBy.toArray(new String[0]);
+                    customSuggestedListAdapter = new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores, approveDisapproveBtn, suggestedByArray);
                     suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
                     suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
 
-                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores);
+                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true); //TODO: GET THE ADMIN VARIABLE FROM USER CLASS.
                     acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
@@ -275,7 +279,7 @@ public class MainMenuController extends AppMenu {
      * @param view
      */
     public void approveTask(View view) {
-        JSONObject userinfo = getFileIO().readUserInformation();//TEMP
+        JSONObject userinfo = getFileIO().readUserInformation();//TODO: GET EMAIL FROM USER MODEL
         String email = "null";
         try {//TEMP
             email = userinfo.getString("email");//TEMP
@@ -289,7 +293,7 @@ public class MainMenuController extends AppMenu {
         LinearLayout parentView = (LinearLayout) buttonParentView.getParent();
         RelativeLayout taskNameAndScore = (RelativeLayout) parentView.getChildAt(1);
         TextView taskName = (TextView) taskNameAndScore.getChildAt(0);
-        params.put("flatPIN", "123"); //TEMP
+        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL
         params.put("taskName", taskName.getText().toString());
         params.put("email",email);
         ServerRequest sr = new ServerRequest();
@@ -338,7 +342,7 @@ public class MainMenuController extends AppMenu {
      * @param view
      */
     public void taskDone(View view){
-        JSONObject userinfo = getFileIO().readUserInformation();//TEMP
+        JSONObject userinfo = getFileIO().readUserInformation();//TODO: GET EMAIL FROM USER MODEL
         String email = "null";
         try {//TEMP
             email = userinfo.getString("email");//TEMP
@@ -365,7 +369,7 @@ public class MainMenuController extends AppMenu {
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("taskName", taskNameString);
                         params.put("email", finalEmail);
-                        params.put("flatPIN", "123");//TEMP
+                        params.put("flatPIN", "123");//TODO: GET FLAT PIN FROM USER MODEL
                         ServerRequest sr = new ServerRequest();
                         JSONObject jsonObject = sr.getJSON(HttpType.DOTASK, getIpAddress() + ":8080/doTask", params);
                         if (jsonObject != null) {
@@ -385,7 +389,145 @@ public class MainMenuController extends AppMenu {
      * @param view
      */
     public void showTaskHistory(View view){
-        //TODO: Create this, server method already made /getTaskHistory
+        HashMap<String,String> params = new HashMap<>();
+        RelativeLayout parentView = (RelativeLayout)view.getParent();
+        TextView taskName = (TextView) parentView.getChildAt(0);
+
+        params.put("flatPIN","123"); //TODO: GET FLAT PIN FROM USER MODEL
+        params.put("taskName", taskName.getText().toString());
+
+        ServerRequest sr = new ServerRequest();
+        JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getTaskHistory", params);
+
+        if(jsonObject != null){
+            try {
+                if(jsonObject.getBoolean("res")){
+                    JSONArray taskHistoryArray = jsonObject.getJSONArray("response");
+                    taskHistoryUsernames = new String[taskHistoryArray.length()];
+                    taskHistoryDates = new String[taskHistoryArray.length()];
+                    for (int j=0; j<taskHistoryArray.length(); j++) {
+                        taskHistoryUsernames[j] = taskHistoryArray.getJSONObject(j).getString("username");
+                        taskHistoryDates[j] = taskHistoryArray.getJSONObject(j).getString("date");
+                    }
+                    final Dialog task_history = new Dialog(MainMenuController.this);
+                    task_history.setTitle(getResources().getString(R.string.history_dialog_title));
+                    task_history.setContentView(R.layout.dialog_task_history);
+                    customTaskHistoryListAdapter = new CustomTaskHistoryListAdapter(this, taskHistoryUsernames, taskHistoryDates);
+                    taskHistoryList=(ListView)task_history.findViewById(R.id.task_history_list);
+                    taskHistoryList.setAdapter(customTaskHistoryListAdapter);
+                    Button back = (Button) task_history.findViewById(R.id.backBtn);
+
+                    back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            task_history.dismiss();
+                        }
+                    });
+                    task_history.show();
+                }else {
+                    Toast.makeText(getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_SHORT);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Delete a specific task if user is admin
+     * @param view
+     */
+    public void deleteTask(View view){
+        RelativeLayout parent = (RelativeLayout) view.getParent();
+        LinearLayout parentView = (LinearLayout) parent.getParent();
+        RelativeLayout relativeLayout = (RelativeLayout) parentView.getChildAt(0);
+        TextView taskName = (TextView) relativeLayout.getChildAt(0);
+        final String taskNameString = taskName.getText().toString();
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.are_you_sure_delete) + " " + taskNameString)
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        //Add description and/or take picture.
+                        HashMap<String, String> params = new HashMap<String, String>();
+                        params.put("taskName", taskNameString);
+                        params.put("flatPIN", "123");//TODO: GET FLAT PIN FROM USER MODEL
+                        ServerRequest sr = new ServerRequest();
+                        JSONObject jsonObject = sr.getJSON(HttpType.DELETETASK, getIpAddress() + ":8080/deleteTask", params);
+                        if (jsonObject != null) {
+                            try {
+                                Toast.makeText(getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
+                                initTasksTab();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).create().show();
+    }
+
+    /**
+     * Edit a specific task if user is admin
+     * @param view
+     */
+    public void editTask(View view){
+        RelativeLayout buttonParent = (RelativeLayout)view.getParent();
+        LinearLayout viewParent = (LinearLayout) buttonParent.getParent();
+        RelativeLayout nameParent = (RelativeLayout)viewParent.getChildAt(0);
+        final TextView taskName = (TextView) nameParent.getChildAt(0);
+        TextView taskScore = (TextView) viewParent.getChildAt(1);
+        final Dialog editTask = new Dialog(MainMenuController.this);
+        editTask.setTitle(getResources().getString(R.string.edit_task_title));
+        editTask.setContentView(R.layout.dialog_newtask);
+        final EditText eTaskName = (EditText) editTask.findViewById(R.id.description_edittext);
+        final EditText eTaskScore = (EditText) editTask.findViewById(R.id.points_edittext);
+        eTaskName.setText(taskName.getText());
+        eTaskScore.setText(taskScore.getText().toString().substring(7));
+        Button submit = (Button) editTask.findViewById(R.id.submit_btn);
+        Button cancel = (Button) editTask.findViewById(R.id.cancelBtn_newTask);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTask.dismiss();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String oldTaskName = taskName.getText().toString();
+                final String newTaskName = eTaskName.getText().toString();
+                final String taskScore = eTaskScore.getText().toString();
+                if (newTaskName.isEmpty() || taskScore.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
+                }else{
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("oldTaskName", oldTaskName);
+                    params.put("newTaskName", newTaskName);
+                    params.put("taskScore", taskScore);
+                    params.put("flatPIN","123");//TODO: GET FLAT PIN FROM USER MODEL
+                    ServerRequest sr = new ServerRequest();
+                    JSONObject json = sr.getJSON(HttpType.EDITTASK, getIpAddress() + ":8080/editTask", params);
+
+                    if (json != null) {
+                        try {
+                            Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                            if (json.getBoolean("res")) {
+                                initTasksTab();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        editTask.show();
     }
 
 }

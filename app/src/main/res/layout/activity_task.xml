@@ -24,28 +24,43 @@
         android:layout_centerHorizontal="true"
         android:gravity="center" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_tasks_btn"
-            android:background="@drawable/edit_tasks"
-            android:src="@drawable/btn_highlight"
-            android:layout_alignBaseline="@id/tasksTitle"
-            android:layout_marginLeft="10px"
-            />
+    <!-- Skal denne være med?-->
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/edit_tasksBtn"-->
+            <!--android:background="@drawable/edit_tasks"-->
+            <!--android:src="@drawable/btn_highlight"-->
+            <!--android:layout_marginLeft="10px"-->
+            <!--android:layout_marginTop="35dp"-->
+            <!--/>-->
 
+     <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_task_btn"
+        android:background="@drawable/new_taskbtn"
+        android:src="@drawable/btn_highlight"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10px"
+         android:onClick="suggestNewTask"
+        android:layout_marginTop="35dp"
+        />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/new_task_btn"
-            android:background="@drawable/edit_tasks"
-            android:layout_alignBaseline="@id/tasksTitle"
-            android:src="@drawable/btn_highlight"
-            android:onClick="suggestNewTask"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10px"
-            />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/new_task_bt1n"-->
+            <!--android:background="@drawable/gradient_btn"-->
+            <!--android:onClick="suggestNewTask"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="10px"-->
+            <!--android:layout_marginTop="35dp"-->
+            <!--android:text="@string/new_task"-->
+            <!--android:textSize="10sp"-->
+            <!--android:textColor="@color/white"-->
+            <!--/>-->
+
 
 
     <TextView
@@ -68,7 +83,11 @@
         android:layout_below="@id/suggested_tasks_title"
         android:layout_marginTop="20px"
         android:layout_height="350px"
-        android:background="@drawable/list_ui"/>
+
+        android:background="@drawable/list_ui"
+        android:divider="#FFFFFF"
+        android:dividerHeight="2px"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,7 +107,9 @@
         android:layout_width="match_parent"
         android:layout_marginTop="20px"
         android:layout_below="@id/accepted_tasks_title"
-        android:layout_height="450px"
+        android:layout_height="wrap_content"
+        android:divider="#FFFFFF"
+        android:dividerHeight="2px"
         android:background="@drawable/list_ui"/>
 
 
