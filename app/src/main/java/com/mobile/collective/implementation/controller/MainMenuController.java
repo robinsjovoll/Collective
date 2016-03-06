@@ -13,11 +13,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,12 +67,21 @@ public class MainMenuController extends AppMenu implements Serializable {
     private CustomAcceptedListAdapter acceptedListAdapter;
 
     /**
-     * ListView in history display variables.
+     * ListView in taskHistory display variables.
      */
     private ListView taskHistoryList;
     private String[] taskHistoryUsernames;
     private String[] taskHistoryDates;
     private CustomTaskHistoryListAdapter customTaskHistoryListAdapter;
+
+    /**
+     * ListView in historyTab variables
+     */
+    private ListView historyTabList;
+    private String[] historyTabUsernames;
+    private String[] historyTabDates;
+    private String[] historyTabTaskNames;
+    private String[] historyTabTaskScores;
 
     Toolbar toolbar;
     ViewPager pager;
@@ -85,11 +97,12 @@ public class MainMenuController extends AppMenu implements Serializable {
 
         suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
         acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+        historyTabList = (ListView)findViewById(R.id.historyList);
 
         Titles= new CharSequence[]{
             getResources().getString(R.string.task_title),
                     getResources().getString(R.string.score_title),
-                    getResources().getString(R.string.feed_title),
+                    getResources().getString(R.string.history_title),
                     getResources().getString(R.string.setting_title)};
 
 //        toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -210,7 +223,7 @@ public class MainMenuController extends AppMenu implements Serializable {
 
         ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
-        params.put("flatPIN", "123");
+        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
         JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
         try {
             if(json != null){
@@ -264,7 +277,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
                 }else{
-                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG).show();
                 }
             }else {
                 Log.e("MainMenuContorller", "Could not connect to server");
@@ -427,7 +440,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     });
                     task_history.show();
                 }else {
-                    Toast.makeText(getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), jsonObject.getString("response"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -539,4 +552,54 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void setAcceptedTaskList(ListView acceptedTaskList) {
         this.acceptedTaskList = acceptedTaskList;
     }
+
+    /**
+     * Initializes the historyTab.
+     */
+    public void initHistoryTab(){
+
+        ServerRequest sr = new ServerRequest();
+        HashMap<String,String> params = new HashMap<>();
+        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("numberOfHistories", "10"); //TEMP
+        JSONObject json = sr.getJSON(HttpType.GETFEEDHISTORY,getIpAddress()+":8080/getFeedHistory", params);
+        if(json != null) {
+            try {
+                if (json.getBoolean("res")) {
+
+                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true); //TODO: MAKE THIS TO HISTORYTABLIST
+                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+                    acceptedTaskList.setAdapter(acceptedListAdapter);
+
+                    Spinner personSpinner = (Spinner) findViewById(R.id.personSpinner);
+                    Log.e("MainMenu", json.getString("response"));
+                    String[] items = new String[]{"Chai Latte", "Green Tea", "Black Tea"};
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                            android.R.layout.simple_spinner_item, items);
+
+                    personSpinner.setAdapter(adapter);
+
+                    personSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                   int position, long id) {
+                            Log.v("item", (String) parent.getItemAtPosition(position));
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            // TODO Auto-generated method stub
+                        }
+                    });
+                }else {
+                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

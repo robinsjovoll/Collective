@@ -15,7 +15,7 @@ import com.mobile.collective.R;
 public class NewsfeedTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.activity_newsfeed,container,false);
+        View v =inflater.inflate(R.layout.activity_history,container,false);
         return v;
     }
 
