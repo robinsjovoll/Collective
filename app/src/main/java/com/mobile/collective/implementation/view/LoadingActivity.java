@@ -87,16 +87,17 @@ public class LoadingActivity extends AppMenu {
 
                         if (json != null && json.getBoolean("res")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                            goTo(MainMenuController.class);
                         } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                         } else {
+                            Toast.makeText(getApplication(), getResources().getString(R.string.restart_app_server), Toast.LENGTH_LONG).show();
                             Log.e("LoadingController", "Something went wrong connecting to the server.");
 //                    createDialog();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    goTo(MainMenuController.class);
                 }else {
                     Log.e("LoadingActivity", "Something went wrong when trying to login in the LoadingController");
                 }

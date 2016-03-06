@@ -14,9 +14,10 @@
         android:layout_marginLeft="40px"
         android:paddingLeft="20px"
         android:background="#ffffff"
+        android:maxLength="15"
         android:inputType="textPersonName"
         android:id="@+id/description_edittext"
-        android:hint="Description"
+        android:hint="@string/description"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -27,7 +28,8 @@
         android:background="#ffffff"
         android:inputType="number"
         android:id="@+id/points_edittext"
-        android:hint="Number of points"
+        android:hint="@string/number_of_points"
+        android:maxLength="10"
         android:layout_below="@+id/description_edittext"
         android:layout_alignLeft="@+id/description_edittext"
         android:layout_alignStart="@+id/description_edittext"
@@ -37,7 +39,7 @@
         android:layout_width="540px"
         style="?android:attr/buttonStyleSmall"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/submit"
         android:textColor="#FFFFFF"
         android:id="@+id/submit_btn"
         android:background="@drawable/gradient_btn"

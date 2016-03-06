@@ -3,54 +3,73 @@
     <string name="action_settings">Settings</string>
 
     <!--Error dialog for when network is not active on startup -->
-    <string name="require_network_on_startup">Network connection is required on startup</string>
+    <string name="require_network_on_startup">Internett tilgang er nødvendig ved oppstart</string>
 
     <!-- Loading Screen-->
-    <string name="restart_app">Unable to connect to server. Please turn on network connection.</string>
+    <string name="restart_app">Klarte ikke koble til server. Slå på internett tilgang.</string>
+    <string name="restart_app_server">Noe gikk galt, klarte ikke koble til server.</string>
 
     <!-- Login Screen-->
     <string name="email_autofill">example@mail.com</string>
     <string name="password_fill">******</string>
     <string name="login">Login</string>
-    <string name="register">Register</string>
-    <string name="forgot_password">Forgot Password</string>
+    <string name="register">Registrer</string>
+    <string name="forgot_password">Glemt Passord</string>
 
     <!-- Reset Password Screen-->
-    <string name="reset_password">Reset Password</string>
-    <string name="continue_reset">Continue</string>
-    <string name="cancel_reset">Cancel</string>
+    <string name="reset_password">Tilbakestill passord</string>
+    <string name="continue_reset">Fortsett</string>
+    <string name="cancel_reset">Avbryt</string>
 
     <!-- Reset Password Code Screen-->
-    <string name="reset_code">Reset code</string>
-    <string name="code">Code</string>
-    <string name="new_password">New password</string>
+    <string name="reset_code">Tilbakestill kode</string>
+    <string name="code">Kode</string>
+    <string name="new_password">Nytt passord</string>
 
     <!-- Register Screen-->
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
-    <string name="re_password">Re-type password:</string>
+    <string name="username">Brukernavn:</string>
+    <string name="password">Passord:</string>
+    <string name="re_password">Gjenta passord:</string>
     <string name="email">Email:</string>
-    <string name="name_autotfill">John Doe</string>
-    <string name="invalid_username">Username is invalid. It can only contain letters, numbers, underscores and hyphens</string>
-    <string name="invalid_email">Email is invalid</string>
-    <string name="invalid_password">Password is invalid. It must contain one digit, one lowercase letter, one uppercase letter and be at least 6 characters long</string>
-    <string name="invalid_repassword">Password and re-typed password are not the equal</string>
+    <string name="name_autotfill">Ola Nordmann</string>
+    <string name="invalid_username">Brukernavn er ugyldig. Det kan kun inneholde bokstaver, tall, underscores og bindestreker</string>
+    <string name="invalid_email">Email er ugyldig</string>
+    <string name="invalid_password">Passord er ugyldig. Det må inneholde minst ett tall, èn liten bokstav, èn stor bokstav og være minst 6 tegn langt</string>
+    <string name="invalid_repassword">Passord og gjentatt passord er ulikt</string>
 
     <!-- Score Screen-->
-    <string name="score_title">Score</string>
+    <string name="score_title">Poeng</string>
 
     <!-- Task Screen-->
-    <string name="task_title">Tasks</string>
-    <string name="suggested_tasks_title">New suggestions:</string>
-    <string name="accepted_tasks_title">Accepted tasks:</string>
-    <string name="approve">Approve</string>
-    <string name="disapprove">Disapprove</string>
+    <string name="task_title">Oppgaver</string>
+    <string name="suggested_tasks_title">Nye forslag:</string>
+    <string name="edit_task_title">Endre oppgave</string>
+    <string name="accepted_tasks_title">Godkjente oppgaver:</string>
+    <string name="approve">Godkjenn</string>
+    <string name="disapprove">Avslå</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nei</string>
+    <string name="are_you_sure">Er du sikker på at du vil gjøre oppgave: </string>
+    <string name="are_you_sure_delete">Er du sikker på at du vil slette oppgave: </string>
+    <string name="delete">Fjern</string>
+    <string name="edit">Endre</string>
+    <string name="all_fields_filled">Alle felt må være fylt ut</string>
+    <string name="do_task">Gjør oppgave</string>
+    <string name="history">Historie</string>
+    <string name="submit">Send</string>
+    <string name="description">Beskrivelse</string>
+    <string name="number_of_points">Antall poeng</string>
+    <string name="back">Tilbake</string>
+    <string name="history_dialog_title">Oppgave historie</string>
+    <string name="suggest_new_task">Foreslå ny oppgave</string>
+    <string name="new_task">Opprett ny</string>
+    <string name="score">Poeng: </string>
 
     <!-- Feed Screen-->
-    <string name="feed_title">Feed</string>
+    <string name="feed_title">Historie</string>
 
     <!-- Settings Screen-->
-    <string name="setting_title">Settings</string>
+    <string name="setting_title">Innstillinger</string>
 
     <!--Profile strings-->
     <string name="isLoggedInn">isLoggedInn</string>

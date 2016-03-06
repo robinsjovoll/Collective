@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mobile.collective.implementation.controller.MainMenuController;
+import static com.google.android.gms.internal.zzhu.runOnUiThread;
 
 
 /**
@@ -313,9 +314,22 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
             }
-            if(position == 1){
-                mainMenuController.initTasksTab();
-            }
+            //Initializes the different tabs when selecting them.
+            final int finalPos = position;
+            new Thread(){
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (finalPos == 1){
+                                mainMenuController.initTasksTab();
+                            }
+                        }
+                    });
+                }
+            }.start();
+
         }
 
     }

@@ -23,11 +23,12 @@
             android:layout_width="wrap_content"
             android:layout_height="100px"
             android:id="@+id/task_history"
-            android:background="@drawable/btn_normal"
+            android:background="@drawable/gradient_btn"
             android:textColor="#ffffff"
             android:layout_alignParentRight="true"
             android:textAlignment="center"
-            android:text="History"
+            android:text="@string/history"
+            android:onClick="showTaskHistory"
             android:layout_marginRight="20px"
             android:textSize="10sp"/>
 
@@ -45,17 +46,54 @@
         android:text="TaskScore"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="100px"
-        android:id="@+id/accept_task"
-        android:layout_gravity="right"
-        android:layout_marginRight="20px"
-        android:layout_marginBottom="5px"
-        android:background="@drawable/btn_normal"
-        android:textColor="#ffffff"
-        android:text="Accept"
-        android:textSize="10sp"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:layout_marginBottom="5px">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:id="@+id/removeTask"
+            android:background="@drawable/gradient_btn"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="20px"
+            android:visibility="invisible"
+            android:text="@string/delete"
+            android:textSize="10sp"
+            android:onClick="deleteTask"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:id="@+id/editTask"
+            android:background="@drawable/gradient_btn"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="20px"
+            android:text="@string/edit"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:textSize="10sp"
+            android:onClick="editTask"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="100px"
+            android:id="@+id/accept_task"
+            android:layout_gravity="right"
+            android:layout_marginRight="20px"
+
+            android:layout_alignParentRight="true"
+            android:background="@drawable/gradient_btn"
+            android:textColor="#ffffff"
+            android:onClick="taskDone"
+            android:text="@string/do_task"
+            android:textSize="10sp"/>
+    </RelativeLayout>
+
 
 
 </LinearLayout>

@@ -36,13 +36,13 @@ public class ServerRequest {
     }
 
     /**
-     * Get request over http. Note: To be able to do get requests with parameters, one have to use the post request.
+     * Delete request over http.
      * @param type
      * @param urltxt
      * @param params
      * @return
      */
-    public JSONObject getRequest(HttpType type, String urltxt, HashMap<String, String> params) {
+    public JSONObject deleteRequest(HttpType type, String urltxt, HashMap<String, String> params) {
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
         URL url = null;
         try {
@@ -56,30 +56,67 @@ public class ServerRequest {
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(5000);
             conn.setConnectTimeout(5000);
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("DELETE");
             conn.setRequestProperty("User-Agent", "Mozilla/5.0");
             conn.setFixedLengthStreamingMode(
                     getQuery(params).getBytes().length);
             PrintWriter out = new PrintWriter(conn .getOutputStream());
             out.print(getQuery(params));
             out.close();
-//            System.out.println("Response Code: " + conn.getResponseCode());
-//            InputStream in = new BufferedInputStream(conn.getInputStream());
-//            json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
-//            Log.e("ServerRequest","Response: " + json);
+            System.out.println("Response Code: " + conn.getResponseCode());
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+            Log.e("ServerRequest","Response: " + json);
 
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
 
-            //print result
-            System.out.println(response.toString());
+
+        try {
+            jObj = new JSONObject(json);
+        } catch (JSONException e) {
+            Log.e("JSON Parser", "Error parsing data " + e.toString());
+        }
+
+
+        return jObj;
+
+    }
+
+    /**
+     * Update request over http
+     * @param type
+     * @param urltxt
+     * @param params
+     * @return
+     */
+    public JSONObject updateRequest(HttpType type, String urltxt, HashMap<String, String> params) {
+        CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+        URL url = null;
+        try {
+            Log.e("ServerRequest", "URL: " + urltxt);
+            url = new URL(urltxt);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+            conn.setFixedLengthStreamingMode(
+                    getQuery(params).getBytes().length);
+            PrintWriter out = new PrintWriter(conn .getOutputStream());
+            out.print(getQuery(params));
+            out.close();
+            System.out.println("Response Code: " + conn.getResponseCode());
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
+            Log.e("ServerRequest","Response: " + json);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -198,12 +235,15 @@ public class ServerRequest {
             CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
             ServerRequest request = new ServerRequest();
             JSONObject json = null;
-            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD || type == HttpType.GETTASKS || type == HttpType.APPROVETASK || type == HttpType.DISAPPROVETASK) {
+            if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD || type == HttpType.ADDTASK || type == HttpType.GETTASKS || type == HttpType.APPROVETASK || type == HttpType.DISAPPROVETASK
+                    || type == HttpType.DOTASK || type == HttpType.TASKHISTORY ) {
                 json = request.postRequest(type, args[0].url, args[0].params);
             }
-//            }if(type == HttpType.GETTASKS){
-//                json = request.postRequest(type, args[0].url, args[0].params);
-//            }
+            else if(type ==HttpType.DELETETASK){
+                json = request.deleteRequest(type, args[0].url, args[0].params);
+            }else if( type == HttpType.EDITTASK){
+                json = request.updateRequest(type, args[0].url, args[0].params);
+            }
 
             return json;
         }

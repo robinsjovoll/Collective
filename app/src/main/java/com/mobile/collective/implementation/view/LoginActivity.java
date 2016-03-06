@@ -1,6 +1,8 @@
 package com.mobile.collective.implementation.view;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -82,6 +84,10 @@ public class LoginActivity extends AppMenu {
                 userinfo.put("token",json.getString("token"));
                 userinfo.put("grav",json.getString("grav"));
                 getFileIO().writeUserInformationSaveFile(userinfo);
+                SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = sharedPrefProf.edit();
+                edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
+                edit.commit();
                 goTo(MainMenuController.class);
             }else if (json != null && !json.getBoolean("res")){
                 Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();

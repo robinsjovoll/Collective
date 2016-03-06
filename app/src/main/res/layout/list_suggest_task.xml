@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_below="@id/suggestedTaskName"
-        android:layout_marginTop="20px"
+        android:layout_marginTop="40px"
         android:layout_marginBottom="5px"
         android:orientation="horizontal" >
 
@@ -59,7 +59,7 @@
             android:layout_height="100px"
             android:layout_gravity="center"
             android:id="@+id/approveBtn"
-            android:background="@drawable/btn_normal"
+            android:background="@drawable/gradient_btn"
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:onClick="approveTask"
@@ -71,7 +71,7 @@
             android:id="@+id/disapproveBtn"
             android:layout_marginLeft="20px"
             android:layout_gravity="center"
-            android:background="@drawable/btn_normal"
+            android:background="@drawable/gradient_btn"
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:text="@string/disapprove"
