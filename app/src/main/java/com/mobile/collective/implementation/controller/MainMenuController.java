@@ -180,9 +180,9 @@ public class MainMenuController extends AppMenu {
                 params.put("taskName", taskName);
                 params.put("taskScore", taskScore);
                 params.put("email", finalEmail);
-//                params.put("flatPIN","123");
+                params.put("flatPIN","123"); //TODO: GET FLAT PIN FROM USER MODEL
                 ServerRequest sr = new ServerRequest();
-                JSONObject json = sr.getJSON(HttpType.CHANGEPASSWORD, getIpAddress() + ":8080/addTask", params);
+                JSONObject json = sr.getJSON(HttpType.ADDTASK, getIpAddress() + ":8080/addTask", params);
 
                 if (json != null) {
                     try {
