@@ -42,10 +42,10 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
         newsfeedTab = new NewsfeedTab();
         settingsTab = new SettingsTab();
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("MainController", mainMenuController);
-
-        tasksTab.setArguments(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("MainController", mainMenuController);
+//
+//        tasksTab.setArguments(bundle);
 
 
 

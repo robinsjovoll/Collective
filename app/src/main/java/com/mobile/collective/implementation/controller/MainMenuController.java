@@ -255,12 +255,12 @@ public class MainMenuController extends AppMenu implements Serializable {
                     approveDisapproveBtn = approvedDissaprovedTemp.toArray(new Boolean[0]);
                     suggestedByArray = suggestedBy.toArray(new String[0]);
                     customSuggestedListAdapter = new CustomSuggestedListAdapter(this, suggestedTaskNames, suggestedTaskScores, approveDisapproveBtn, suggestedByArray);
-//                    suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
+                    suggestedTaskList=(ListView)findViewById(R.id.suggested_task_list);
                     suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
 
                     acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true); //TODO: GET THE ADMIN VARIABLE FROM USER CLASS.
-//                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
+                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
                 }else{

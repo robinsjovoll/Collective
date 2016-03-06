@@ -20,11 +20,11 @@ public class TasksTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.activity_task,container,false);
-        Bundle bundle = getArguments();
-        MainMenuController mainMenuController = (MainMenuController) bundle.getSerializable("MainController");
-        mainMenuController.setSuggestedTaskList((ListView)v.findViewById(R.id.suggested_task_list));
-        mainMenuController.setAcceptedTaskList((ListView)v.findViewById(R.id.accepted_task_list));
-        mainMenuController.initTasksTab();
+//        Bundle bundle = getArguments();
+//        MainMenuController mainMenuController = (MainMenuController) bundle.getSerializable("MainController");
+//        mainMenuController.setSuggestedTaskList((ListView)v.findViewById(R.id.suggested_task_list));
+//        mainMenuController.setAcceptedTaskList((ListView)v.findViewById(R.id.accepted_task_list));
+//        mainMenuController.initTasksTab();
         return v;
     }
 
