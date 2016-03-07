@@ -3,6 +3,7 @@ package com.mobile.collective.implementation.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,12 @@ public class TasksTab extends Fragment {
 //        Bundle bundle = getArguments();
 //        MainMenuController mainMenuController = (MainMenuController) bundle.getSerializable("MainController");
         MainMenuController mainMenuController = (MainMenuController) getActivity();
-        mainMenuController.setSuggestedTaskList((ListView)v.findViewById(R.id.suggested_task_list));
-        mainMenuController.setAcceptedTaskList((ListView)v.findViewById(R.id.accepted_task_list));
-        mainMenuController.initTasksTab();
+        mainMenuController.setSuggestedTaskList((ListView) v.findViewById(R.id.suggested_task_list));
+        mainMenuController.setAcceptedTaskList((ListView) v.findViewById(R.id.accepted_task_list));
+        if(!mainMenuController.isTaskTabInitialized()) {
+            mainMenuController.setIsTaskTabInitialized(true);
+            mainMenuController.initTasksTab();
+        }
         return v;
     }
 

@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20px"
-        android:layout_marginTop="30px">
+        android:layout_marginTop="30px"
+        android:layout_marginBottom="20px">
 
         <TextView
             android:layout_width="wrap_content"
@@ -15,36 +16,26 @@
             android:textSize="14dp"
             android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
             android:id="@+id/dateHistory"
             android:text="Dato"
             />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/dateHistory"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="20px"
             android:id="@+id/userCompletedTask"
             android:text="User completed task:"
             />
 
 
+
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:textColor="@color/white"
-        android:layout_gravity="center"
-        android:layout_marginTop="20px"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/taskDescription"
-        android:text="Wash (150 p)"
-        android:layout_marginBottom="10px"
-        />
 
 
 </LinearLayout>

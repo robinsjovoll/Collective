@@ -31,6 +31,7 @@ import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.framework.CustomAcceptedListAdapter;
 import com.mobile.collective.framework.CustomComparator;
+import com.mobile.collective.framework.CustomHistoryListAdapter;
 import com.mobile.collective.framework.CustomSuggestedListAdapter;
 import com.mobile.collective.framework.CustomTaskHistoryListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
@@ -45,6 +46,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -55,6 +59,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     /**
      * ListView in the taskTab variables.
      */
+    private boolean isTaskTabInitialized;
     private ListView suggestedTaskList;
     private ListView acceptedTaskList;
     private String[] acceptedTaskNames;
@@ -82,6 +87,9 @@ public class MainMenuController extends AppMenu implements Serializable {
     private String[] historyTabDates;
     private String[] historyTabTaskNames;
     private String[] historyTabTaskScores;
+    private CustomHistoryListAdapter customHistoryListAdapter;
+    private String selectedUsername = "Alle";
+    private String selectedTaskName = "Alle";
 
     Toolbar toolbar;
     ViewPager pager;
@@ -545,6 +553,14 @@ public class MainMenuController extends AppMenu implements Serializable {
         editTask.show();
     }
 
+    public boolean isTaskTabInitialized() {
+        return isTaskTabInitialized;
+    }
+
+    public void setIsTaskTabInitialized(boolean isTaskTabInitialized) {
+        this.isTaskTabInitialized = isTaskTabInitialized;
+    }
+
     public void setSuggestedTaskList(ListView suggestedTaskList) {
         this.suggestedTaskList = suggestedTaskList;
     }
@@ -567,24 +583,87 @@ public class MainMenuController extends AppMenu implements Serializable {
             try {
                 if (json.getBoolean("res")) {
 
-                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true); //TODO: MAKE THIS TO HISTORYTABLIST
-                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
-                    acceptedTaskList.setAdapter(acceptedListAdapter);
+
+                    JSONArray response = json.getJSONArray("response");
+
+                    ArrayList<String> arrayListUsernames = new ArrayList<>();
+                    ArrayList<String> arrayListDates = new ArrayList<>();
+                    ArrayList<String> arrayListTaskNames = new ArrayList<>();
+                    ArrayList<String> arrayListTaskScores = new ArrayList<>();
+
+                    for(int i = 0; i < response.length(); i++){
+                        if((selectedTaskName.equals("Alle") && selectedUsername.equals("Alle")) || (selectedTaskName.equals(response.getJSONObject(i).getString("taskName")) && selectedUsername.equals(response.getJSONObject(i).getString("username")))) {
+                            arrayListUsernames.add(response.getJSONObject(i).getString("username"));
+                            arrayListDates.add(response.getJSONObject(i).getString("date"));
+                            arrayListTaskNames.add(response.getJSONObject(i).getString("taskName"));
+                            arrayListTaskScores.add(response.getJSONObject(i).getString("taskScore"));
+                        }
+                    }
+
+                    historyTabUsernames = arrayListUsernames.toArray(new String[0]);
+                    historyTabDates = arrayListDates.toArray(new String[0]);
+                    historyTabTaskNames = arrayListTaskNames.toArray(new String[0]);
+                    historyTabTaskScores = arrayListTaskScores.toArray(new String[0]);
+
+                    customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
+                    historyTabList = (ListView)findViewById(R.id.historyList);
+                    historyTabList.setAdapter(customHistoryListAdapter);
+
+                    String[] tempTaskNames = new String[historyTabTaskNames.length +1];
+                    tempTaskNames[0] = "Alle";
+                    for(int i = 0; i < historyTabTaskNames.length; i++){
+                        tempTaskNames[i+1] = historyTabTaskNames[i];
+                    }
+
+                    Set<String> tempTaskSet = new LinkedHashSet<>(Arrays.asList(tempTaskNames));
+                    String[] taskNames = tempTaskSet.toArray(new String[0]);
+
+                    Spinner taskSpinner = (Spinner) findViewById(R.id.taskSpinner);
+                    ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, taskNames);
+                    taskSpinner.setAdapter(taskAdapter);
+                    taskSpinner.setSelection(taskAdapter.getPosition(selectedTaskName));
+
+                    taskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.v("item", (String) parent.getItemAtPosition(position));
+                            if(!((String) parent.getItemAtPosition(position)).equals(selectedTaskName)){
+                                initTasksTab();
+                            }
+                            selectedTaskName = (String) parent.getItemAtPosition(position);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    String[] tempUserNames = new String[historyTabUsernames.length +1];
+                    tempUserNames[0] = "Alle";
+                    for(int i = 0; i < historyTabUsernames.length; i++){
+                        tempUserNames[i+1] = historyTabUsernames[i];
+                    }
+
+                    Set<String> tempUsernameSet = new LinkedHashSet<>(Arrays.asList(tempUserNames));
+                    String[] userNames = tempUsernameSet.toArray(new String[0]);
 
                     Spinner personSpinner = (Spinner) findViewById(R.id.personSpinner);
-                    Log.e("MainMenu", json.getString("response"));
-                    String[] items = new String[]{"Chai Latte", "Green Tea", "Black Tea"};
+                    ArrayAdapter<String> personAdapter = new ArrayAdapter<String>(this,
+                            android.R.layout.simple_spinner_item, userNames);
+                    personSpinner.setAdapter(personAdapter);
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                            android.R.layout.simple_spinner_item, items);
-
-                    personSpinner.setAdapter(adapter);
+                    personSpinner.setSelection(personAdapter.getPosition(selectedUsername));
 
                     personSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view,
                                                    int position, long id) {
                             Log.v("item", (String) parent.getItemAtPosition(position));
+                            if(!((String)parent.getItemAtPosition(position)).equals(selectedUsername)) {
+                                initHistoryTab();
+                            }
+                            selectedUsername = (String) parent.getItemAtPosition(position);
                         }
 
                         @Override
@@ -592,6 +671,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                             // TODO Auto-generated method stub
                         }
                     });
+
                 }else {
                     Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
                 }
