@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg">
+
+    <!--<include-->
+        <!--android:id="@+id/tool_bar"-->
+        <!--layout="@layout/toolbar"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/history_title"
+        android:id="@+id/historyTitle"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/this_period"
+        android:id="@+id/this_periodBtn"
+        android:background="@drawable/gradient_btn"
+        android:layout_below="@id/historyTitle"
+        android:layout_marginTop="80px"
+        android:layout_marginLeft="20px"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_period"
+        android:id="@+id/last_periodBtn"
+        android:layout_below="@id/historyTitle"
+        android:layout_marginTop="80px"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gradient_btn"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/earlier"
+        android:background="@drawable/gradient_btn"
+        android:id="@+id/earlierBtn"
+        android:layout_below="@id/historyTitle"
+        android:layout_marginTop="80px"
+        android:layout_marginRight="20px"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_personTxt"
+        android:layout_below="@id/this_periodBtn"
+        android:text="@string/show_person"
+        android:layout_marginTop="30px"
+        android:layout_marginLeft="60px"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_taskTxt"
+        android:layout_below="@id/this_periodBtn"
+        android:text="@string/show_task"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30px"
+        android:layout_marginRight="60px"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+
+    <Spinner
+        android:id="@+id/personSpinner"
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/show_personTxt"
+        android:layout_alignLeft="@id/show_personTxt"
+        />
+
+    <Spinner
+        android:id="@+id/taskSpinner"
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/show_personTxt"
+        android:layout_alignLeft="@id/show_taskTxt"
+        />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/personSpinner"
+        android:layout_marginTop="30px"
+        android:id="@+id/historyList"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#FFFFFF"
+        android:dividerHeight="2px"
+        >
+    </ListView>
+
+</RelativeLayout>

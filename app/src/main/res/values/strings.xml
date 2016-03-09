@@ -65,8 +65,14 @@
     <string name="new_task">Opprett ny</string>
     <string name="score">Poeng: </string>
 
-    <!-- Feed Screen-->
-    <string name="feed_title">Historie</string>
+    <!-- History Screen-->
+    <string name="history_title">Historie</string>
+    <string name="this_period">Denne perioden</string>
+    <string name="last_period">Forrige periode</string>
+    <string name="earlier">Tidligere</string>
+    <string name="show_person">Velg person:</string>
+    <string name="show_task">Velg oppgave:</string>
+    <string name="all">Alle</string>
 
     <!-- Settings Screen-->
     <string name="setting_title">Innstillinger</string>
