@@ -2,11 +2,18 @@ var mongoose = require('mongoose');
 var flat = require('config/flat'); 
 
 exports.addFlat = function(flatName,period,prize,email,callback) { 
-
+	
+	var tempFlats = [0,0];
+	while(tempFlats.length > 0){
+		tempID = makeid();
+		flat.find({flatPIN: tempID}, function(err,flats){
+			tempFlats = flats;
+		});
+	}
 
 var newFlat = new flat({
 	flatName: flatName,
-	flatPIN: makeid() ,
+	flatPIN: tempID ,
 	period: period,
 	prize: prize,
 	flatMates: [email]

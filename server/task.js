@@ -5,6 +5,8 @@ var Schema = mongoose.Schema;
 var taskSchema = mongoose.Schema({
 	taskName: String,
 	taskScore: String,
+	suggestedBy : String,
+	approvedByUser : [String],
 	approved: Boolean,
 	flatPIN: String,
 	taskHistory: [{

@@ -6,6 +6,7 @@ var userSchema = mongoose.Schema({
      token : String,     
      email: String,  
 	 username: String,
+	 score: Number,
 	 admin: Boolean,
      hashed_password: String,    
      salt : String,  

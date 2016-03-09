@@ -87,8 +87,9 @@ module.exports = function(app) {
 		 var taskName = req.body.taskName;
 		 var taskScore = req.body.taskScore;
 		 var flatPIN = req.body.flatPIN;
+		 var email = req.body.email;
 		 
-		 taskReq.addTask(taskName, taskScore, flatPIN, function(found) {
+		 taskReq.addTask(taskName, taskScore, flatPIN,email, function(found) {
 			 console.log(found);
 			 res.json(found);
 		 });
@@ -104,13 +105,14 @@ module.exports = function(app) {
 		
 	 });
 	 
-	 // ADD NEW TASK HISTORY EVENT
-	 app.post('/addTaskHistoryEvent', function(req,res){
+	 // DO A SPECIFIC TASK, ADD SCORE TO THE USER AND ADD NEW TASK HISTORY EVENT 
+	 app.post('/doTask', function(req,res){
 		var taskName = req.body.taskName;
-		var username = req.body.username;
+		var email = req.body.email;
+		var flatPIN = req.body.flatPIN;
 		var date = req.body.date;
 		
-		taskReq.addHistoryEvent(taskName,username,date, function(found){
+		taskReq.doTask(taskName,email,flatPIN,date, function(found){
 			console.log(found);
 			 res.json(found);
 		});
@@ -141,4 +143,77 @@ module.exports = function(app) {
 		});
 		
 	 });
+	 
+	 // APPROVE SUGGESTED TASK
+	 app.post('/approveTask', function(req,res){
+		 var flatPIN = req.body.flatPIN;
+		 var taskName = req.body.taskName;
+		 var email = req.body.email;
+		 
+		 taskReq.approveTask(flatPIN, taskName,email, function(found){
+			 console.log(found);
+			 res.json(found);
+		 });
+		 
+	 });
+	 
+	 // DISAPPROVE SUGGESTED TASK
+	 app.post("/disapproveTask", function(req,res){
+		 var flatPIN = req.body.flatPIN;
+		 var taskName = req.body.taskName;
+		 var email = req.body.email;
+		 
+		 taskReq.disapproveTask(flatPIN, taskName,email, function(found){
+			 console.log(found);
+			 res.json(found);
+		 });
+	 });
+	 
+	 // RETURNS THE TASKHISTORY OF A SPECIFIC TASK
+	 app.post("/getTaskHistory", function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var taskName = req.body.taskName;
+		
+		taskReq.getTaskHistory(flatPIN, taskName, function(found){
+			console.log(found);
+			 res.json(found);
+		});
+	 });
+	 
+	 // RETURNS THE FEED HISTORY BASED ON A SPECIFIED NUMBER OF HISTORIES WANTED
+	 app.post("/getFeedHistory",function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var numberOfHistories = req.body.numberOfHistories;
+
+		taskReq.getFeedHistory(flatPIN, numberOfHistories, function(found){
+			console.log(found);
+			 res.json(found);
+		});
+	 });
+	 
+	 // DELETE A SPECIFIC TASK
+	 app.del("/deleteTask", function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var taskName = req.body.taskName;
+		
+		taskReq.deleteTask(flatPIN, taskName, function(found){
+			console.log(found);
+			 res.json(found);
+		});
+		
+	 });
+	 
+	 // EDIT AND UPDATE A SPECIFIC TASK
+	 app.put("/editTask", function(req,res){
+		 var flatPIN = req.body.flatPIN;
+		 var oldTaskName = req.body.oldTaskName;
+		 var newTaskName = req.body.newTaskName;
+		 var taskScore = req.body.taskScore;
+		 
+		 taskReq.editTask(flatPIN, oldTaskName, newTaskName, taskScore, function(found){
+			 console.log(found);
+			 res.json(found);
+		 });
+	 });
+	 
 };
