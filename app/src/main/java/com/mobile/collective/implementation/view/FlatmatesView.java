@@ -15,21 +15,31 @@ import com.mobile.collective.implementation.model.User;
 public class FlatmatesView extends AppMenu {
 
     TextView displayRights;
-    User user;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flatmates);
 
-        displayRights = (TextView)findViewById(R.id.display_rights);
+        displayRights = (TextView) findViewById(R.id.display_rights);
 
-        /*if(this.user.isAdmin()) {
-            displayRights.setText("(Admin view)");
+        checkUserRights();
+    }
+
+    public boolean checkUserRights() {
+
+        try {
+            if (getUser().isAdmin()) {
+                displayRights.setText(R.string.display_rights_admin);
+            }
+            else {
+                displayRights.setText(R.string.display_rights_user);
+            }
+            return true;
+        } catch(NullPointerException ne) {
+            ne.printStackTrace();
         }
-        else {
-            displayRights.setText("(User view)");
-        }*/
 
+    return false;
 
     }
 
