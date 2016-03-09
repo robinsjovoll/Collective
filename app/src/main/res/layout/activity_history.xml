@@ -112,7 +112,8 @@
         android:layout_marginTop="30px"
         android:id="@+id/historyList"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/list_ui"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="#FFFFFF"
         android:dividerHeight="2px"
         >
