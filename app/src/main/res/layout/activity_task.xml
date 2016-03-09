@@ -84,7 +84,8 @@
         android:layout_marginTop="20px"
         android:layout_height="350px"
 
-        android:background="@drawable/list_ui"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="#FFFFFF"
         android:dividerHeight="2px"
         />
@@ -110,7 +111,8 @@
         android:layout_height="wrap_content"
         android:divider="#FFFFFF"
         android:dividerHeight="2px"
-        android:background="@drawable/list_ui"/>
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"/>
 
 
 
