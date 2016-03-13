@@ -191,6 +191,45 @@ module.exports = function(app) {
 		});
 	 });
 	 
+	 // RETURNS THE FEED HISTORY BASED ON A SPECIFIED NUMBER OF HISTORIES WANTED AND A SPECIFIC TASK NAME
+	 app.post("/getFeedHistoryBasedOnTaskName",function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var numberOfHistories = req.body.numberOfHistories;
+		var taskName = req.body.taskName;
+
+		taskReq.getTasksFeedBasedOnTaskName(flatPIN, numberOfHistories, taskName,function(found){
+			console.log(found);
+			 res.json(found);
+		});
+	 });
+	 
+	 // RETURNS THE FEED HISTORY BASED ON A SPECIFIED NUMBER OF HISTORIES WANTED AND A SPECIFIC USERNAME
+	 app.post("/getFeedHistoryBasedOnUsername",function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var numberOfHistories = req.body.numberOfHistories;
+		var username = req.body.username;
+
+		taskReq.getTasksFeedBasedOnUsername(flatPIN, numberOfHistories, username,function(found){
+			console.log(found);
+			 res.json(found);
+		});
+	 });
+	 
+	 // RETURNS THE FEED HISTORY BASED ON A SPECIFIED NUMBER OF HISTORIES WANTED, A SPECIFIC USERNAME AND A SPECIFIC TASK NAME
+	 app.post("/getTasksFeedBasedOnUsernameAndTaskName", function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var numberOfHistories = req.body.numberOfHistories;
+		var username = req.body.username;
+		var taskName = req.body.taskName;
+		
+		taskReq.getTasksFeedBasedOnUsernameAndTaskName(flatPIN, numberOfHistories, username, taskName, function(found){
+			console.log(found);
+			 res.json(found);
+		});
+		
+	 });
+	 
+	 
 	 // DELETE A SPECIFIC TASK
 	 app.del("/deleteTask", function(req,res){
 		var flatPIN = req.body.flatPIN;
