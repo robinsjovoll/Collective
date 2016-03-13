@@ -68,7 +68,7 @@ public class LoginActivity extends AppMenu {
      * @param view
      */
     public void tryLogin(View view){
-        String email = eEmail.getText().toString();
+        String email = eEmail.getText().toString().replaceAll("\\s+","");
         String password = ePassword.getText().toString();
 
         params.put("email", email);

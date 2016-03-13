@@ -87,8 +87,8 @@ public class RegisterActivity extends AppMenu {
     }
 
     public void tryRegister(View view){
-        String username = eUsername.getText().toString();
-        String email = eEmail.getText().toString();
+        String username = eUsername.getText().toString().replaceAll("\\s+","");
+        String email = eEmail.getText().toString().replaceAll("\\s+","");
         String password = ePassword.getText().toString();
         String rePassword = eRePassword.getText().toString();
         if(!validUsername(username)) {
