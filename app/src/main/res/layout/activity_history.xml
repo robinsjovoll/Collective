@@ -35,6 +35,8 @@
         android:layout_marginLeft="20px"
         android:textColor="@color/white"
         android:textSize="10sp"
+        android:tag="thisPeriod"
+        android:onClick="filterOnPeriod"
         />
 
     <Button
@@ -48,6 +50,8 @@
         android:background="@drawable/gradient_btn"
         android:textColor="@color/white"
         android:textSize="10sp"
+        android:onClick="filterOnPeriod"
+        android:tag="lastPeriod"
          />
 
     <Button
@@ -62,6 +66,8 @@
         android:layout_alignParentRight="true"
         android:textColor="@color/white"
         android:textSize="10sp"
+        android:onClick="filterOnPeriod"
+        android:tag="earlier"
         />
 
     <TextView
@@ -95,6 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/show_personTxt"
         android:layout_alignLeft="@id/show_personTxt"
+        android:popupBackground="@drawable/gradient_bg"
         />
 
     <Spinner
@@ -103,6 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/show_personTxt"
         android:layout_alignLeft="@id/show_taskTxt"
+        android:popupBackground="@drawable/gradient_bg"
         />
 
     <ListView

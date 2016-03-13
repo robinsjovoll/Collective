@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -42,13 +41,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 
 /**
@@ -82,14 +85,17 @@ public class MainMenuController extends AppMenu implements Serializable {
     /**
      * ListView in historyTab variables
      */
+    private String chosenPeriod = "null";
+    private boolean thisPeriodBtnClicked, lastPeriodBtnClicked, earlierBtnClicked;
+    private Calendar calendar;
     private ListView historyTabList;
-    private String[] historyTabUsernames;
-    private String[] historyTabDates;
-    private String[] historyTabTaskNames;
-    private String[] historyTabTaskScores;
+    private String[] historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores;
+    ArrayList<String> arrayListUsernames, arrayListDates, arrayListTaskNames, arrayListTaskScores;
     private CustomHistoryListAdapter customHistoryListAdapter;
     private String selectedUsername = "Alle";
+    private boolean isSelectedUsername = true;
     private String selectedTaskName = "Alle";
+    private boolean isSelectedTaskName = true;
 
     Toolbar toolbar;
     ViewPager pager;
@@ -574,11 +580,11 @@ public class MainMenuController extends AppMenu implements Serializable {
      */
     public void initHistoryTab(){
 
-        ServerRequest sr = new ServerRequest();
+        final ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
         params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
         params.put("numberOfHistories", "10"); //TEMP
-        JSONObject json = sr.getJSON(HttpType.GETFEEDHISTORY,getIpAddress()+":8080/getFeedHistory", params);
+        final JSONObject json = sr.getJSON(HttpType.GETFEEDHISTORY,getIpAddress()+":8080/getFeedHistory", params);
         if(json != null) {
             try {
                 if (json.getBoolean("res")) {
@@ -586,18 +592,16 @@ public class MainMenuController extends AppMenu implements Serializable {
 
                     JSONArray response = json.getJSONArray("response");
 
-                    ArrayList<String> arrayListUsernames = new ArrayList<>();
-                    ArrayList<String> arrayListDates = new ArrayList<>();
-                    ArrayList<String> arrayListTaskNames = new ArrayList<>();
-                    ArrayList<String> arrayListTaskScores = new ArrayList<>();
+                    arrayListUsernames = new ArrayList<>();
+                    arrayListDates = new ArrayList<>();
+                    arrayListTaskNames = new ArrayList<>();
+                    arrayListTaskScores = new ArrayList<>();
 
                     for(int i = 0; i < response.length(); i++){
-                        if((selectedTaskName.equals("Alle") && selectedUsername.equals("Alle")) || (selectedTaskName.equals(response.getJSONObject(i).getString("taskName")) && selectedUsername.equals(response.getJSONObject(i).getString("username")))) {
                             arrayListUsernames.add(response.getJSONObject(i).getString("username"));
                             arrayListDates.add(response.getJSONObject(i).getString("date"));
                             arrayListTaskNames.add(response.getJSONObject(i).getString("taskName"));
                             arrayListTaskScores.add(response.getJSONObject(i).getString("taskScore"));
-                        }
                     }
 
                     historyTabUsernames = arrayListUsernames.toArray(new String[0]);
@@ -619,18 +623,50 @@ public class MainMenuController extends AppMenu implements Serializable {
                     String[] taskNames = tempTaskSet.toArray(new String[0]);
 
                     Spinner taskSpinner = (Spinner) findViewById(R.id.taskSpinner);
-                    ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, taskNames);
+                    ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, taskNames);
                     taskSpinner.setAdapter(taskAdapter);
-                    taskSpinner.setSelection(taskAdapter.getPosition(selectedTaskName));
 
+                    taskSpinner.setSelection(taskAdapter.getPosition(selectedTaskName));
                     taskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             Log.v("item", (String) parent.getItemAtPosition(position));
-                            if(!((String) parent.getItemAtPosition(position)).equals(selectedTaskName)){
-                                initTasksTab();
-                            }
                             selectedTaskName = (String) parent.getItemAtPosition(position);
+                            if(selectedTaskName.equals("Alle") && selectedUsername.equals("Alle") && !isSelectedTaskName && !isSelectedUsername){
+                                isSelectedTaskName = true;
+                                isSelectedUsername = true;
+                                initHistoryTab();
+                            }else if(selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+                                params.put("numberOfHistories", "10");
+                                params.put("username", selectedUsername);
+                                JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getFeedHistoryBasedOnUsername", params);
+                                isSelectedTaskName = false;
+                                isSelectedUsername = false;
+                                initHistoryTabUsernameAndTaskFilter(jsonObject);
+                            } else if(!selectedTaskName.equals("Alle") && selectedUsername.equals("Alle")){
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+                                params.put("numberOfHistories", "10");
+                                params.put("taskName", selectedTaskName);
+                                isSelectedTaskName = false;
+                                isSelectedUsername = false;
+                                JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getFeedHistoryBasedOnTaskName", params);
+                                initHistoryTabUsernameAndTaskFilter(jsonObject);
+                            } else if(!selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+                                params.put("numberOfHistories", "10");
+                                params.put("username", selectedUsername);
+                                params.put("taskName", selectedTaskName);
+                                isSelectedTaskName = false;
+                                isSelectedUsername = false;
+                                JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getTasksFeedBasedOnUsernameAndTaskName", params);
+                                initHistoryTabUsernameAndTaskFilter(jsonObject);
+                            }
+                            dateFilter(chosenPeriod);
+
                         }
 
                         @Override
@@ -650,20 +686,51 @@ public class MainMenuController extends AppMenu implements Serializable {
 
                     Spinner personSpinner = (Spinner) findViewById(R.id.personSpinner);
                     ArrayAdapter<String> personAdapter = new ArrayAdapter<String>(this,
-                            android.R.layout.simple_spinner_item, userNames);
+                            R.layout.spinner_item, userNames);
                     personSpinner.setAdapter(personAdapter);
 
-                    personSpinner.setSelection(personAdapter.getPosition(selectedUsername));
 
+                    personSpinner.setSelection(personAdapter.getPosition(selectedUsername));
                     personSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view,
                                                    int position, long id) {
                             Log.v("item", (String) parent.getItemAtPosition(position));
-                            if(!((String)parent.getItemAtPosition(position)).equals(selectedUsername)) {
-                                initHistoryTab();
-                            }
                             selectedUsername = (String) parent.getItemAtPosition(position);
+                            if(selectedTaskName.equals("Alle") && selectedUsername.equals("Alle") && !isSelectedTaskName && !isSelectedUsername){
+                                isSelectedTaskName = true;
+                                isSelectedUsername = true;
+                                initHistoryTab();
+                            }else if(selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+                                params.put("numberOfHistories", "10");
+                                params.put("username", selectedUsername);
+                                JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getFeedHistoryBasedOnUsername", params);
+                                isSelectedTaskName = false;
+                                isSelectedUsername = false;
+                                initHistoryTabUsernameAndTaskFilter(jsonObject);
+                            } else if(!selectedTaskName.equals("Alle") && selectedUsername.equals("Alle")){
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+                                params.put("numberOfHistories", "10");
+                                params.put("taskName", selectedTaskName);
+                                isSelectedTaskName = false;
+                                isSelectedUsername = false;
+                                JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getFeedHistoryBasedOnTaskName", params);
+                                initHistoryTabUsernameAndTaskFilter(jsonObject);
+                            } else if(!selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+                                params.put("numberOfHistories", "10");
+                                params.put("username", selectedUsername);
+                                params.put("taskName", selectedTaskName);
+                                isSelectedTaskName = false;
+                                isSelectedUsername = false;
+                                JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getTasksFeedBasedOnUsernameAndTaskName", params);
+                                initHistoryTabUsernameAndTaskFilter(jsonObject);
+                            }
+                            dateFilter(chosenPeriod);
                         }
 
                         @Override
@@ -681,5 +748,169 @@ public class MainMenuController extends AppMenu implements Serializable {
         }
     }
 
+    /**
+     * Init the historyTab based on filtering on username and task name.
+     * @param history
+     */
+    private void initHistoryTabUsernameAndTaskFilter(JSONObject history){
+        if(history != null) {
+            try {
+                if (history.getBoolean("res")) {
+
+
+                    JSONArray response = history.getJSONArray("response");
+
+                    arrayListUsernames = new ArrayList<>();
+                    arrayListDates = new ArrayList<>();
+                    arrayListTaskNames = new ArrayList<>();
+                    arrayListTaskScores = new ArrayList<>();
+
+                    for(int i = 0; i < response.length(); i++){
+                        arrayListUsernames.add(response.getJSONObject(i).getString("username"));
+                        arrayListDates.add(response.getJSONObject(i).getString("date"));
+                        arrayListTaskNames.add(response.getJSONObject(i).getString("taskName"));
+                        arrayListTaskScores.add(response.getJSONObject(i).getString("taskScore"));
+                    }
+
+                    historyTabUsernames = arrayListUsernames.toArray(new String[0]);
+                    historyTabDates = arrayListDates.toArray(new String[0]);
+                    historyTabTaskNames = arrayListTaskNames.toArray(new String[0]);
+                    historyTabTaskScores = arrayListTaskScores.toArray(new String[0]);
+
+                    customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
+                    historyTabList = (ListView)findViewById(R.id.historyList);
+                    historyTabList.setAdapter(customHistoryListAdapter);
+
+                }else {
+                    Toast.makeText(getApplicationContext(), history.getString("response"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Init the historyTab filtering the dates of the tasks on this period
+     * @param view
+     */
+    public void filterOnPeriod(View view){
+        String periodFilter = (String) view.getTag();
+        Button button_this = (Button)findViewById(R.id.this_periodBtn);
+        Button button_last = (Button)findViewById(R.id.last_periodBtn);
+        Button button_earlier = (Button)findViewById(R.id.earlierBtn);
+
+        if(periodFilter.equals("thisPeriod")){
+            if(thisPeriodBtnClicked){
+                thisPeriodBtnClicked = false;
+                button_this.setBackgroundResource(R.drawable.gradient_btn);
+                chosenPeriod = "null";
+            }else{
+                thisPeriodBtnClicked = true;
+                button_this.setBackgroundResource(R.drawable.gradient_btn_selected);
+                chosenPeriod = "thisPeriod";
+            }
+            button_last.setBackgroundResource(R.drawable.gradient_btn);
+            button_earlier.setBackgroundResource(R.drawable.gradient_btn);
+            lastPeriodBtnClicked = false;
+            earlierBtnClicked = false;
+        }else if(periodFilter.equals("lastPeriod")){
+            if(lastPeriodBtnClicked){
+                lastPeriodBtnClicked = false;
+                button_last.setBackgroundResource(R.drawable.gradient_btn);
+                chosenPeriod = "null";
+            }else{
+                lastPeriodBtnClicked = true;
+                button_last.setBackgroundResource(R.drawable.gradient_btn_selected);
+                chosenPeriod = "lastPeriod";
+            }
+            button_this.setBackgroundResource(R.drawable.gradient_btn);
+            button_earlier.setBackgroundResource(R.drawable.gradient_btn);
+            thisPeriodBtnClicked = false;
+            earlierBtnClicked = false;
+        } else if(periodFilter.equals("earlier")){
+            if(earlierBtnClicked){
+                earlierBtnClicked = false;
+                button_earlier.setBackgroundResource(R.drawable.gradient_btn);
+                chosenPeriod = "null";
+            }else{
+                earlierBtnClicked = true;
+                button_earlier.setBackgroundResource(R.drawable.gradient_btn_selected);
+                chosenPeriod = "earlier";
+            }
+            button_last.setBackgroundResource(R.drawable.gradient_btn);
+            button_this.setBackgroundResource(R.drawable.gradient_btn);
+            thisPeriodBtnClicked = false;
+            lastPeriodBtnClicked = false;
+        }
+        dateFilter(chosenPeriod);
+    }
+
+    /**
+     * Filters the tab based on the period selected
+     * @param period
+     */
+    private void dateFilter(String period){
+        Date startDate = new Date();
+        Date endDate = new Date();
+        calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        if(period.equals("thisPeriod")){
+            calendar.add(Calendar.DATE, -7); //TODO: GET THIS FROM THE USER MODEL
+            startDate = calendar.getTime();
+        }else if(period.equals("lastPeriod")){
+            calendar.add(Calendar.DATE, -7 - 31); //TODO: GET THIS FROM THE USER MODEL - thisPeriod + lastPeriod
+            startDate = calendar.getTime();
+            calendar.setTime(endDate);
+            calendar.add(Calendar.DATE, -7); //TODO: GET THIS FROM THE USER MODEL
+            endDate = calendar.getTime();
+        }else if(period.equals("earlier")){
+            calendar.add(Calendar.DATE, -7 - 31); //TODO: GET THIS FROM THE USER MODEL
+            endDate = calendar.getTime();
+            startDate = null;
+        }else if(period.equals("null")){
+            startDate = null;
+            endDate = null;
+        }
+        ArrayList<Integer> indexes = new ArrayList<>();
+        Date compareDate = null;
+        for(int i = 0; i < arrayListDates.size(); i++){
+
+            try {
+                compareDate = new SimpleDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss").parse(arrayListDates.get(i));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(startDate == null && endDate == null){
+                continue;
+            } else if(startDate == null && !compareDate.before(endDate)){
+               indexes.add(i);
+            } else if(!compareDate.after(startDate) || !compareDate.before(endDate)){
+                indexes.add(i);
+            }
+        }
+        ArrayList<String> copyArrayListDates = new ArrayList<>(arrayListDates);
+        ArrayList<String> copyArrayListTaskNames = new ArrayList<>(arrayListTaskNames);
+        ArrayList<String> copyArrayListTaskScores = new ArrayList<>(arrayListTaskScores);
+        ArrayList<String> copyArrayListUsernames = new ArrayList<>(arrayListUsernames);
+
+        int counter = 0;
+        for(int index : indexes){
+            copyArrayListDates.remove(index - counter);
+            copyArrayListTaskNames.remove(index - counter);
+            copyArrayListTaskScores.remove(index - counter);
+            copyArrayListUsernames.remove(index - counter);
+            counter++;
+        }
+
+        historyTabUsernames = copyArrayListUsernames.toArray(new String[0]);
+        historyTabDates = copyArrayListDates.toArray(new String[0]);
+        historyTabTaskNames = copyArrayListTaskNames.toArray(new String[0]);
+        historyTabTaskScores = copyArrayListTaskScores.toArray(new String[0]);
+
+        customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
+        historyTabList = (ListView)findViewById(R.id.historyList);
+        historyTabList.setAdapter(customHistoryListAdapter);
+    }
 
 }

@@ -90,6 +90,7 @@ public class LoadingActivity extends AppMenu {
                             goTo(MainMenuController.class);
                         } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                            goTo(LoginActivity.class);
                         } else {
                             Toast.makeText(getApplication(), getResources().getString(R.string.restart_app_server), Toast.LENGTH_LONG).show();
                             Log.e("LoadingController", "Something went wrong connecting to the server.");
