@@ -33,6 +33,7 @@ import com.mobile.collective.framework.CustomComparator;
 import com.mobile.collective.framework.CustomHistoryListAdapter;
 import com.mobile.collective.framework.CustomSuggestedListAdapter;
 import com.mobile.collective.framework.CustomTaskHistoryListAdapter;
+import com.mobile.collective.framework.CustomScoreListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 
@@ -73,6 +74,16 @@ public class MainMenuController extends AppMenu implements Serializable {
     private Boolean[] approveDisapproveBtn;
     private CustomSuggestedListAdapter customSuggestedListAdapter;
     private CustomAcceptedListAdapter acceptedListAdapter;
+
+    /**
+     * ListView in scoreTab variables
+     */
+    private ListView scoreList;
+    private boolean isScoreTabInit;
+    private ArrayList<String> arrayListUsers;
+    private ArrayList<Integer> arrayListScores;
+    private String[] scoreTabUsers, scoreTabScores;
+    private CustomScoreListAdapter customScoreListAdapter;
 
     /**
      * ListView in taskHistory display variables.
@@ -574,6 +585,45 @@ public class MainMenuController extends AppMenu implements Serializable {
 
     public void setAcceptedTaskList(ListView acceptedTaskList) {
         this.acceptedTaskList = acceptedTaskList;
+    }
+
+    /**
+     * Initializes the scoreTab.
+     */
+    public void initScoreTab() {
+        final ServerRequest sr = new ServerRequest();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        final JSONObject json = sr.getJSON(HttpType.GETSCORES, getIpAddress() + ":8080/getScores", params);
+        if (json != null) {
+            try {
+                if (json.getBoolean("res")) {
+
+
+                    JSONArray response = json.getJSONArray("response");
+                    arrayListUsers = new ArrayList<>();
+                    arrayListScores = new ArrayList<>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        arrayListUsers.add(response.getJSONObject(i).getString("username"));
+                        arrayListScores.add(response.getJSONObject(i).getInt("scores"));
+                        scoreTabUsers = arrayListUsers.toArray(new String[0]);
+                        scoreTabScores = arrayListScores.toArray(new String[0]);
+                    }
+
+                    customScoreListAdapter = new CustomScoreListAdapter(this, scoreTabUsers,scoreTabScores);
+                    scoreList = (ListView) findViewById(R.id.listView_scores);
+                    scoreList.setAdapter(customScoreListAdapter);
+
+
+                }else {
+                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        isScoreTabInit = true;
     }
 
     /**
