@@ -76,6 +76,11 @@
 
     <!-- Settings Screen-->
     <string name="setting_title">Innstillinger</string>
+    <string name="flatName_hint">Navn</string>
+    <string name="period_length">Lengde på periode:</string>
+    <string name="period_prize">Premie:</string>
+    <string name="prize_hint">Premie</string>
+    <string name="save_settingsBtn">Lagre</string>
 
     <!--Profile strings-->
     <string name="isLoggedInn">isLoggedInn</string>

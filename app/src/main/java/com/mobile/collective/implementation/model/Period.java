@@ -2,7 +2,12 @@ package com.mobile.collective.implementation.model;
 
 //suggest increase and decrease period in the create flat-view: <|-| BIWEEKLY |+|>
 public enum Period{
-    WEEKLY, BIWEEKLY, MONTHLY {
+    WEEKLY(7), BIWEEKLY(14), MONTHLY(30);
+
+    private int duration;
+
+    /*
+    {
         //return current if no next.
         public Period next(){
             return this;
@@ -12,8 +17,14 @@ public enum Period{
             return this;
         }
     };
+    */
 
-    Period(){
+    Period(int duration){
+        this.duration = duration;
+    }
+
+    private double getDuration(){
+        return duration;
     }
 
     public Period next(){
