@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'); 
 var flat = require('config/flat');
 var user = require('config/user');
+var userScoreArray = [];
 
 exports.addFlat = function(flatName,period,prize,email,callback) { 
 	
@@ -58,7 +59,7 @@ exports.getScores = function(flatPIN, callback) {
 flat.find({flatPIN:flatPIN}, function(err, flats){
 	if(flats.length > 0){
 	var currFlat = flats[0];
-	var userScoreArray = [];
+	
 	for(var i = 0; i < currFlat.flatMates.length; i++)
 	{
 		user.find({
@@ -69,14 +70,20 @@ flat.find({flatPIN:flatPIN}, function(err, flats){
 				var userScoreObject = {
 					username: users[0].username,
 					score: users[0].score
-				}
+				};
 				userScoreArray.push(userScoreObject);
 			}
-			callback({"response": "No such user exists"});
-		});
+			else
+			{
+				callback({"response": "No such user exists", "res": false});
+			}
+		});		
 	}
 	callback({"response": userScoreArray, "res": true});
 	}
-	callback({"response": "No such flat exists", "res": false});
+	else
+	{
+		callback({"response": "No such flat exists", "res": false});
+	}
 });
 }
