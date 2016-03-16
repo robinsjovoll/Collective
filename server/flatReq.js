@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var flat = require('config/flat');
 var user = require('config/user');
 var userScoreArray = [];
-
 exports.addFlat = function(flatName,period,prize,email,callback) { 
 	
 	var tempFlats = [0,0];
@@ -59,7 +58,6 @@ exports.getScores = function(flatPIN, callback) {
 flat.find({flatPIN:flatPIN}, function(err, flats){
 	if(flats.length > 0){
 	var currFlat = flats[0];
-	
 	for(var i = 0; i < currFlat.flatMates.length; i++)
 	{
 		user.find({
@@ -67,11 +65,27 @@ flat.find({flatPIN:flatPIN}, function(err, flats){
 		}, function(err, users){
 			if(users.length > 0)
 			{
-				var userScoreObject = {
+			//	console.log(users[i].username);
+					var userScoreObject = {
 					username: users[0].username,
 					score: users[0].score
-				};
-				userScoreArray.push(userScoreObject);
+					};
+					
+					// Workaround to avoid duplicates
+						var found = false;
+						
+						for(var i = 0; i < userScoreArray.length; i++) {
+							if (userScoreArray[i].username == userScoreObject.username) {
+								found = true;
+								break;
+							}
+						}
+						if(!found)
+						{				
+						userScoreArray.push(userScoreObject);
+						}
+					
+					
 			}
 			else
 			{
@@ -79,6 +93,12 @@ flat.find({flatPIN:flatPIN}, function(err, flats){
 			}
 		});		
 	}
+				userScoreArray.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return b.score - a.score;
+			});
+			
 	callback({"response": userScoreArray, "res": true});
 	}
 	else
