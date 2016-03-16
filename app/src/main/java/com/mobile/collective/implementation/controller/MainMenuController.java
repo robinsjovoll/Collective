@@ -3,6 +3,7 @@ package com.mobile.collective.implementation.controller;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -84,6 +85,8 @@ public class MainMenuController extends AppMenu implements Serializable {
     private ArrayList<String> arrayListScores;
     private String[] scoreTabUsers, scoreTabScores;
     private CustomScoreListAdapter customScoreListAdapter;
+    private final int[] colorArray = new int[]{Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE};
+    private int colorInt;
 
     /**
      * ListView in taskHistory display variables.
@@ -615,7 +618,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                         scoreTabScores = arrayListScores.toArray(new String[0]);
                     }
 
-                    customScoreListAdapter = new CustomScoreListAdapter(this, scoreTabUsers,scoreTabScores);
+                    customScoreListAdapter = new CustomScoreListAdapter(this, scoreTabUsers,scoreTabScores, colorArray);
                     scoreList = (ListView) findViewById(R.id.listView_scores);
                     scoreList.setAdapter(customScoreListAdapter);
 

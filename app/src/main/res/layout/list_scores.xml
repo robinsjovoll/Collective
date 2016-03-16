@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,15 +29,29 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/userScore"
             android:text="Score"
-            android:layout_marginLeft="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/scoreBar"
+            android:layout_toEndOf="@+id/scoreBar"
+            android:layout_marginLeft="10dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scoreBar"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.05"
+            android:background="#FFFFFF"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/user"
-            android:layout_toEndOf="@+id/user" />
-
+            android:layout_toEndOf="@+id/user"
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp"
+            android:minHeight="20dp"
+            android:minWidth="10dp"
+            android:maxWidth="200dp" />
 
 
     </RelativeLayout>
-
 
 
 </LinearLayout>
