@@ -43,7 +43,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,7 +84,8 @@ public class MainMenuController extends AppMenu implements Serializable {
     private ArrayList<String> arrayListScores;
     private String[] scoreTabUsers, scoreTabScores;
     private CustomScoreListAdapter customScoreListAdapter;
-    private final int[] colorArray = new int[]{Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.CYAN, Color.YELLOW, Color.WHITE};
+    private final String BLUE = "#354579", LIGHTBLUE = "#7ACEF3", ORANGE ="#FF8A00", DARKORANGE = "#EC4912", DARKERORANGE = "#C02217";
+    private final String[] colorArray = new String[]{BLUE, LIGHTBLUE, ORANGE, DARKORANGE, DARKERORANGE};
     private int colorInt;
 
     /**

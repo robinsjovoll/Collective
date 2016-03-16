@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20px"
-        android:layout_marginTop="30px"
+        android:layout_marginTop="20px"
         android:layout_marginBottom="20px">
 
         <TextView
@@ -20,11 +20,12 @@
             android:layout_alignParentLeft="true"
             android:id="@+id/user"
             android:text="User"
-            />
+            android:maxWidth="80dp"
+            android:minWidth="80dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="12dp"
             android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/userScore"

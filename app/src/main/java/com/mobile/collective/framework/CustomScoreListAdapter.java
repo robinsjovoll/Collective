@@ -1,6 +1,7 @@
 package com.mobile.collective.framework;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] scoreUsers, scoreScores;
-    private int[] colorArray;
+    private String[] colorArray;
 
-    public CustomScoreListAdapter(Activity context, String[] scoreUsers, String[] scoreScores, int[] colorArray) {
+    public CustomScoreListAdapter(Activity context, String[] scoreUsers, String[] scoreScores, String[] colorArray) {
         super(context, R.layout.list_scores, scoreUsers);
         // TODO Auto-generated constructor stub
 
@@ -39,7 +40,7 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
 //        Log.e("Custom", "position: " + position); 2016-03-05T16:12:50.235Z
 
         scoreBarImageView.setMinimumWidth(Integer.parseInt(scoreScores[position]));
-        scoreBarImageView.setBackgroundColor(colorArray[position]);
+        scoreBarImageView.setBackgroundColor(Color.parseColor(colorArray[position]));
         userScoreTextView.setText(scoreUsers[position]);
         scoreScoreTextView.setText(scoreScores[position] + "p");
         return rowView;
