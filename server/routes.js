@@ -254,5 +254,14 @@ module.exports = function(app) {
 			 res.json(found);
 		 });
 	 });
-	 
+
+	 // GET USER SCORES
+	 app.post("/getScores", function(req, res){
+	 var flatPIN = req.body.flatPIN;
+
+	 flatReq.getScores(flatPIN, function(found){
+	 console.log(found)
+	 res.json(found)
+	 });
+	});
 };

@@ -81,7 +81,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     private ListView scoreList;
     private boolean isScoreTabInit;
     private ArrayList<String> arrayListUsers;
-    private ArrayList<Integer> arrayListScores;
+    private ArrayList<String> arrayListScores;
     private String[] scoreTabUsers, scoreTabScores;
     private CustomScoreListAdapter customScoreListAdapter;
 
@@ -598,15 +598,19 @@ public class MainMenuController extends AppMenu implements Serializable {
         if (json != null) {
             try {
                 if (json.getBoolean("res")) {
-
-
                     JSONArray response = json.getJSONArray("response");
                     arrayListUsers = new ArrayList<>();
                     arrayListScores = new ArrayList<>();
 
+                    // Clearing array to avoid duplicates
+                    arrayListUsers.clear();
+                    arrayListScores.clear();
+                    scoreTabUsers = new String[0];
+                    scoreTabScores = new String[0];
+
                     for (int i = 0; i < response.length(); i++) {
                         arrayListUsers.add(response.getJSONObject(i).getString("username"));
-                        arrayListScores.add(response.getJSONObject(i).getInt("scores"));
+                        arrayListScores.add(response.getJSONObject(i).getString("score"));
                         scoreTabUsers = arrayListUsers.toArray(new String[0]);
                         scoreTabScores = arrayListScores.toArray(new String[0]);
                     }

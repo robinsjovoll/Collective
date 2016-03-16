@@ -13,8 +13,7 @@ import com.mobile.collective.R;
 public class CustomScoreListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] scoreUsers;
-    private final String[] scoreScores;
+    private final String[] scoreUsers, scoreScores;
 
 
     public CustomScoreListAdapter(Activity context, String[] scoreUsers, String[] scoreScores) {
@@ -35,7 +34,7 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
 
 //        Log.e("Custom", "position: " + position); 2016-03-05T16:12:50.235Z
         userScoreTextView.setText(scoreUsers[position]);
-        scoreScoreTextView.setText(scoreScores[position]);
+        scoreScoreTextView.setText(scoreScores[position] + "p");
         return rowView;
     };
 }
