@@ -1,10 +1,14 @@
 package com.mobile.collective.framework;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +21,7 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] scoreUsers, scoreScores;
     private String[] colorArray;
+    private int totalScore;
 
     public CustomScoreListAdapter(Activity context, String[] scoreUsers, String[] scoreScores, String[] colorArray) {
         super(context, R.layout.list_scores, scoreUsers);
@@ -39,10 +44,39 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
 
 //        Log.e("Custom", "position: " + position); 2016-03-05T16:12:50.235Z
 
+        int userBarWidth = convertScorePercentageToBarWidth(Integer.parseInt(scoreScores[position]), getTotalScore(), getScreenWidth());
         scoreBarImageView.setMinimumWidth(Integer.parseInt(scoreScores[position]));
         scoreBarImageView.setBackgroundColor(Color.parseColor(colorArray[position]));
         userScoreTextView.setText(scoreUsers[position]);
         scoreScoreTextView.setText(scoreScores[position] + "p");
         return rowView;
     };
+
+    public int getScreenWidth(){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        return width;
+    }
+
+    public int getTotalScore(){
+        int total = 0;
+        for(int i = 0; i < scoreScores.length; i++)
+        {
+            total += Integer.parseInt(scoreScores[i]);
+        }
+        return total;
+    }
+
+    public int convertScorePercentageToBarWidth(int userScore, int totalScore, int screenWidth){
+        int totalScreenWidth = screenWidth;
+        int userBarWidth = 0;
+        int userScorePercentage = 0;
+
+        userScorePercentage =  (userScore / totalScore ) * 100;
+        userBarWidth = (totalScreenWidth * (userScorePercentage / 100));
+        return userBarWidth;
+    }
 }
