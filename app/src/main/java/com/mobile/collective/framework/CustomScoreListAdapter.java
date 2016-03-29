@@ -45,7 +45,7 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
 //        Log.e("Custom", "position: " + position); 2016-03-05T16:12:50.235Z
 
         int userBarWidth = convertScorePercentageToBarWidth(Integer.parseInt(scoreScores[position]), getTotalScore(), getScreenWidth());
-        scoreBarImageView.setMinimumWidth(Integer.parseInt(scoreScores[position]));
+        scoreBarImageView.setMinimumWidth(userBarWidth);
         scoreBarImageView.setBackgroundColor(Color.parseColor(colorArray[position]));
         userScoreTextView.setText(scoreUsers[position]);
         scoreScoreTextView.setText(scoreScores[position] + "p");
@@ -75,8 +75,16 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
         int userBarWidth = 0;
         int userScorePercentage = 0;
 
-        userScorePercentage =  (userScore / totalScore ) * 100;
-        userBarWidth = (totalScreenWidth * (userScorePercentage / 100));
+        System.out.println("userScore: " + userScore);
+        System.out.println("totalScore: " + totalScore);
+        System.out.println("screenWidth: " + screenWidth);
+
+        userScorePercentage = (int) Math.round(userScore * 100.0/totalScore);
+        userBarWidth = (int) Math.round((userScorePercentage / 100.0) * totalScreenWidth );
+
+        System.out.println("userScorePercentage: " + userScorePercentage);
+        System.out.println("userBarWidth: " + userBarWidth);
+
         return userBarWidth;
     }
 }

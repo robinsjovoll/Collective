@@ -620,6 +620,7 @@ public class MainMenuController extends AppMenu implements Serializable {
 
                     customScoreListAdapter = new CustomScoreListAdapter(this, scoreTabUsers,scoreTabScores, colorArray);
                     scoreList = (ListView) findViewById(R.id.listView_scores);
+                    scoreList.setDivider(null);
                     scoreList.setAdapter(customScoreListAdapter);
 
 
