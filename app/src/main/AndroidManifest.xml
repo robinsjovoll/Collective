@@ -35,6 +35,11 @@
         </activity>
 
         <activity
+            android:name=".implementation.view.FindFlatActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:name=".implementation.controller.MainMenuController"
             android:screenOrientation="portrait">
         </activity>

@@ -24,8 +24,9 @@ import java.util.HashMap;
  */
 public class FindFlatActivity extends AppMenu {
 
-    private EditText flatPin_EditText;
-    private Button find_button, newFlat_button;
+    EditText flatPin_EditText;
+    EditText flatName_EditText, flatPrize_EditText;
+    Button find_button, newFlat_button;
     HashMap<String,String> params = new HashMap<>();
 
     @Override
@@ -37,18 +38,32 @@ public class FindFlatActivity extends AppMenu {
         find_button = (Button)findViewById(R.id.find_button);
         newFlat_button = (Button)findViewById(R.id.createNew_button);
 
+
+     /*   find_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinFlatByPin();
+            }
+        });
+      /*  newFlat_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerNewFlat();
+            }
+        }); */
+
     }
 
-    public void joinFlatByPin(View view){
+    public void joinFlatByPin(){
         String pin = flatPin_EditText.getText().toString();
 
         params.put("flatPIN", pin);
         ServerRequest sr = new ServerRequest();
-        JSONObject json = sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/login", params);
-
+        JSONObject json = sr.getJSON(HttpType.JOINFLAT, getIpAddress() + ":8080/joinFlat", params);
+        //TODO: joinFlat function must be implemented in flatReq.js
         try {
             if(json != null && json.getBoolean("res")){
-
+                Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
@@ -58,9 +73,29 @@ public class FindFlatActivity extends AppMenu {
         }
     }
 
-    public void registerNewFlat(){
+  /*  public void registerNewFlat(){
+
         final Dialog register_flat = new Dialog(FindFlatActivity.this);
         register_flat.setTitle(getResources().getString(R.string.register_flat));
         register_flat.setContentView(R.layout.activity_settings);
-    }
+        flatName_EditText = (EditText)findViewById(R.id.flatName);
+        flatPrize_EditText = (EditText)findViewById(R.id.period_prize);
+
+        String flatName = flatName_EditText.getText().toString();
+        String flatPrize = flatPrize_EditText.getText().toString();
+        String period = "TODO";
+        String email = "TODO";
+
+        params.put("flatName",flatName);
+        params.put("period", period);
+        params.put("prize",flatPrize);
+        params.put("email", email);
+
+        ServerRequest sr = new ServerRequest();
+        JSONObject json = sr.getJSON(HttpType.ADDFLAT, getIpAddress() + ":8080/addFlat", params);
+
+        // Period???
+
+
+    } */
 }
