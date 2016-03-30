@@ -78,7 +78,7 @@ public class LoginActivity extends AppMenu {
         try {
             if(json != null && json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
-                JSONObject userinfo = getFileIO().readUserInformation();
+                JSONObject userinfo = new JSONObject();
                 userinfo.put("email",email);
                 userinfo.put("password",password);
                 userinfo.put("token",json.getString("token"));
@@ -88,7 +88,7 @@ public class LoginActivity extends AppMenu {
                 SharedPreferences.Editor edit = sharedPrefProf.edit();
                 edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
                 edit.commit();
-                goTo(MainMenuController.class);
+                goTo(FindFlatActivity.class);
             }else if (json != null && !json.getBoolean("res")){
                 Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();
             }else {

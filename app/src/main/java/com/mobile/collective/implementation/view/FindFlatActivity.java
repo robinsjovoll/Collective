@@ -39,18 +39,18 @@ public class FindFlatActivity extends AppMenu {
         newFlat_button = (Button)findViewById(R.id.createNew_button);
 
 
-     /*   find_button.setOnClickListener(new View.OnClickListener() {
+       find_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 joinFlatByPin();
             }
         });
-      /*  newFlat_button.setOnClickListener(new View.OnClickListener() {
+       newFlat_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registerNewFlat();
             }
-        }); */
+        });
 
     }
 
@@ -72,9 +72,8 @@ public class FindFlatActivity extends AppMenu {
             e.printStackTrace();
         }
     }
-
-  /*  public void registerNewFlat(){
-
+    public void registerNewFlat(){
+/*
         final Dialog register_flat = new Dialog(FindFlatActivity.this);
         register_flat.setTitle(getResources().getString(R.string.register_flat));
         register_flat.setContentView(R.layout.activity_settings);
@@ -93,9 +92,8 @@ public class FindFlatActivity extends AppMenu {
 
         ServerRequest sr = new ServerRequest();
         JSONObject json = sr.getJSON(HttpType.ADDFLAT, getIpAddress() + ":8080/addFlat", params);
+*/
 
-        // Period???
 
-
-    } */
+    }
 }
