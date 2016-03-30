@@ -46,7 +46,7 @@ public class ServerRequest {
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
         URL url = null;
         try {
-            Log.e("ServerRequest", "URL: " + urltxt);
+//            Log.e("ServerRequest", "URL: " + urltxt);
             url = new URL(urltxt);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class ServerRequest {
             System.out.println("Response Code: " + conn.getResponseCode());
             InputStream in = new BufferedInputStream(conn.getInputStream());
             json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
-            Log.e("ServerRequest","Response: " + json);
+//            Log.e("ServerRequest","Response: " + json);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class ServerRequest {
         CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
         URL url = null;
         try {
-            Log.e("ServerRequest", "URL: " + urltxt);
+//            Log.e("ServerRequest", "URL: " + urltxt);
             url = new URL(urltxt);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -116,7 +116,7 @@ public class ServerRequest {
             System.out.println("Response Code: " + conn.getResponseCode());
             InputStream in = new BufferedInputStream(conn.getInputStream());
             json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
-            Log.e("ServerRequest","Response: " + json);
+//            Log.e("ServerRequest","Response: " + json);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,7 +168,7 @@ public class ServerRequest {
             System.out.println("Response Code: " + conn.getResponseCode());
             InputStream in = new BufferedInputStream(conn.getInputStream());
             json = org.apache.commons.io.IOUtils.toString(in, "UTF-8");
-            Log.e("ServerRequest","Response: " + json);
+//            Log.e("ServerRequest","Response: " + json);
 
 //            OutputStream os = conn.getOutputStream();
 //            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
