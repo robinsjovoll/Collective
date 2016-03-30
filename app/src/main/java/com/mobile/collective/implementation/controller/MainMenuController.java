@@ -641,7 +641,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         final ServerRequest sr = new ServerRequest();
         if(isHistoryTabInit) {
             checkFilter(sr);
-        }else {
+        }
             HashMap<String, String> params = new HashMap<>();
             params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
             params.put("numberOfHistories", "10"); //TEMP
@@ -685,6 +685,7 @@ public class MainMenuController extends AppMenu implements Serializable {
 
                         Spinner taskSpinner = (Spinner) findViewById(R.id.taskSpinner);
                         ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, taskNames);
+                        Log.e("MainMenu", tempTaskSet + " tasknames");
                         taskSpinner.setAdapter(taskAdapter);
 
                         taskSpinner.setSelection(taskAdapter.getPosition(selectedTaskName));
@@ -742,7 +743,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                 }
             }
             isHistoryTabInit = true;
-        }
+
     }
 
     /**
