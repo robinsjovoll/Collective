@@ -6,7 +6,6 @@ var flatSchema = mongoose.Schema({
 	flatName: String,
 	flatPIN: String,
 	period: String,
-	asasfad: String,
 	prize: String,
 	flatMates: [String]
 });
