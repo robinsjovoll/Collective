@@ -51,7 +51,6 @@ exports.doTask = function(taskName,email,flatPIN,date,callback) {
 				if(users.length > 0){
 					var thisUser = users[0];
 					var thisTask = tasks[0];
-					
 					thisUser.score = thisUser.score + parseInt(thisTask.taskScore);
 					var historyEvent = {
 						username: thisUser.username,
@@ -87,6 +86,7 @@ exports.getTasks = function(flatPIN, callback) {
 		
 	});
 }
+
 
 exports.approveTask = function(flatPIN, taskName, email, callback) {
 	task.find({flatPIN: flatPIN, taskName:taskName}, function(err,tasks){
@@ -180,6 +180,109 @@ exports.getFeedHistory = function(flatPIN, numberOfHistories, callback){
 	});
 }
 
+exports.getTasksFeedBasedOnTaskName = function(flatPIN,numberOfHistories, taskName, callback){
+	var feedHistory = [];
+	task.find({flatPIN:flatPIN, taskName: taskName}, function(err, tasks){
+		if(tasks.length > 0){
+			for(i = 0; i < tasks.length; i++){
+				for(j = 0; j < tasks[i].taskHistory.length; j++){
+					var tempHistoryElement = tasks[i].taskHistory[j];
+					var historyElement = {
+						username: tempHistoryElement.username,
+						date: tempHistoryElement.date,
+						taskName: tasks[i].taskName,
+						taskScore: tasks[i].taskScore
+					}
+					feedHistory.push(historyElement);
+				}
+			}	
+			feedHistory.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return new Date(b.date) - new Date(a.date);
+			});
+			if(parseInt(numberOfHistories) >= feedHistory.length){
+				callback({"response": feedHistory,"res":true});
+			}else {
+				feedHistory.slice(0,parseInt(numberOfHistories)+1);
+				callback({"response": feedHistory,"res":true});
+			}
+		}else{
+			callback({"response":"No such task exists","res":false});
+		}
+	});
+}
+
+exports.getTasksFeedBasedOnUsername = function(flatPIN,numberOfHistories, username, callback){
+	var feedHistory = [];
+	task.find({flatPIN: flatPIN}, function(err, tasks){
+		if(tasks.length > 0){
+			for(i = 0; i < tasks.length; i++){
+				for(j = 0; j < tasks[i].taskHistory.length; j++){
+					var tempHistoryElement = tasks[i].taskHistory[j];
+					if(tempHistoryElement.username == username){
+						var historyElement = {
+							username: tempHistoryElement.username,
+							date: tempHistoryElement.date,
+							taskName: tasks[i].taskName,
+							taskScore: tasks[i].taskScore
+						}
+						feedHistory.push(historyElement);
+					}
+				}
+			}	
+			feedHistory.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return new Date(b.date) - new Date(a.date);
+			});
+			if(parseInt(numberOfHistories) >= feedHistory.length){
+				callback({"response": feedHistory,"res":true});
+			}else {
+				feedHistory.slice(0,parseInt(numberOfHistories)+1);
+				callback({"response": feedHistory,"res":true});
+			}
+		}else{
+			callback({"response":"No such task exists","res":false});
+		}
+	});
+}
+
+exports.getTasksFeedBasedOnUsernameAndTaskName = function(flatPIN,numberOfHistories,username,taskName, callback){
+	var feedHistory = [];
+	task.find({flatPIN: flatPIN, taskName: taskName}, function(err, tasks){
+		if(tasks.length > 0){
+			for(i = 0; i < tasks.length; i++){
+				for(j = 0; j < tasks[i].taskHistory.length; j++){
+					var tempHistoryElement = tasks[i].taskHistory[j];
+					if(tempHistoryElement.username == username){
+						var historyElement = {
+							username: tempHistoryElement.username,
+							date: tempHistoryElement.date,
+							taskName: tasks[i].taskName,
+							taskScore: tasks[i].taskScore
+						}
+						feedHistory.push(historyElement);
+					}
+				}
+			}	
+			feedHistory.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return new Date(b.date) - new Date(a.date);
+			});
+			if(parseInt(numberOfHistories) >= feedHistory.length){
+				callback({"response": feedHistory,"res":true});
+			}else {
+				feedHistory.slice(0,parseInt(numberOfHistories)+1);
+				callback({"response": feedHistory,"res":true});
+			}
+		}else{
+			callback({"response":"No such task exists","res":false});
+		}
+	});
+}
+
 exports.deleteTask = function(flatPIN, taskName, callback){
 	 task.remove({flatPIN: flatPIN, taskName: taskName},callback({"response": "Task removed"})).exec();
 }
@@ -187,6 +290,7 @@ exports.deleteTask = function(flatPIN, taskName, callback){
 exports.editTask = function(flatPIN, oldTaskName, newTaskName, taskScore, callback){
 	task.update({flatPIN: flatPIN, taskName:oldTaskName}, { taskName : newTaskName, taskScore: taskScore}, callback({"response": "Task updated", "res": true})).exec();
 }
+
 
 // RETURNS THE CURRENT DATE + H HOURS
 Date.prototype.addHours = function(h) {    

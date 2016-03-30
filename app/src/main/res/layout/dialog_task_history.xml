@@ -13,7 +13,8 @@
         android:layout_marginLeft="20px"
         android:layout_marginRight="20px"
         android:layout_height="500px"
-        android:background="@drawable/list_ui"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="#FFFFFF"
         android:dividerHeight="2px"/>
 
