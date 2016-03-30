@@ -12,6 +12,7 @@ import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.implementation.controller.FlatAccessController;
 import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
+import com.mobile.collective.implementation.controller.MainMenuController;
 
 
 import org.json.JSONException;
@@ -56,17 +57,27 @@ public class FindFlatActivity extends AppMenu {
 
     public void joinFlatByPin(){
         String pin = flatPin_EditText.getText().toString();
-
+        String email = "";
+        try{
+            email = getFileIO().readUserInformation().getString("email");
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
         params.put("flatPIN", pin);
+        params.put("email", email);
         ServerRequest sr = new ServerRequest();
-        JSONObject json = sr.getJSON(HttpType.JOINFLAT, getIpAddress() + ":8080/joinFlat", params);
-        //TODO: joinFlat function must be implemented in flatReq.js
+        JSONObject json = sr.getJSON(HttpType.ADDUSER, getIpAddress() + ":8080/addUser", params);
         try {
             if(json != null && json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                goTo(MainMenuController.class);
             }
-            else{
+            else if (json != null){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getApplication(), "Error: No response", Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e){
             e.printStackTrace();

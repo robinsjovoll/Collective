@@ -133,7 +133,7 @@ module.exports = function(app) {
 	 });
 	 
 	 // ADD USER TO FLAT
-	 app.post('/addUserToFlat', function(req,res){
+	 app.post('/addUser', function(req,res){
 		var flatPIN = req.body.flatPIN;
 		var email = req.body.email;
 		
