@@ -75,15 +75,15 @@ public class CustomScoreListAdapter extends ArrayAdapter<String> {
         int userBarWidth = 0;
         int userScorePercentage = 0;
 
-        System.out.println("userScore: " + userScore);
-        System.out.println("totalScore: " + totalScore);
-        System.out.println("screenWidth: " + screenWidth);
+//        System.out.println("userScore: " + userScore);
+//        System.out.println("totalScore: " + totalScore);
+//        System.out.println("screenWidth: " + screenWidth);
 
         userScorePercentage = (int) Math.round(userScore * 100.0/totalScore);
         userBarWidth = (int) Math.round((userScorePercentage / 100.0) * totalScreenWidth );
 
-        System.out.println("userScorePercentage: " + userScorePercentage);
-        System.out.println("userBarWidth: " + userBarWidth);
+//        System.out.println("userScorePercentage: " + userScorePercentage);
+//        System.out.println("userBarWidth: " + userBarWidth);
 
         return userBarWidth;
     }
