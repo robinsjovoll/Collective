@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mobile.collective.R;
 import com.mobile.collective.framework.AppMenu;
+import com.mobile.collective.implementation.controller.MainMenuController;
 import com.mobile.collective.implementation.model.User;
 
 public class FlatmatesView extends AppMenu {
@@ -22,21 +23,26 @@ public class FlatmatesView extends AppMenu {
 
         displayRights = (TextView) findViewById(R.id.display_rights);
 
-        checkUserRights();
+        System.out.println(checkUserRights());
+        System.out.println(getUser().isAdmin());
     }
-
+    public void goToMainView(View v)
+    {
+        goTo(MainMenuController.class);
+    }
     public boolean checkUserRights() {
 
         try {
             if (getUser().isAdmin()) {
-                displayRights.setText(R.string.display_rights_admin);
+                displayRights.setText("Admin-innsyn");
             }
             else {
-                displayRights.setText(R.string.display_rights_user);
+                displayRights.setText("Bruker-innsyn");
             }
             return true;
         } catch(NullPointerException ne) {
             ne.printStackTrace();
+            displayRights.setText("Ukjent brukerstatus");
         }
 
     return false;

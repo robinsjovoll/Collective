@@ -88,5 +88,6 @@
     <!--Flatmates View -->
     <string name="display_rights_admin">Adminmodus</string>
     <string name="display_rights_user">Brukermodus</string>
+    <string name="see_flatmates">Se flatmates</string>
 
 </resources>

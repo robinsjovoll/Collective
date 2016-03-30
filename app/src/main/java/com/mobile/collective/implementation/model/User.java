@@ -69,7 +69,9 @@ public class User {
     {
         return this;
     }
-    
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

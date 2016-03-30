@@ -18,6 +18,7 @@ import com.mobile.collective.client_server.HttpType;
 import com.mobile.collective.client_server.ServerRequest;
 import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.implementation.controller.MainMenuController;
+import com.mobile.collective.implementation.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,9 +81,14 @@ public class LoginActivity extends AppMenu {
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                 JSONObject userinfo = getFileIO().readUserInformation();
                 userinfo.put("email",email);
-                userinfo.put("password",password);
-                userinfo.put("token",json.getString("token"));
-                userinfo.put("grav",json.getString("grav"));
+                userinfo.put("password", password);
+                userinfo.put("token", json.getString("token"));
+                userinfo.put("grav", json.getString("grav"));
+
+                if(json.getBoolean("isAdmin") == true) {
+                    getUser().makeAdmin();
+                }
+
                 getFileIO().writeUserInformationSaveFile(userinfo);
                 SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = sharedPrefProf.edit();

@@ -88,6 +88,10 @@ public class LoadingActivity extends AppMenu {
 
                         if (json != null && json.getBoolean("res")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                            if(json.getBoolean("isAdmin") == true)
+                            {
+                                getUser().makeAdmin();
+                            }
                             goTo(MainMenuController.class);
                         } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
