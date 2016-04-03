@@ -14,6 +14,7 @@ var newFlat = new flat({
 	flatName: flatName,
 	flatPIN: GLOBAL.tempID,
 	period: period,
+	periodStartDate: new Date(),
 	flatPeriodCount : 0,
 	prize: prize,
 	flatMates: [email]
