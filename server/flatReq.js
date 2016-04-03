@@ -5,7 +5,7 @@ var taskReq = require('config/taskReq');
 var userScoreArray = [];
 var preDefinedTaskNames = ["Ukentlig vask", "Ta ut søpla", "Ta ut av oppvaskmaskinen", "Vask vindu","Lag felles middag","Rydd/vask kjøleskapet","Lag felles morgenkaffe","Pant flasker","Bak kake til felleskapet","Vann felles planter"];
 var preDefinedTaskScores = ["100","10","10","40","50","50","10","10","20","10"];
-GLOBAL.tempID = "test";
+GLOBAL.tempID = "";
 
 exports.addFlat = function(flatName,period,prize,email,callback) { 
 	checkFlatPIN();
