@@ -1,7 +1,11 @@
 var mongoose = require('mongoose'); 
 var flat = require('config/flat');
 var user = require('config/user');
+var taskReq = require('config/taskReq');
 var userScoreArray = [];
+var predifinedTaskNames = ["Ukentlig rengjøring", "Ta ut søpla","Ta ut av oppvaskmaskinen","Rengjør vinduene","Lag fellesmiddag","Rydd/vask kjøleskapet","Lag morgenkaffe til felleskapet","Pant tomflasker","Bak kake til felleskapet","Vann planter"];
+var predifinedTaskScores = ["100","10","10","40","50","50","10","10","20","10"];
+
 exports.addFlat = function(flatName,period,prize,email,callback) { 
 	
 	var tempFlats = [0,0];
@@ -12,17 +16,21 @@ exports.addFlat = function(flatName,period,prize,email,callback) {
 		});
 	}
 
-var newFlat = new flat({
-	flatName: flatName,
-	flatPIN: tempID ,
-	period: period,
-	prize: prize,
-	flatMates: [email]
-});
+	var newFlat = new flat({
+		flatName: flatName,
+		flatPIN: tempID ,
+		period: period,
+		prize: prize,
+		flatMates: [email]
+	});
 
-newFlat.save(function(err) {
-	callback({'response':"Successfully created flat", 'res':true});
-});
+	for(var i = 0; i < predifinedTasks.length; i++){
+		taskReq.addPredinedTask(predifinedTaskNames[i],predifinedTaskScores[i], newFlat.flatPIN);
+	}
+
+	newFlat.save(function(err) {
+		callback({'response':"Successfully created flat", 'res':true});
+	});
 
 }
 
