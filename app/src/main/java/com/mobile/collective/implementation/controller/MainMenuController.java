@@ -2,9 +2,14 @@ package com.mobile.collective.implementation.controller;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -249,7 +254,16 @@ public class MainMenuController extends AppMenu implements Serializable {
      * Initializes the task tab.
      */
     public void initTasksTab(){
+        if(isPeriodOver()){
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.push_text))
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            setPeriodOver(false);
+                        }
+                    }).create().show();
+        }
         ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
         params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
@@ -321,6 +335,13 @@ public class MainMenuController extends AppMenu implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+//        HashMap<String, String> params1 = new HashMap<>();
+//        params1.put("flatName", "Coolest flat ever");
+//        params1.put("period","7");
+//        params1.put("prize","Cake");
+//        params1.put("email", "robinsjovoll@hotmail.com");
+//        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
 
     }
 
@@ -982,5 +1003,27 @@ public class MainMenuController extends AppMenu implements Serializable {
             historyTabList = (ListView) findViewById(R.id.historyList);
             historyTabList.setAdapter(customHistoryListAdapter);
         }
+    }
+
+    /**
+     * Send notification to users when the period is over
+     */
+    public void endPeriod() {
+        Intent notificationIntent = new Intent(getApplicationContext(), MainMenuController.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent notifyPIntent =
+                PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setVibrate(new long[] { 500, 500 })
+                        .setAutoCancel(true)
+                        .setContentIntent(notifyPIntent)
+                        .setContentTitle(getString(R.string.push_title))
+                        .setContentText(getString(R.string.push_text));
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(0, mBuilder.build());
     }
 }

@@ -6,6 +6,8 @@ var flatSchema = mongoose.Schema({
 	flatName: String,
 	flatPIN: String,
 	period: String,
+	periodStartDate: Date,
+	flatPeriodCount: Number,
 	prize: String,
 	flatMates: [String]
 });

@@ -16,8 +16,7 @@ var taskReq = require('config/taskReq');
 var flatReq = require('config/flatReq');
 
 module.exports = function(app) {        
-
-
+	
      app.get('/', function(req, res) {       
 
           res.end("Node-Android-Project");    

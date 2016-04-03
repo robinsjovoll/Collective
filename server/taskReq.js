@@ -42,6 +42,21 @@ user.find({email:email}, function(err,users){
 
 }
 
+exports.addPreDefinedTask = function(taskName,taskScore, flatPIN) { 
+
+var newTask = new task({
+			taskName: taskName,
+			taskScore: taskScore,
+			taskHistory: [],
+			approved: true,
+			flatPIN: flatPIN
+		});
+
+newTask.save();
+
+
+}
+
 exports.doTask = function(taskName,email,flatPIN,date,callback) {
 	
 	task.find({taskName:taskName, flatPIN: flatPIN}, function(err,tasks) {
@@ -54,7 +69,7 @@ exports.doTask = function(taskName,email,flatPIN,date,callback) {
 					thisUser.score = thisUser.score + parseInt(thisTask.taskScore);
 					var historyEvent = {
 						username: thisUser.username,
-						date: new Date().addHours(1)
+						date: new Date().addHours(2)
 					}
 					thisTask.taskHistory.push(historyEvent);
 					thisTask.save();
@@ -297,3 +312,6 @@ Date.prototype.addHours = function(h) {
    this.setTime(this.getTime() + (h*60*60*1000)); 
    return this;   
 }
+
+
+
