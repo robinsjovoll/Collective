@@ -23,8 +23,6 @@ public class FlatmatesView extends AppMenu {
 
         displayRights = (TextView) findViewById(R.id.display_rights);
 
-        System.out.println(checkUserRights());
-        System.out.println(getUser().isAdmin());
     }
     public void goToMainView(View v)
     {
