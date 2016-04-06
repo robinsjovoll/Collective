@@ -89,9 +89,17 @@ public class LoginActivity extends AppMenu {
                 SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = sharedPrefProf.edit();
                 edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
+                boolean isInFlat = sharedPrefProf.getBoolean(getString(R.string.isInFlat), false);
                 edit.commit();
                 setPeriodOver(json.getBoolean("periodOver"));
-                goTo(MainMenuController.class);
+                if(isInFlat)
+                {
+                    goTo(MainMenuController.class);
+                }
+                else
+                {
+                    goTo(FindFlatActivity.class);
+                }
             }else if (json != null && !json.getBoolean("res")){
                 Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();
             }else {

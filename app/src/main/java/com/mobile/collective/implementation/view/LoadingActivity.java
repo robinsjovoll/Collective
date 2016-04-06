@@ -76,6 +76,7 @@ public class LoadingActivity extends AppMenu {
 
             SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
+            boolean isInFlat = sharedPref.getBoolean(getString(R.string.isInFlat), false);
 //            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if (isLoggedInn) {
                 if(loggedIn){
@@ -90,6 +91,14 @@ public class LoadingActivity extends AppMenu {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                             setPeriodOver(json.getBoolean("periodOver"));
                             goTo(MainMenuController.class);
+                            if(isInFlat)
+                            {
+                                goTo(MainMenuController.class);
+                            }
+                            else
+                            {
+                                goTo(FindFlatActivity.class);
+                            }
                         } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                             goTo(LoginActivity.class);

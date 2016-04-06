@@ -26,6 +26,9 @@
     <string name="code">Kode</string>
     <string name="new_password">Nytt passord</string>
 
+    <!-- Register flat screen -->
+    <string name="register_flat">Ny husstand</string>
+
     <!-- Register Screen-->
     <string name="username">Brukernavn:</string>
     <string name="password">Passord:</string>
@@ -89,6 +92,7 @@
 
     <!--Profile strings-->
     <string name="isLoggedInn">isLoggedInn</string>
+    <string name="isInFlat">isInFlat</string>
 
     <!--PUBLIC FINAL STRINGS-->
     <!--Consider making these strings unreadable-->
