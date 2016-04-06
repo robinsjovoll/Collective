@@ -42,6 +42,7 @@ import com.mobile.collective.framework.CustomTaskHistoryListAdapter;
 import com.mobile.collective.framework.CustomScoreListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
+import com.mobile.collective.implementation.view.FlatmatesView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -117,6 +118,11 @@ public class MainMenuController extends AppMenu implements Serializable {
     private String selectedTaskName = "Alle";
     private boolean isSelectedTaskName = true;
 
+    /**
+     *  FlatmatesView variables
+     */
+    private Button showFlatMatesView;
+
     Toolbar toolbar;
     ViewPager pager;
     MainViewPagerAdapter adapter;
@@ -166,6 +172,10 @@ public class MainMenuController extends AppMenu implements Serializable {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+    }
+    public void goToFlatmatesView(View v)
+    {
+        goTo(FlatmatesView.class);
     }
 
 

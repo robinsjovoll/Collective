@@ -12,8 +12,10 @@ import com.mobile.collective.implementation.model.User;
  */
 public abstract class AppMenu extends AppCompatActivity {
     private static AndroidFileIO fileIO;
-    private static final String IP_ADDRESS = "http://10.20.71.95";
+    private static final String IP_ADDRESS = "http://192.168.1.102";
+    //TODO: REMOVE WHEN USER CLASS IS MADE
     private static boolean periodOver;
+    private static User loggedInUser;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle){
@@ -56,6 +58,15 @@ public abstract class AppMenu extends AppCompatActivity {
 
     public static String getIpAddress() {
         return IP_ADDRESS;
+    }
+
+    public User getUser()
+    {
+        return loggedInUser;
+    }
+    public void setUser(User user)
+    {
+        this.loggedInUser = user;
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.mobile.collective.framework.AndroidFileIO;
 import com.mobile.collective.framework.AppMenu;
 import com.mobile.collective.implementation.controller.LoadingController;
 import com.mobile.collective.implementation.controller.MainMenuController;
+import com.mobile.collective.implementation.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,7 @@ public class LoadingActivity extends AppMenu {
 //        setAppAssets(new Assets(this));
         setFileIO(new AndroidFileIO(this));
         loadingController = new LoadingController(this);
-
+        super.setUser(new User());
         //After done loading
         new LoadViewTask().execute();
     }
@@ -98,6 +99,12 @@ public class LoadingActivity extends AppMenu {
                             {
                                 goTo(FindFlatActivity.class);
                             }
+//                      
+                            if(json.getBoolean("isAdmin") == true)
+                            {
+                                getUser().makeAdmin();
+                            }
+                            goTo(MainMenuController.class);
                         } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                             goTo(LoginActivity.class);

@@ -44,6 +44,11 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".implementation.view.FlatmatesView"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

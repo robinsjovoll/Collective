@@ -17,8 +17,20 @@
         android:textColor="#FFFFFF"
         android:paddingTop="20dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_flatmates"
+        android:onClick="goToFlatmatesView"
+        android:id="@+id/seeFlatmates"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginBottom="0dp" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listView_scores" />
+
 </LinearLayout>

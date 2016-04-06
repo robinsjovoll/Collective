@@ -20,6 +20,10 @@ public class User {
         this.globalScore = 0;
         this.isAdmin = false;
     }
+    public User() {
+        this.isAdmin = false;
+    }
+
 
     public String getName(){
         return this.name;
@@ -59,6 +63,15 @@ public class User {
 
     public int getFlatPin(){
         return this.flatPin;
+    }
+
+    public User getUser()
+    {
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

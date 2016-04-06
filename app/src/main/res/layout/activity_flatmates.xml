@@ -20,7 +20,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/display_rights"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="10dp"
         android:textColor="@color/white" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gå tilbake"
+        android:id="@+id/flatmatesview_return"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="0dp"
+        android:onClick="goToMainView"
+        android:layout_marginTop="280dp"
+        android:background="@drawable/gradient_btn" />
 </LinearLayout>
