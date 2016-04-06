@@ -23,15 +23,17 @@ if(hash_db == hashed_password){
 
 flat.find({flatMates:email}, function(err,flats){
 	
-	var periodOver;
-	
-	if(users[0].userPeriodCount < flats[0].flatPeriodCount){
+	var periodOver = false;
+	if(flats.length > 0){
+		if(users[0].userPeriodCount < flats[0].flatPeriodCount){
 		periodOver = true;
 		users[0].userPeriodCount = flats[0].flatPeriodCount;
 		users[0].save();
-	}else {
-		periodOver = false;
+		}else {
+			periodOver = false;
+		}	
 	}
+	
 	callback({'response':"Login Success",'res':true,'token':id,'grav':grav_url, "periodOver": periodOver});  
 });
 

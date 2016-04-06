@@ -49,6 +49,36 @@ exports.addUser = function(flatPIN,email,callback) {
 	});
 }
 
+exports.editFlat = function(flatPIN, flatName, flatPeriod, flatPrize, callback) {
+
+	flat.find({flatPIN:flatPIN}, function(err,flats) {
+		if(flats.length > 0){
+			var currFlat = flats[0];
+			currFlat.flatName = flatName;
+			currFlat.prize = flatPrize;
+			currFlat.period = flatPeriod;
+			currFlat.save(function(err){
+				callback({'response':"Flat settings updated.", 'res':true});
+			});
+		}
+	});
+}
+
+exports.getFlatSettings = function(flatPIN, callback) {
+
+	flat.find({flatPIN:flatPIN}, function(err,flats) {
+		if(flats.length > 0){
+			var currFlat = flats[0];
+			callback({'response' : [currFlat.flatName, currFlat.period, currFlat.prize], 'res':true});
+		}else{
+			
+			callback({'response':"Wrong PIN code", 'res':false});
+			
+			
+		}
+	});
+
+}
 
 
 exports.getScores = function(flatPIN, callback) {

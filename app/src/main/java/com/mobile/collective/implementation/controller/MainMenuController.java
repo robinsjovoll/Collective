@@ -169,8 +169,6 @@ public class MainMenuController extends AppMenu implements Serializable {
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -794,6 +792,9 @@ public class MainMenuController extends AppMenu implements Serializable {
 
     }
 
+    /**
+     * Intitializes the SettingsTab.
+     */
     public void initSettingsTab() {
         final ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
@@ -804,44 +805,45 @@ public class MainMenuController extends AppMenu implements Serializable {
                 if(json.getBoolean("res")) {
                     JSONArray flatSettings = json.getJSONArray("response");
 
-                    String flatName = flatSettings.getJSONObject(0).toString();
-                    Period flatPeriod = Period.valueOf(flatSettings.getJSONObject(1).toString());
-                    String flatPrize = flatSettings.getJSONObject(2).toString();
+                    String flatName = flatSettings.get(0).toString();
+                    Period flatPeriod = Period.valueOf(Integer.parseInt(flatSettings.get(1).toString()));
+                    String flatPrize = flatSettings.get(2).toString();
 
-                    EditText flatNameText =
+                    /*Set text to current flat name.*/
+                    ((EditText) findViewById(R.id.flatName)).setText(flatName, TextView.BufferType.EDITABLE);
 
+                    /*Populate Spinner with the enum values.*/
+                    Spinner periodSpinner = (Spinner) findViewById(R.id.periodSpinner);
+                    periodSpinner.setAdapter(new ArrayAdapter<Period>(this, android.R.layout.simple_spinner_item, Period.values()));
+                    periodSpinner.setSelection(Period.valueOf(flatPeriod.toString()).ordinal());
 
-               }else{
-                   acceptedTaskNames = new String[0];
-                   acceptedTaskScores = new String[0];
+                    /*Set text to current prize.*/
+                    ((EditText) findViewById(R.id.period_prize)).setText(flatPrize, TextView.BufferType.EDITABLE);
 
-                   Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG).show();
-                   acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true);
-                   acceptedTaskList.setAdapter(acceptedListAdapter);
-               }
-           }else {
-               Log.e("MainMenuContorller", "Could not connect to server");
-           }
-
+                }else{
+                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Log.e("MainMenuContorller", "Could not connect to server");
+            }
         } catch (JSONException e) {
            e.printStackTrace();
         }
-
-
-
     }
 
-    public void save_settings(View view){
 
+
+    public void save_settings(View view){
         final LinearLayout settings_view = (LinearLayout) view.getParent();
         final String flatName = ((EditText) settings_view.findViewById(R.id.flatName)).getText().toString();
+        final Period flatPeriod = Period.valueOf((((Spinner) settings_view.findViewById(R.id.periodSpinner)).getSelectedItem().toString()));
         final String flatPrize = ((EditText) settings_view.findViewById(R.id.period_prize)).getText().toString();
         if (flatName.isEmpty() || flatPrize.isEmpty()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
         }else{
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("flatName", flatName);
-//        params.put("flatPeriod", newTaskName);
+            params.put("flatPeriod", Integer.toString(flatPeriod.getDuration()));
             params.put("flatPrize", flatPrize);
             params.put("flatPIN","123");//TODO: GET FLAT PIN FROM USER MODEL
             ServerRequest sr = new ServerRequest();

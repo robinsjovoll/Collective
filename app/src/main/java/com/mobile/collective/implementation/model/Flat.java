@@ -32,14 +32,6 @@ public class Flat {
         this.prize = prize;
     }
 
-    public void increasePeriod(){
-        this.period.next();
-    }
-
-    public void decreasePeriod(){
-        this.period.previous();
-    }
-
     public Period getPeriod(){
         return this.period;
     }

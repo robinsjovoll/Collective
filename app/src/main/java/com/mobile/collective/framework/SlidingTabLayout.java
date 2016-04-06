@@ -328,6 +328,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
                                 mainMenuController.initScoreTab();
                             }else if(finalPos == 2){
                                 mainMenuController.initHistoryTab();
+                            }else if(finalPos == 3){
+                                mainMenuController.initSettingsTab();
                             }
                         }
                     });
