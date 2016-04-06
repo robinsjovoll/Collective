@@ -224,28 +224,28 @@ public class MainMenuController extends AppMenu implements Serializable {
                 final String taskScore = eTaskScore.getText().toString();
                 if (taskName.isEmpty() || taskScore.isEmpty()) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
-                }else{
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("taskName", taskName);
-                params.put("taskScore", taskScore);
-                params.put("email", finalEmail);
-                params.put("flatPIN","123"); //TODO: GET FLAT PIN FROM USER MODEL
-                ServerRequest sr = new ServerRequest();
-                JSONObject json = sr.getJSON(HttpType.ADDTASK, getIpAddress() + ":8080/addTask", params);
+                } else {
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("taskName", taskName);
+                    params.put("taskScore", taskScore);
+                    params.put("email", finalEmail);
+                    params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL
+                    ServerRequest sr = new ServerRequest();
+                    JSONObject json = sr.getJSON(HttpType.ADDTASK, getIpAddress() + ":8080/addTask", params);
 
-                if (json != null) {
-                    try {
-                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
-                        if (json.getBoolean("res")) {
-                            initTasksTab();
+                    if (json != null) {
+                        try {
+                            Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                            if (json.getBoolean("res")) {
+                                initTasksTab();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
             }
-        }
-    });
+        });
 
         suggest_task.show();
     }
@@ -336,12 +336,12 @@ public class MainMenuController extends AppMenu implements Serializable {
             e.printStackTrace();
         }
 
-//        HashMap<String, String> params1 = new HashMap<>();
-//        params1.put("flatName", "Coolest flat ever");
-//        params1.put("period","7");
-//        params1.put("prize","Cake");
-//        params1.put("email", "robinsjovoll@hotmail.com");
-//        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
+        HashMap<String, String> params1 = new HashMap<>();
+        params1.put("flatName", "Coolest flat ever");
+        params1.put("period","7");
+        params1.put("prize","Cake");
+        params1.put("email", "robinsjovoll@hotmail.com");
+        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
 
     }
 
@@ -649,6 +649,18 @@ public class MainMenuController extends AppMenu implements Serializable {
                     scoreList = (ListView) findViewById(R.id.listView_scores);
                     scoreList.setDivider(null);
                     scoreList.setAdapter(customScoreListAdapter);
+
+                    params = new HashMap<>();
+                    params.put("flatPIN", "123"); //TODO: GET FROM USER MODEL
+                    JSONObject jsonObject = sr.getJSON(HttpType.GETLASTPERIODWINNER, getIpAddress() + ":8080/getLastPeriodWinner", params);
+                    if(jsonObject != null){
+                        JSONObject periodWinner = jsonObject.getJSONObject("response");
+                        String date = periodWinner.getString("date").substring(8,10) + "-" + periodWinner.getString("date").substring(5, 7) + "-" + periodWinner.getString("date").substring(0,4);
+                        String lastWinnerString = date + " - " + periodWinner.getString("username");
+
+                        TextView lastWinner = (TextView) findViewById(R.id.last_winner_person);
+                        lastWinner.setText(lastWinnerString);
+                    }
 
 
                 }else {

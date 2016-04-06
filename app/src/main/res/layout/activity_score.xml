@@ -19,6 +19,28 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="600px"
         android:id="@+id/listView_scores" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/last_winner"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:paddingTop="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/last_winner_person"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:paddingTop="20dp"
+        />
+
 </LinearLayout>
