@@ -17,11 +17,13 @@
             android:textSize="20dp"
             android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_alignParentLeft="true"
             android:id="@+id/user"
             android:text="User"
             android:maxWidth="80dp"
-            android:minWidth="80dp" />
+            android:minWidth="80dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +32,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/userScore"
             android:text="Score"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/scoreBar"
             android:layout_toEndOf="@+id/scoreBar"
             android:layout_marginLeft="10dp" />
@@ -47,7 +49,7 @@
             android:layout_toEndOf="@+id/user"
             android:layout_marginLeft="35dp"
             android:layout_marginStart="35dp"
-            android:minHeight="20dp"
+            android:minHeight="40dp"
             android:minWidth="10dp"
             android:maxWidth="200dp" />
 
