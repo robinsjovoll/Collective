@@ -16,7 +16,8 @@ var taskReq = require('config/taskReq');
 var flatReq = require('config/flatReq');
 
 module.exports = function(app) {        
-	
+
+
      app.get('/', function(req, res) {       
 
           res.end("Node-Android-Project");    
@@ -119,7 +120,7 @@ module.exports = function(app) {
 	 });
 	 
 	 // ADD NEW FLAT
- 	 app.post('/addFlat', function(req, res) {
+	 app.post('/addFlat', function(req, res) {
 		 var flatName = req.body.flatName;
 		 var period = req.body.period;
 		 var prize = req.body.prize;
@@ -143,29 +144,6 @@ module.exports = function(app) {
 		
 	 });
 	 
- 	 // EDIT FLAT
- 	 app.post('/editFlat', function(req, res) {
-		 var flatPIN = req.body.flatPIN;
-		 var flatName = req.body.flatName;
-		 var flatPeriod = req.body.flatPeriod;
-		 var flatPrize = req.body.flatPrize;
-		 
-		 flatReq.editFlat(flatPIN, flatName, flatPeriod, flatPrize, function(found) {
-			 console.log(found);
-			 res.json(found);
-		 });
-	 });
-
-	 // GET FLAT SETINGS
-	 app.post('/getFlatSettings', function(req, res){
-		 var flatPIN = req.body.flatPIN;
-		 flatReq.getFlatSettings(flatPIN, function(found){
-			 console.log(found);
-			 res.json(found);
-		 });
-		
-	 });
-
 	 // APPROVE SUGGESTED TASK
 	 app.post('/approveTask', function(req,res){
 		 var flatPIN = req.body.flatPIN;
@@ -285,14 +263,5 @@ module.exports = function(app) {
 	 console.log(found)
 	 res.json(found)
 	 });
-	});
-	
-	app.post("/getLastPeriodWinner", function(req,res){
-		 var flatPIN = req.body.flatPIN;
-
-		 flatReq.getLastPeriodWinner(flatPIN, function(found){
-		 console.log(found)
-		 res.json(found)
-		 });
 	});
 };
