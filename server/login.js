@@ -39,7 +39,6 @@ flat.find({flatMates:email}, function(err,flats){
 	}
 	callback({'response':"Login Success",'res':true,'token':id,'grav':grav_url, 'flatpin':flatpin,'isAdmin':users[0].admin, "periodOver": periodOver});  
     });
-});
 
 }else{  
 

@@ -90,7 +90,12 @@ public class LoadingActivity extends AppMenu {
                         final JSONObject json = sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/login", params);
                         if (json != null && json.getBoolean("res")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
-                            setPeriodOver(json.getBoolean("periodOver"));
+
+                            getUser().setPeriodOver(json.getBoolean("periodOver"));
+                            getUser().setMail(userinfo.getString("email"));
+                            getUser().setFlatPin(json.getString("flatpin"));
+
+
                             if(isInFlat)
                             {
                                 goTo(MainMenuController.class);

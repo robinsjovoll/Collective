@@ -206,13 +206,7 @@ public class MainMenuController extends AppMenu implements Serializable {
      * @param view
      */
     public void suggestNewTask(View view){
-        JSONObject userinfo = getFileIO().readUserInformation();//TODO: GET EMAILFLAT PIN FROM USER MODEL
-        String email = "null";
-        try {//TEMP
-            email = userinfo.getString("email");//TEMP
-        } catch (JSONException e) {//TEMP
-            e.printStackTrace();//TEMP
-        }//TEMP
+        String email = getUser().getMail();
         final Dialog suggest_task = new Dialog(MainMenuController.this);
         suggest_task.setTitle(getResources().getString(R.string.suggest_new_task));
         suggest_task.setContentView(R.layout.dialog_newtask);
@@ -239,7 +233,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     params.put("taskName", taskName);
                     params.put("taskScore", taskScore);
                     params.put("email", finalEmail);
-                    params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL
+                    params.put("flatPIN", "" + getUser().getFlatPin());
                     ServerRequest sr = new ServerRequest();
                     JSONObject json = sr.getJSON(HttpType.ADDTASK, getIpAddress() + ":8080/addTask", params);
 
@@ -264,19 +258,19 @@ public class MainMenuController extends AppMenu implements Serializable {
      * Initializes the task tab.
      */
     public void initTasksTab(){
-        if(isPeriodOver()){
+        if(getUser().isPeriodOver()){
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.push_text))
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 
                         public void onClick(DialogInterface arg0, int arg1) {
-                            setPeriodOver(false);
+                            getUser().setPeriodOver(false);
                         }
                     }).create().show();
         }
         ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", "" + getUser().getFlatPin());
         JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
         try {
             if(json != null){
@@ -346,12 +340,14 @@ public class MainMenuController extends AppMenu implements Serializable {
             e.printStackTrace();
         }
 
-        HashMap<String, String> params1 = new HashMap<>();
-        params1.put("flatName", "Coolest flat ever");
-        params1.put("period","7");
-        params1.put("prize","Cake");
-        params1.put("email", "robinsjovoll@hotmail.com");
-        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
+//        HashMap<String, String> params1 = new HashMap<>();
+//        params1.put("flatName", "Coolest flat ever");
+//        params1.put("period","7");
+//        params1.put("prize","Cake");
+//        params1.put("email", "robinsjovoll@hotmail.com");
+//        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
+
+        Log.e("MainController", getUser().toString());
 
     }
 
@@ -360,13 +356,7 @@ public class MainMenuController extends AppMenu implements Serializable {
      * @param view
      */
     public void approveTask(View view) {
-        JSONObject userinfo = getFileIO().readUserInformation();//TODO: GET EMAIL FROM USER MODEL
-        String email = "null";
-        try {//TEMP
-            email = userinfo.getString("email");//TEMP
-        } catch (JSONException e) {//TEMP
-            e.printStackTrace();//TEMP
-        }//TEMP
+        String email = getUser().getMail();
         LinearLayout buttonParentView = (LinearLayout) view.getParent();
         Button approveBtn = (Button) buttonParentView.getChildAt(0);
         Button disapproveBtn = (Button) buttonParentView.getChildAt(1);
@@ -374,7 +364,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         LinearLayout parentView = (LinearLayout) buttonParentView.getParent();
         RelativeLayout taskNameAndScore = (RelativeLayout) parentView.getChildAt(1);
         TextView taskName = (TextView) taskNameAndScore.getChildAt(0);
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL
+        params.put("flatPIN", ""+getUser().getFlatPin());
         params.put("taskName", taskName.getText().toString());
         params.put("email",email);
         ServerRequest sr = new ServerRequest();
@@ -423,13 +413,7 @@ public class MainMenuController extends AppMenu implements Serializable {
      * @param view
      */
     public void taskDone(View view){
-        JSONObject userinfo = getFileIO().readUserInformation();//TODO: GET EMAIL FROM USER MODEL
-        String email = "null";
-        try {//TEMP
-            email = userinfo.getString("email");//TEMP
-        } catch (JSONException e) {//TEMP
-            e.printStackTrace();//TEMP
-        }//TEMP
+        String email = getUser().getMail();
         RelativeLayout parent = (RelativeLayout) view.getParent();
         LinearLayout parentView = (LinearLayout) parent.getParent();
         RelativeLayout relativeLayout = (RelativeLayout) parentView.getChildAt(0);
@@ -450,7 +434,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("taskName", taskNameString);
                         params.put("email", finalEmail);
-                        params.put("flatPIN", "123");//TODO: GET FLAT PIN FROM USER MODEL
+                        params.put("flatPIN", ""+getUser().getFlatPin());
                         ServerRequest sr = new ServerRequest();
                         JSONObject jsonObject = sr.getJSON(HttpType.DOTASK, getIpAddress() + ":8080/doTask", params);
                         if (jsonObject != null) {
@@ -474,7 +458,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         RelativeLayout parentView = (RelativeLayout)view.getParent();
         TextView taskName = (TextView) parentView.getChildAt(0);
 
-        params.put("flatPIN","123"); //TODO: GET FLAT PIN FROM USER MODEL
+        params.put("flatPIN",""+getUser().getFlatPin());
         params.put("taskName", taskName.getText().toString());
 
         ServerRequest sr = new ServerRequest();
@@ -537,7 +521,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                         //Add description and/or take picture.
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("taskName", taskNameString);
-                        params.put("flatPIN", "123");//TODO: GET FLAT PIN FROM USER MODEL
+                        params.put("flatPIN", ""+getUser().getFlatPin());
                         ServerRequest sr = new ServerRequest();
                         JSONObject jsonObject = sr.getJSON(HttpType.DELETETASK, getIpAddress() + ":8080/deleteTask", params);
                         if (jsonObject != null) {
@@ -590,7 +574,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     params.put("oldTaskName", oldTaskName);
                     params.put("newTaskName", newTaskName);
                     params.put("taskScore", taskScore);
-                    params.put("flatPIN","123");//TODO: GET FLAT PIN FROM USER MODEL
+                    params.put("flatPIN",""+getUser().getFlatPin());
                     ServerRequest sr = new ServerRequest();
                     JSONObject json = sr.getJSON(HttpType.EDITTASK, getIpAddress() + ":8080/editTask", params);
 
@@ -633,7 +617,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void initScoreTab() {
         final ServerRequest sr = new ServerRequest();
         HashMap<String, String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", ""+getUser().getFlatPin());
         final JSONObject json = sr.getJSON(HttpType.GETSCORES, getIpAddress() + ":8080/getScores", params);
         if (json != null) {
             try {
@@ -661,7 +645,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     scoreList.setAdapter(customScoreListAdapter);
 
                     params = new HashMap<>();
-                    params.put("flatPIN", "123"); //TODO: GET FROM USER MODEL
+                    params.put("flatPIN", ""+getUser().getFlatPin());
                     JSONObject jsonObject = sr.getJSON(HttpType.GETLASTPERIODWINNER, getIpAddress() + ":8080/getLastPeriodWinner", params);
                     if(jsonObject != null){
                         JSONObject periodWinner = jsonObject.getJSONObject("response");
@@ -689,7 +673,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void initHistoryTab(){
         final ServerRequest sr = new ServerRequest();
             HashMap<String, String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", ""+getUser().getFlatPin());
         params.put("numberOfHistories", "10"); //TEMP
         final JSONObject json = sr.getJSON(HttpType.GETFEEDHISTORY, getIpAddress() + ":8080/getFeedHistory", params);
         if (json != null) {
@@ -826,7 +810,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             initHistoryTab();
         }else if(selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+            params.put("flatPIN", ""+getUser().getFlatPin());
             params.put("numberOfHistories", "10");
             params.put("username", selectedUsername);
             JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getFeedHistoryBasedOnUsername", params);
@@ -835,7 +819,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             initHistoryTabUsernameAndTaskFilter(jsonObject);
         } else if(!selectedTaskName.equals("Alle") && selectedUsername.equals("Alle")){
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+            params.put("flatPIN", ""+getUser().getFlatPin());
             params.put("numberOfHistories", "10");
             params.put("taskName", selectedTaskName);
             isSelectedTaskName = false;
@@ -844,7 +828,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             initHistoryTabUsernameAndTaskFilter(jsonObject);
         } else if(!selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+            params.put("flatPIN", ""+getUser().getFlatPin());
             params.put("numberOfHistories", "10");
             params.put("username", selectedUsername);
             params.put("taskName", selectedTaskName);
@@ -965,16 +949,16 @@ public class MainMenuController extends AppMenu implements Serializable {
             calendar = Calendar.getInstance();
             calendar.setTime(startDate);
             if (period.equals("thisPeriod")) {
-                calendar.add(Calendar.DATE, -7); //TODO: GET THIS FROM THE USER MODEL
+                calendar.add(Calendar.DATE, -getUser().getThisPeriod());
                 startDate = calendar.getTime();
             } else if (period.equals("lastPeriod")) {
-                calendar.add(Calendar.DATE, -7 - 31); //TODO: GET THIS FROM THE USER MODEL - thisPeriod + lastPeriod
+                calendar.add(Calendar.DATE, -getUser().getThisPeriod() - getUser().getLastPeriod());
                 startDate = calendar.getTime();
                 calendar.setTime(endDate);
-                calendar.add(Calendar.DATE, -7); //TODO: GET THIS FROM THE USER MODEL
+                calendar.add(Calendar.DATE, -getUser().getThisPeriod());
                 endDate = calendar.getTime();
             } else if (period.equals("earlier")) {
-                calendar.add(Calendar.DATE, -7 - 31); //TODO: GET THIS FROM THE USER MODEL
+                calendar.add(Calendar.DATE, -getUser().getThisPeriod() - getUser().getLastPeriod());
                 endDate = calendar.getTime();
                 startDate = null;
             } else if (period.equals("null")) {

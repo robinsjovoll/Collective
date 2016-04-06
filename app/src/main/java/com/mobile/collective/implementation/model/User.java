@@ -7,8 +7,10 @@ public class User {
     private Color color;
     private String hash, salt;
     private int periodScore, globalScore;
-    private int flatPin;
+    private String flatPin;
     private boolean isAdmin;
+    private boolean periodOver;
+    private int thisPeriod = 7, lastPeriod = 30;
 
     public User(String name, String mail, String hash, String salt, boolean isAdmin){
         this.name = name;
@@ -57,11 +59,11 @@ public class User {
         this.periodScore += offset;
     }
 
-    public void setFlatPin(int pin){
+    public void setFlatPin(String pin){
         this.flatPin = pin;
     }
 
-    public int getFlatPin(){
+    public String getFlatPin(){
         return this.flatPin;
     }
 
@@ -74,4 +76,32 @@ public class User {
         this.name = name;
     }
 
+    public boolean isPeriodOver() {
+        return periodOver;
+    }
+
+    public void setPeriodOver(boolean periodOver) {
+        this.periodOver = periodOver;
+    }
+
+    public void setLastPeriod(int lastPeriod) {
+        this.lastPeriod = lastPeriod;
+    }
+
+    public int getLastPeriod() {
+        return lastPeriod;
+    }
+
+    public void setThisPeriod(int thisPeriod) {
+        this.thisPeriod = thisPeriod;
+    }
+
+    public int getThisPeriod() {
+        return thisPeriod;
+    }
+
+    @Override
+    public String toString() {
+        return "FlatPIN: " + getFlatPin() + " email: " + getMail() + " username: " + getName() + " thisPeriod: " + getThisPeriod() + " lastPeriod: " + getLastPeriod();
+    }
 }

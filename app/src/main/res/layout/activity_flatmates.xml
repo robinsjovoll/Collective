@@ -31,6 +31,7 @@
         android:id="@+id/flatmatesview_return"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="0dp"
+        android:textColor="@color/white"
         android:onClick="goToMainView"
         android:layout_marginTop="280dp"
         android:background="@drawable/gradient_btn" />
