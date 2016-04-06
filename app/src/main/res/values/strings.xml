@@ -42,6 +42,7 @@
 
     <!-- Score Screen-->
     <string name="score_title">Poeng</string>
+    <string name="last_winner">Vinner av forrige periode: </string>
 
     <!-- Task Screen-->
     <string name="task_title">Oppgaver</string>

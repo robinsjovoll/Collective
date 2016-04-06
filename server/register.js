@@ -27,6 +27,7 @@ var newuser = new user({
      hashed_password: hashed_password,   
      salt :temp });  
 
+	 
 user.find({email: email},function(err,users){  
 
 var len = users.length;  

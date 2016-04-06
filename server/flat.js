@@ -7,7 +7,11 @@ var flatSchema = mongoose.Schema({
 	flatPIN: String,
 	period: String,
 	prize: String,
-	flatMates: [String]
+	flatMates: [String],
+	previousWinners: [{
+		username: String,
+		date: {type: Date, default: Date.now} 
+	}]
 });
 
 // mongoose.connect('mongodb://localhost:27017/node-android'); 
