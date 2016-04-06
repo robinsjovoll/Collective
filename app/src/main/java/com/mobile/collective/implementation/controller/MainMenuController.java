@@ -253,8 +253,6 @@ public class MainMenuController extends AppMenu implements Serializable {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
             }
