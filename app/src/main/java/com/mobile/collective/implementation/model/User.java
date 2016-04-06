@@ -51,6 +51,10 @@ public class User {
         return this.periodScore;
     }
 
+    public void updateGlobalScore(){
+        this.globalScore += periodScore;
+    }
+
     public void resetScore(){
         this.periodScore = 0;
     }

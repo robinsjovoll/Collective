@@ -24,13 +24,23 @@
         android:gravity="center"
         android:layout_marginTop="73dp"
         android:layout_centerHorizontal="true" />
-    
+
+    <TextView
+        android:layout_width="540px"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:id="@+id/flatName_header"
+        android:text="@string/flatName_text"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+
     <EditText
         android:layout_width="540px"
         android:layout_height="100px"
         android:layout_gravity="center"
         android:paddingLeft="20px"
-        android:layout_marginTop="50dp"
         android:background="@drawable/input_stroke"
         android:id="@+id/flatName"
         android:hint="@string/flatName_hint"/>
@@ -41,7 +51,7 @@
         android:layout_gravity="center"
         android:id="@+id/period_lengthTxt"
         android:text="@string/period_length"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:textSize="16sp"
         />
@@ -58,7 +68,7 @@
         android:layout_gravity="center"
         android:id="@+id/period_prizeTxt"
         android:text="@string/period_prize"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:textSize="16sp"
         />
@@ -78,6 +88,7 @@
         android:layout_gravity="center"
         android:text="@string/save_settingsBtn"
         android:id="@+id/save_button"
+        android:onClick="save_settings"
         android:layout_marginTop="20dp"
         android:background="@drawable/gradient_btn"
         android:textColor="#FFFFFF" />

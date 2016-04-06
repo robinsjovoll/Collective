@@ -85,6 +85,7 @@
     <string name="period_prize">Premie:</string>
     <string name="prize_hint">Premie</string>
     <string name="save_settingsBtn">Lagre</string>
+    <string name="flatName_text">Navn:</string>
 
     <!-- Push notification-->
     <string name="push_title">Perioden over</string>
