@@ -14,7 +14,7 @@ user.find({email:email}, function(err,users){
 			taskScore: taskScore,
 			suggestedBy : username,
 			taskHistory: [],
-			approvedByUser: [email, email, email],
+			approvedByUser: [email],
 			approved: false,
 			flatPIN: flatPIN
 		});
@@ -42,9 +42,9 @@ user.find({email:email}, function(err,users){
 
 }
 
-exports.addPredinedTask = function(taskName,taskScore, flatPIN) { 
+exports.addPreDefinedTask = function(taskName,taskScore, flatPIN) { 
 
-		var newTask = new task({
+var newTask = new task({
 			taskName: taskName,
 			taskScore: taskScore,
 			taskHistory: [],
@@ -52,19 +52,8 @@ exports.addPredinedTask = function(taskName,taskScore, flatPIN) {
 			flatPIN: flatPIN
 		});
 
-		task.find({
-					taskName:taskName, flatPIN: flatPIN
-			}, function(err, tasks) {
-			var len = tasks.length;
-			// console.log(tasks.length);
-			if(len == 0){
-				newTask.save(function(err){
-					// callback({'response':"Successfully added task",'res':true});
-				});
-			}else {
-				// callback({'response':"Task already exists", 'res':false});
-			}
-		});
+newTask.save();
+
 
 }
 
@@ -323,3 +312,6 @@ Date.prototype.addHours = function(h) {
    this.setTime(this.getTime() + (h*60*60*1000)); 
    return this;   
 }
+
+
+

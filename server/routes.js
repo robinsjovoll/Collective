@@ -263,4 +263,13 @@ module.exports = function(app) {
 	 res.json(found)
 	 });
 	});
+	
+	app.post("/getLastPeriodWinner", function(req,res){
+		 var flatPIN = req.body.flatPIN;
+
+		 flatReq.getLastPeriodWinner(flatPIN, function(found){
+		 console.log(found)
+		 res.json(found)
+		 });
+	});
 };

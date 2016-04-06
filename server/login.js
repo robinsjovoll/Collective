@@ -25,6 +25,7 @@ flat.find({flatMates:email}, function(err,flats){
 	
 	var periodOver;
 	
+	
 	if(users[0].userPeriodCount < flats[0].flatPeriodCount){
 		periodOver = true;
 		users[0].userPeriodCount = flats[0].flatPeriodCount;
