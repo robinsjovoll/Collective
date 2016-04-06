@@ -1,6 +1,8 @@
 package com.mobile.collective.implementation.view;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +72,10 @@ public class FindFlatActivity extends AppMenu {
         try {
             if(json != null && json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = sharedPreferences.edit();
+                edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);
+                edit.commit();
                 goTo(MainMenuController.class);
             }
             else if (json != null){

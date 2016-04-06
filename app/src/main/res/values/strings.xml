@@ -87,6 +87,7 @@
 
     <!--Profile strings-->
     <string name="isLoggedInn">isLoggedInn</string>
+    <string name="isInFlat">isInFlat</string>
 
     <!--PUBLIC FINAL STRINGS-->
     <!--Consider making these strings unreadable-->
