@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -229,7 +230,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                 params.put("taskName", taskName);
                 params.put("taskScore", taskScore);
                 params.put("email", finalEmail);
-                params.put("flatPIN","123"); //TODO: GET FLAT PIN FROM USER MODEL
+                params.put("flatPIN",getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL
                 ServerRequest sr = new ServerRequest();
                 JSONObject json = sr.getJSON(HttpType.ADDTASK, getIpAddress() + ":8080/addTask", params);
 
@@ -266,7 +267,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         }
         ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
         JSONObject json = sr.getJSON(HttpType.GETTASKS,getIpAddress()+":8080/getTasks", params);
         try {
             if(json != null){
@@ -364,7 +365,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         LinearLayout parentView = (LinearLayout) buttonParentView.getParent();
         RelativeLayout taskNameAndScore = (RelativeLayout) parentView.getChildAt(1);
         TextView taskName = (TextView) taskNameAndScore.getChildAt(0);
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL
+        params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL
         params.put("taskName", taskName.getText().toString());
         params.put("email",email);
         ServerRequest sr = new ServerRequest();
@@ -440,7 +441,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("taskName", taskNameString);
                         params.put("email", finalEmail);
-                        params.put("flatPIN", "123");//TODO: GET FLAT PIN FROM USER MODEL
+                        params.put("flatPIN", getFlatPin());//TODO: GET FLAT PIN FROM USER MODEL
                         ServerRequest sr = new ServerRequest();
                         JSONObject jsonObject = sr.getJSON(HttpType.DOTASK, getIpAddress() + ":8080/doTask", params);
                         if (jsonObject != null) {
@@ -464,7 +465,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         RelativeLayout parentView = (RelativeLayout)view.getParent();
         TextView taskName = (TextView) parentView.getChildAt(0);
 
-        params.put("flatPIN","123"); //TODO: GET FLAT PIN FROM USER MODEL
+        params.put("flatPIN",getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL
         params.put("taskName", taskName.getText().toString());
 
         ServerRequest sr = new ServerRequest();
@@ -527,7 +528,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                         //Add description and/or take picture.
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("taskName", taskNameString);
-                        params.put("flatPIN", "123");//TODO: GET FLAT PIN FROM USER MODEL
+                        params.put("flatPIN", getFlatPin());
                         ServerRequest sr = new ServerRequest();
                         JSONObject jsonObject = sr.getJSON(HttpType.DELETETASK, getIpAddress() + ":8080/deleteTask", params);
                         if (jsonObject != null) {
@@ -580,7 +581,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     params.put("oldTaskName", oldTaskName);
                     params.put("newTaskName", newTaskName);
                     params.put("taskScore", taskScore);
-                    params.put("flatPIN","123");//TODO: GET FLAT PIN FROM USER MODEL
+                    params.put("flatPIN", getFlatPin());
                     ServerRequest sr = new ServerRequest();
                     JSONObject json = sr.getJSON(HttpType.EDITTASK, getIpAddress() + ":8080/editTask", params);
 
@@ -623,7 +624,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void initScoreTab() {
         final ServerRequest sr = new ServerRequest();
         HashMap<String, String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
         final JSONObject json = sr.getJSON(HttpType.GETSCORES, getIpAddress() + ":8080/getScores", params);
         if (json != null) {
             try {
@@ -641,6 +642,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     for (int i = 0; i < response.length(); i++) {
                         arrayListUsers.add(response.getJSONObject(i).getString("username"));
                         arrayListScores.add(response.getJSONObject(i).getString("score"));
+                        System.out.println(response.getJSONObject(i).getString("score"));
                         scoreTabUsers = arrayListUsers.toArray(new String[0]);
                         scoreTabScores = arrayListScores.toArray(new String[0]);
                     }
@@ -667,7 +669,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void initHistoryTab(){
         final ServerRequest sr = new ServerRequest();
             HashMap<String, String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
         params.put("numberOfHistories", "10"); //TEMP
         final JSONObject json = sr.getJSON(HttpType.GETFEEDHISTORY, getIpAddress() + ":8080/getFeedHistory", params);
         if (json != null) {
@@ -804,7 +806,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             initHistoryTab();
         }else if(selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+            params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
             params.put("numberOfHistories", "10");
             params.put("username", selectedUsername);
             JSONObject jsonObject = sr.getJSON(HttpType.TASKHISTORY, getIpAddress() + ":8080/getFeedHistoryBasedOnUsername", params);
@@ -813,7 +815,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             initHistoryTabUsernameAndTaskFilter(jsonObject);
         } else if(!selectedTaskName.equals("Alle") && selectedUsername.equals("Alle")){
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+            params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
             params.put("numberOfHistories", "10");
             params.put("taskName", selectedTaskName);
             isSelectedTaskName = false;
@@ -822,7 +824,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             initHistoryTabUsernameAndTaskFilter(jsonObject);
         } else if(!selectedTaskName.equals("Alle") && !selectedUsername.equals("Alle")){
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+            params.put("flatPIN", getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
             params.put("numberOfHistories", "10");
             params.put("username", selectedUsername);
             params.put("taskName", selectedTaskName);
@@ -1003,6 +1005,12 @@ public class MainMenuController extends AppMenu implements Serializable {
             historyTabList = (ListView) findViewById(R.id.historyList);
             historyTabList.setAdapter(customHistoryListAdapter);
         }
+    }
+
+    public String getFlatPin()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+        return sharedPreferences.getString("flatPIN", "123");
     }
 
     /**

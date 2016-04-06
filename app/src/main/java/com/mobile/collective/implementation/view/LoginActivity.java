@@ -91,7 +91,7 @@ public class LoginActivity extends AppMenu {
                 edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
                 boolean isInFlat = sharedPrefProf.getBoolean(getString(R.string.isInFlat), false);
                 edit.commit();
-                setPeriodOver(json.getBoolean("periodOver"));
+                //setPeriodOver(json.getBoolean("periodOver"));
                 if(isInFlat)
                 {
                     goTo(MainMenuController.class);

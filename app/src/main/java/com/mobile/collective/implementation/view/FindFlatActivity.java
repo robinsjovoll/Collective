@@ -75,6 +75,7 @@ public class FindFlatActivity extends AppMenu {
                 SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = sharedPreferences.edit();
                 edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);
+                edit.putString(getString(R.string.flatPIN), pin);
                 edit.commit();
                 goTo(MainMenuController.class);
             }
