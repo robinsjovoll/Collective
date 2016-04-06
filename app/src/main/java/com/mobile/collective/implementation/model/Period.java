@@ -1,37 +1,37 @@
 package com.mobile.collective.implementation.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 //suggest increase and decrease period in the create flat-view: <|-| BIWEEKLY |+|>
 public enum Period{
     WEEKLY(7), BIWEEKLY(14), MONTHLY(30);
 
     private int duration;
 
-    /*
-    {
-        //return current if no next.
-        public Period next(){
-            return this;
-        }
-        //return current if no previous.
-        public Period previous(){
-            return this;
-        }
-    };
-    */
 
-    Period(int duration){
-        this.duration = duration;
+
+    private static Map<Integer, Period> map = new HashMap<>();
+
+    static {
+        for (Period periodEnum : Period.values()) {
+            map.put(periodEnum.duration, periodEnum);
+        }
     }
 
-    private double getDuration(){
+    Period(final int duration){
+        this.duration = duration;
+    }
+    public int getDuration(){
         return duration;
     }
 
-    public Period next(){
-        return values()[ordinal() + 1];
+    public static Period valueOf(int duration){
+        try{
+            return map.get(duration);
+        }catch(IllegalArgumentException ex){
+            throw ex;
+        }
     }
 
-    public Period previous(){
-        return values()[ordinal() - 1];
-    }
 }

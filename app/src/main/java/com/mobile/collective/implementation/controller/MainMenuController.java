@@ -43,6 +43,7 @@ import com.mobile.collective.framework.CustomScoreListAdapter;
 import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 import com.mobile.collective.implementation.view.FlatmatesView;
+import com.mobile.collective.implementation.model.Period;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -252,6 +253,8 @@ public class MainMenuController extends AppMenu implements Serializable {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -346,12 +349,12 @@ public class MainMenuController extends AppMenu implements Serializable {
             e.printStackTrace();
         }
 
-        HashMap<String, String> params1 = new HashMap<>();
-        params1.put("flatName", "Coolest flat ever");
-        params1.put("period","7");
-        params1.put("prize","Cake");
-        params1.put("email", "robinsjovoll@hotmail.com");
-        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
+//        HashMap<String, String> params1 = new HashMap<>();
+//        params1.put("flatName", "Coolest flat ever");
+//        params1.put("period","7");
+//        params1.put("prize","Cake");
+//        params1.put("email", "robinsjovoll@hotmail.com");
+//        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
 
     }
 
@@ -376,7 +379,7 @@ public class MainMenuController extends AppMenu implements Serializable {
         TextView taskName = (TextView) taskNameAndScore.getChildAt(0);
         params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL
         params.put("taskName", taskName.getText().toString());
-        params.put("email",email);
+        params.put("email", email);
         ServerRequest sr = new ServerRequest();
         int index = Arrays.asList(suggestedTaskNames).indexOf(taskName.getText().toString());
         if (approveBtn.getVisibility() == View.VISIBLE) {
@@ -813,6 +816,73 @@ public class MainMenuController extends AppMenu implements Serializable {
 
         isHistoryTabInit = true;
 
+    }
+
+    /**
+     * Intitializes the SettingsTab.
+     */
+    public void initSettingsTab() {
+        final ServerRequest sr = new ServerRequest();
+        HashMap<String,String> params = new HashMap<>();
+        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        JSONObject json = sr.getJSON(HttpType.GETFLATSETTINGS,getIpAddress()+":8080/getFlatSettings", params);
+        try {
+            if(json != null){
+                if(json.getBoolean("res")) {
+                    JSONArray flatSettings = json.getJSONArray("response");
+
+                    String flatName = flatSettings.get(0).toString();
+                    Period flatPeriod = Period.valueOf(Integer.parseInt(flatSettings.get(1).toString()));
+                    String flatPrize = flatSettings.get(2).toString();
+
+                    /*Set text to current flat name.*/
+                    ((EditText) findViewById(R.id.flatName)).setText(flatName, TextView.BufferType.EDITABLE);
+
+                    /*Populate Spinner with the enum values.*/
+                    Spinner periodSpinner = (Spinner) findViewById(R.id.periodSpinner);
+                    periodSpinner.setAdapter(new ArrayAdapter<Period>(this, android.R.layout.simple_spinner_item, Period.values()));
+                    periodSpinner.setSelection(Period.valueOf(flatPeriod.toString()).ordinal());
+
+                    /*Set text to current prize.*/
+                    ((EditText) findViewById(R.id.period_prize)).setText(flatPrize, TextView.BufferType.EDITABLE);
+
+                }else{
+                    Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Log.e("MainMenuContorller", "Could not connect to server");
+            }
+        } catch (JSONException e) {
+           e.printStackTrace();
+        }
+    }
+
+
+
+    public void save_settings(View view){
+        final LinearLayout settings_view = (LinearLayout) view.getParent();
+        final String flatName = ((EditText) settings_view.findViewById(R.id.flatName)).getText().toString();
+        final Period flatPeriod = Period.valueOf((((Spinner) settings_view.findViewById(R.id.periodSpinner)).getSelectedItem().toString()));
+        final String flatPrize = ((EditText) settings_view.findViewById(R.id.period_prize)).getText().toString();
+        if (flatName.isEmpty() || flatPrize.isEmpty()) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
+        }else{
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("flatName", flatName);
+            params.put("flatPeriod", Integer.toString(flatPeriod.getDuration()));
+            params.put("flatPrize", flatPrize);
+            params.put("flatPIN","123");//TODO: GET FLAT PIN FROM USER MODEL
+            ServerRequest sr = new ServerRequest();
+            JSONObject json = sr.getJSON(HttpType.EDITFLAT, getIpAddress() + ":8080/editFlat", params);
+
+            if (json != null) {
+                try {
+                    Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**
