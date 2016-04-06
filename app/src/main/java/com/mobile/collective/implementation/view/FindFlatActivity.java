@@ -66,7 +66,7 @@ public class FindFlatActivity extends AppMenu {
         params.put("flatPIN", pin);
         params.put("email", email);
         ServerRequest sr = new ServerRequest();
-        JSONObject json = sr.getJSON(HttpType.ADDUSER, getIpAddress() + ":8080/addUser", params);
+        JSONObject json = sr.getJSON(HttpType.ADDUSER, getIpAddress() + ":8080/addUserToFlat", params);
         try {
             if(json != null && json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
