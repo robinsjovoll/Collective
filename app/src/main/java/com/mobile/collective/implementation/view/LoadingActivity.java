@@ -90,7 +90,6 @@ public class LoadingActivity extends AppMenu {
                         if (json != null && json.getBoolean("res")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                             setPeriodOver(json.getBoolean("periodOver"));
-                            goTo(MainMenuController.class);
                             if(isInFlat)
                             {
                                 goTo(MainMenuController.class);
