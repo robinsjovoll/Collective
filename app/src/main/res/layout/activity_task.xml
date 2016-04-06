@@ -35,17 +35,17 @@
             <!--android:layout_marginTop="35dp"-->
             <!--/>-->
 
-     <!--<ImageButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/new_task_btn"-->
-        <!--android:background="//@drawable/new_taskbtn"-->
-        <!--android:src="@drawable/btn_highlight"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_marginRight="10px"-->
-         <!--android:onClick="suggestNewTask"-->
-        <!--android:layout_marginTop="35dp"-->
-        <!--/>-->
+     <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_task_btn"
+        android:background="@drawable/new_taskbtn"
+        android:src="@drawable/btn_highlight"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10px"
+         android:onClick="suggestNewTask"
+        android:layout_marginTop="35dp"
+        />
 
         <!--<Button-->
             <!--android:layout_width="wrap_content"-->
