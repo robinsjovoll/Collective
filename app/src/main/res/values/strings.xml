@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Collective</string>
+    <string name="app_name">Kollektivet</string>
     <string name="action_settings">Settings</string>
 
     <!--Error dialog for when network is not active on startup -->
@@ -76,6 +76,16 @@
 
     <!-- Settings Screen-->
     <string name="setting_title">Innstillinger</string>
+    <string name="flatName_hint">Navn</string>
+    <string name="period_length">Lengde på periode:</string>
+    <string name="period_prize">Premie:</string>
+    <string name="prize_hint">Premie</string>
+    <string name="save_settingsBtn">Lagre</string>
+
+    <!-- Push notification-->
+    <string name="push_title">Perioden over</string>
+    <string name="push_text">Perioden er nå over, gå til poengmenyen og se hvem som vant!</string>
+    <string name="ok">Ok</string>
 
     <!--Profile strings-->
     <string name="isLoggedInn">isLoggedInn</string>

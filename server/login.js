@@ -2,7 +2,8 @@ var crypto = require('crypto');
 var rand = require('csprng'); 
 var mongoose = require('mongoose'); 
 var gravatar = require('gravatar'); 
-var user = require('config/user');  
+var user = require('config/user'); 
+var flat = require('config/flat');
 
 exports.login = function(email,password,callback) {  
 
@@ -20,7 +21,20 @@ var hashed_password = crypto.createHash('sha512').update(newpass).digest("hex");
 var grav_url = gravatar.url(email, {s: '200', r: 'pg', d: '404'}); 
 if(hash_db == hashed_password){  
 
-callback({'response':"Login Success",'res':true,'token':id,'grav':grav_url});  
+flat.find({flatMates:email}, function(err,flats){
+	
+	var periodOver;
+	
+	if(users[0].userPeriodCount < flats[0].flatPeriodCount){
+		periodOver = true;
+		users[0].userPeriodCount = flats[0].flatPeriodCount;
+		users[0].save();
+	}else {
+		periodOver = false;
+	}
+	callback({'response':"Login Success",'res':true,'token':id,'grav':grav_url, "periodOver": periodOver});  
+});
+
 
 }else{  
 

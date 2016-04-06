@@ -1,7 +1,9 @@
 package com.mobile.collective.implementation.view;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,11 +77,11 @@ public class LoginActivity extends AppMenu {
         params.put("email", email);
         params.put("password", password);
         ServerRequest sr = new ServerRequest();
-        JSONObject json = sr.getJSON(HttpType.LOGIN,getIpAddress()+":8080/login",params);
+        final JSONObject json = sr.getJSON(HttpType.LOGIN,getIpAddress()+":8080/login",params);
         try {
             if(json != null && json.getBoolean("res")){
                 Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
-                JSONObject userinfo = getFileIO().readUserInformation();
+                JSONObject userinfo = new JSONObject();
                 userinfo.put("email",email);
                 userinfo.put("password", password);
                 userinfo.put("token", json.getString("token"));
@@ -94,6 +96,7 @@ public class LoginActivity extends AppMenu {
                 SharedPreferences.Editor edit = sharedPrefProf.edit();
                 edit.putBoolean(getString(R.string.isLoggedInn), Boolean.TRUE);
                 edit.commit();
+                setPeriodOver(json.getBoolean("periodOver"));
                 goTo(MainMenuController.class);
             }else if (json != null && !json.getBoolean("res")){
                 Toast.makeText(getApplication(),json.getString("response"),Toast.LENGTH_SHORT).show();

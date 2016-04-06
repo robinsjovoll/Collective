@@ -22,6 +22,7 @@ var newuser = new user({
      token: token,   
      email: email, 
 	 username: username,
+	 userPeriodCount : 0,
 	 score: 0,
 	 admin: false,
      hashed_password: hashed_password,   

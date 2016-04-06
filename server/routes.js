@@ -16,8 +16,7 @@ var taskReq = require('config/taskReq');
 var flatReq = require('config/flatReq');
 
 module.exports = function(app) {        
-
-
+	
      app.get('/', function(req, res) {       
 
           res.end("Node-Android-Project");    
@@ -254,5 +253,14 @@ module.exports = function(app) {
 			 res.json(found);
 		 });
 	 });
-	 
+
+	 // GET USER SCORES
+	 app.post("/getScores", function(req, res){
+	 var flatPIN = req.body.flatPIN;
+
+	 flatReq.getScores(flatPIN, function(found){
+	 console.log(found)
+	 res.json(found)
+	 });
+	});
 };

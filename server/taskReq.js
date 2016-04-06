@@ -42,6 +42,32 @@ user.find({email:email}, function(err,users){
 
 }
 
+exports.addPredinedTask = function(taskName,taskScore, flatPIN) { 
+
+		var newTask = new task({
+			taskName: taskName,
+			taskScore: taskScore,
+			taskHistory: [],
+			approved: true,
+			flatPIN: flatPIN
+		});
+
+		task.find({
+					taskName:taskName, flatPIN: flatPIN
+			}, function(err, tasks) {
+			var len = tasks.length;
+			// console.log(tasks.length);
+			if(len == 0){
+				newTask.save(function(err){
+					// callback({'response':"Successfully added task",'res':true});
+				});
+			}else {
+				// callback({'response':"Task already exists", 'res':false});
+			}
+		});
+
+}
+
 exports.doTask = function(taskName,email,flatPIN,date,callback) {
 	
 	task.find({taskName:taskName, flatPIN: flatPIN}, function(err,tasks) {
@@ -54,7 +80,7 @@ exports.doTask = function(taskName,email,flatPIN,date,callback) {
 					thisUser.score = thisUser.score + parseInt(thisTask.taskScore);
 					var historyEvent = {
 						username: thisUser.username,
-						date: new Date().addHours(1)
+						date: new Date().addHours(2)
 					}
 					thisTask.taskHistory.push(historyEvent);
 					thisTask.save();

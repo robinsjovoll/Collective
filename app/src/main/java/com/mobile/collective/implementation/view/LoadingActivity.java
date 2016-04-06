@@ -1,6 +1,7 @@
 package com.mobile.collective.implementation.view;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 public class LoadingActivity extends AppMenu {
 
     private LoadingController loadingController;
+    private LoadingActivity loadingActivity = this;
     private boolean loggedIn = false;
 
     @Override
@@ -84,10 +86,10 @@ public class LoadingActivity extends AppMenu {
                         params.put("email", userinfo.getString("email"));
                         params.put("password", userinfo.getString("password"));
                         ServerRequest sr = new ServerRequest();
-                        JSONObject json = sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/login", params);
-
+                        final JSONObject json = sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/login", params);
                         if (json != null && json.getBoolean("res")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                            setPeriodOver(json.getBoolean("periodOver"));
                             if(json.getBoolean("isAdmin") == true)
                             {
                                 getUser().makeAdmin();

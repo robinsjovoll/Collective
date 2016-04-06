@@ -12,7 +12,9 @@ import com.mobile.collective.implementation.model.User;
  */
 public abstract class AppMenu extends AppCompatActivity {
     private static AndroidFileIO fileIO;
-    private static final String IP_ADDRESS = "http://78.91.22.62";
+    private static final String IP_ADDRESS = "http://192.168.1.102";
+    //TODO: REMOVE WHEN USER CLASS IS MADE
+    private static boolean periodOver;
     private static User loggedInUser;
 
     @Override
@@ -71,4 +73,14 @@ public abstract class AppMenu extends AppCompatActivity {
     public Context getApplicationContext() {
         return super.getApplicationContext();
     }
+
+
+    public static boolean isPeriodOver() {
+        return periodOver;
+    }
+
+    public static void setPeriodOver(boolean periodOver) {
+        AppMenu.periodOver = periodOver;
+    }
+    
 }
