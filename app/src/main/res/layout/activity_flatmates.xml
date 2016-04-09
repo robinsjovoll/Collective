@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
+    android:weightSum="2"
     android:background="@drawable/gradient_bg">
 
     <TextView
@@ -24,6 +24,18 @@
         android:textSize="10dp"
         android:textColor="@color/white" />
 
+    <ListView
+        android:id="@+id/flat_mates_list"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20px"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:divider="#FFFFFF"
+        android:dividerHeight="2px"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"/>
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +45,6 @@
         android:layout_marginLeft="0dp"
         android:textColor="@color/white"
         android:onClick="goToMainView"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="40px"
         android:background="@drawable/gradient_btn" />
 </LinearLayout>

@@ -24,10 +24,11 @@ public class TasksTab extends Fragment {
         MainMenuController mainMenuController = (MainMenuController) getActivity();
         mainMenuController.setSuggestedTaskList((ListView) v.findViewById(R.id.suggested_task_list));
         mainMenuController.setAcceptedTaskList((ListView) v.findViewById(R.id.accepted_task_list));
-        if(!mainMenuController.isTaskTabInitialized()) {
-            mainMenuController.setIsTaskTabInitialized(true);
-            mainMenuController.initTasksTab();
-        }
+//        if(!mainMenuController.isTaskTabInitialized()) {
+//            mainMenuController.setIsTaskTabInitialized(true);
+//            mainMenuController.initTasksTab();
+//        }
+        mainMenuController.initTasksTab();
         return v;
     }
 

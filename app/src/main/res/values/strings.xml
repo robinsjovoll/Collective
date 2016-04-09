@@ -105,5 +105,9 @@
     <string name="display_rights_admin">Adminmodus</string>
     <string name="display_rights_user">Brukermodus</string>
     <string name="see_flatmates">Se flatmates</string>
+    <string name="are_you_sure_leave">Er du sikker på at du vil forlate?</string>
+    <string name="are_you_sure_kick">Er du sikker på at du vil fjerne denne personen fra kollektivet?</string>
+    <string name="are_you_sure_promote1">Er du sikker på at du vil oppgradere </string>
+    <string name="are_you_sure_promote2">til admin, og dermed nedgradere deg selv?</string>
 
 </resources>

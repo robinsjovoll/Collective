@@ -118,6 +118,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     private boolean isSelectedUsername = true;
     private String selectedTaskName = "Alle";
     private boolean isSelectedTaskName = true;
+    private Spinner taskSpinner, personSpinner;
 
     /**
      *  FlatmatesView variables
@@ -348,7 +349,7 @@ public class MainMenuController extends AppMenu implements Serializable {
 //        params1.put("email", "robinsjovoll@hotmail.com");
 //        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
 
-        Log.e("MainController", getUser().toString());
+//        Log.e("MainController", getUser().toString());
 
     }
 
@@ -608,6 +609,14 @@ public class MainMenuController extends AppMenu implements Serializable {
         this.suggestedTaskList = suggestedTaskList;
     }
 
+    public void setHistoryTabList(ListView historyTabList) {
+        this.historyTabList = historyTabList;
+    }
+
+    public void setScoreList(ListView scoreList) {
+        this.scoreList = scoreList;
+    }
+
     public void setAcceptedTaskList(ListView acceptedTaskList) {
         this.acceptedTaskList = acceptedTaskList;
     }
@@ -641,7 +650,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     }
 
                     customScoreListAdapter = new CustomScoreListAdapter(this, scoreTabUsers,scoreTabScores, colorArray);
-                    scoreList = (ListView) findViewById(R.id.listView_scores);
+//                    scoreList = (ListView) findViewById(R.id.listView_scores);
                     scoreList.setDivider(null);
                     scoreList.setAdapter(customScoreListAdapter);
 
@@ -649,12 +658,16 @@ public class MainMenuController extends AppMenu implements Serializable {
                     params.put("flatPIN", ""+getUser().getFlatPin());
                     JSONObject jsonObject = sr.getJSON(HttpType.GETLASTPERIODWINNER, getIpAddress() + ":8080/getLastPeriodWinner", params);
                     if(jsonObject != null){
-                        JSONObject periodWinner = jsonObject.getJSONObject("response");
-                        String date = periodWinner.getString("date").substring(8,10) + "-" + periodWinner.getString("date").substring(5, 7) + "-" + periodWinner.getString("date").substring(0,4);
-                        String lastWinnerString = date + " - " + periodWinner.getString("username");
+                        if(jsonObject.getBoolean("res")) {
+                            JSONObject periodWinner = jsonObject.getJSONObject("response");
+                            String date = periodWinner.getString("date").substring(8, 10) + "-" + periodWinner.getString("date").substring(5, 7) + "-" + periodWinner.getString("date").substring(0, 4);
+                            String lastWinnerString = date + " - " + periodWinner.getString("username");
 
-                        TextView lastWinner = (TextView) findViewById(R.id.last_winner_person);
-                        lastWinner.setText(lastWinnerString);
+                            TextView lastWinner = (TextView) findViewById(R.id.last_winner_person);
+                            lastWinner.setText(lastWinnerString);
+                        }else {
+                            Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 
@@ -702,7 +715,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     historyTabTaskScores = arrayListTaskScores.toArray(new String[0]);
 
                     customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
-                    historyTabList = (ListView) findViewById(R.id.historyList);
+//                    historyTabList = (ListView) findViewById(R.id.historyList);
                     historyTabList.setAdapter(customHistoryListAdapter);
 
                     String[] tempTaskNames = new String[historyTabTaskNames.length + 1];
@@ -714,7 +727,6 @@ public class MainMenuController extends AppMenu implements Serializable {
                     Set<String> tempTaskSet = new LinkedHashSet<>(Arrays.asList(tempTaskNames));
                     String[] taskNames = tempTaskSet.toArray(new String[0]);
 
-                    Spinner taskSpinner = (Spinner) findViewById(R.id.taskSpinner);
                     ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, taskNames);
 //                        Log.e("MainMenu", tempTaskSet + " tasknames");
                     taskSpinner.setAdapter(taskAdapter);
@@ -744,7 +756,6 @@ public class MainMenuController extends AppMenu implements Serializable {
                     Set<String> tempUsernameSet = new LinkedHashSet<>(Arrays.asList(tempUserNames));
                     String[] userNames = tempUsernameSet.toArray(new String[0]);
 
-                    Spinner personSpinner = (Spinner) findViewById(R.id.personSpinner);
                     ArrayAdapter<String> personAdapter = new ArrayAdapter<String>(this,
                                 R.layout.spinner_item, userNames);
                     personSpinner.setAdapter(personAdapter);
@@ -775,7 +786,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     historyTabTaskNames = new String[0];
                     historyTabTaskScores = new String[0];
                     customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
-                    historyTabList = (ListView) findViewById(R.id.historyList);
+//                    historyTabList = (ListView) findViewById(R.id.historyList);
                     historyTabList.setAdapter(customHistoryListAdapter);
                     Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
                 }
@@ -938,7 +949,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     historyTabTaskScores = arrayListTaskScores.toArray(new String[0]);
 
                     customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
-                    historyTabList = (ListView)findViewById(R.id.historyList);
+//                    historyTabList = (ListView)findViewById(R.id.historyList);
                     historyTabList.setAdapter(customHistoryListAdapter);
 
                 }else {
@@ -948,6 +959,14 @@ public class MainMenuController extends AppMenu implements Serializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setTaskSpinner(Spinner taskSpinner) {
+        this.taskSpinner = taskSpinner;
+    }
+
+    public void setPersonSpinner(Spinner personSpinner) {
+        this.personSpinner = personSpinner;
     }
 
     /**
@@ -1074,7 +1093,7 @@ public class MainMenuController extends AppMenu implements Serializable {
 //            Log.e("MainMenu", "taskNames: " + copyArrayListTaskNames);
 
             customHistoryListAdapter = new CustomHistoryListAdapter(this, historyTabUsernames, historyTabDates, historyTabTaskNames, historyTabTaskScores);
-            historyTabList = (ListView) findViewById(R.id.historyList);
+//            historyTabList = (ListView) findViewById(R.id.historyList);
             historyTabList.setAdapter(customHistoryListAdapter);
         }
     }

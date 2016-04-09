@@ -236,12 +236,13 @@ public class ServerRequest {
             ServerRequest request = new ServerRequest();
             JSONObject json = null;
             if(type == HttpType.LOGIN || type == HttpType.REGISTER || type == HttpType.CHANGEPASSWORD || type == HttpType.ADDTASK || type == HttpType.GETTASKS || type == HttpType.APPROVETASK || type == HttpType.DISAPPROVETASK
-                    || type == HttpType.DOTASK || type == HttpType.TASKHISTORY || type == HttpType.GETFEEDHISTORY || type == HttpType.GETSCORES || type == HttpType.ADDUSER || type == HttpType.GETLASTPERIODWINNER || type == HttpType.EDITFLAT || type == HttpType.GETFLATSETTINGS) {
+                    || type == HttpType.DOTASK || type == HttpType.TASKHISTORY || type == HttpType.GETFEEDHISTORY || type == HttpType.GETSCORES || type == HttpType.ADDUSER || type == HttpType.GETLASTPERIODWINNER || type == HttpType.EDITFLAT || type == HttpType.GETFLATSETTINGS
+                    || type == HttpType.GETFLATMATES || type == HttpType.ADDFLAT) {
                 json = request.postRequest(type, args[0].url, args[0].params);
             }
-            else if(type ==HttpType.DELETETASK){
+            else if(type ==HttpType.DELETETASK || type == HttpType.REMOVEUSER){
                 json = request.deleteRequest(type, args[0].url, args[0].params);
-            }else if( type == HttpType.EDITTASK){
+            }else if( type == HttpType.EDITTASK || type == HttpType.PROMOTEUSER){
                 json = request.updateRequest(type, args[0].url, args[0].params);
             }
 

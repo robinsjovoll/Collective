@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:layout_marginTop="30px"
+        android:layout_marginBottom="20px">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="35px"
+            android:layout_marginLeft="30px"
+            android:id="@+id/flatmatesUsername"
+            android:text="Username"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/flatMatesEmail"
+            android:visibility="invisible"
+            />
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/leave_flat"
+            android:background="@drawable/ic_exit"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35px"
+            android:src="@drawable/btn_highlight"
+            android:onClick="removeUser"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/upgrade_to_admin"
+            android:background="@drawable/ic_upgrade"
+            android:layout_toLeftOf="@id/leave_flat"
+            android:layout_marginRight="20px"
+            android:onClick="promoteUser"
+            android:src="@drawable/btn_highlight"
+            />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -14,7 +14,7 @@ public class Flat {
     private User admin; //In case of only one admin per flat.
 
     public Flat(User user, int flatPin){
-        this.period = Period.BIWEEKLY;
+        this.period = Period.ANNENHVERUKE;
         this.flatmates = new ArrayList<>();
         this.tasks = new ArrayList<>();
         this.flatPin = flatPin;

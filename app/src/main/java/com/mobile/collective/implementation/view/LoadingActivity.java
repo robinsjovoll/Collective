@@ -93,23 +93,27 @@ public class LoadingActivity extends AppMenu {
 
                             getUser().setPeriodOver(json.getBoolean("periodOver"));
                             getUser().setMail(userinfo.getString("email"));
-                            getUser().setFlatPin(json.getString("flatpin"));
+                            if(json.has("flatpin")) {
+                                getUser().setFlatPin(json.getString("flatpin"));
+                            }
+                            getUser().setName(json.getString("username"));
+                            if(json.getBoolean("isAdmin") == true)
+                            {
+                                getUser().makeAdmin();
+                            }
 
 
                             if(isInFlat)
                             {
+                                Log.e("inflat","inflat");
                                 goTo(MainMenuController.class);
                             }
                             else
                             {
                                 goTo(FindFlatActivity.class);
                             }
-//                      
-                            if(json.getBoolean("isAdmin") == true)
-                            {
-                                getUser().makeAdmin();
-                            }
-                            goTo(MainMenuController.class);
+//
+//                            goTo(MainMenuController.class);
                         } else if (json != null && json.getString("response").equals("Invalid Password") | json.getString("response").equals("User not exist")) {
                             Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_SHORT).show();
                             goTo(LoginActivity.class);

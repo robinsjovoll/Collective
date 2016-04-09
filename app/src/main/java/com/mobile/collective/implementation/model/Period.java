@@ -5,7 +5,7 @@ import java.util.Map;
 
 //suggest increase and decrease period in the create flat-view: <|-| BIWEEKLY |+|>
 public enum Period{
-    WEEKLY(7), BIWEEKLY(14), MONTHLY(30);
+    UKENTLIG(7), ANNENHVERUKE(14), MÅNEDLIG(30);
 
     private int duration;
 

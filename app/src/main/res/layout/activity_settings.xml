@@ -60,6 +60,7 @@
         android:layout_width="540px "
         android:layout_height="100px"
         android:layout_gravity="center"
+        android:popupBackground="@drawable/gradient_bg"
         android:id="@+id/periodSpinner" />
 
     <TextView

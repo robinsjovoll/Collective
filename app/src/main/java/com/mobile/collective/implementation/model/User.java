@@ -35,6 +35,10 @@ public class User {
         this.isAdmin = true;
     }
 
+    public void removeAsAdmin(){
+        this.isAdmin = false;
+    }
+
     public boolean isAdmin(){
         return isAdmin;
     }

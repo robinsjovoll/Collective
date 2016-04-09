@@ -315,26 +315,26 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 mViewPagerPageChangeListener.onPageSelected(position);
             }
             //Initializes the different tabs when selecting them.
-            final int finalPos = position;
-            new Thread(){
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (finalPos == 0){
-                                mainMenuController.initTasksTab();
-                            }else if(finalPos == 1){
-                                mainMenuController.initScoreTab();
-                            }else if(finalPos == 2){
-                                mainMenuController.initHistoryTab();
-                            }else if(finalPos == 3){
-                                mainMenuController.initSettingsTab();
-                            }
-                        }
-                    });
-                }
-            }.start();
+//            final int finalPos = position;
+//            new Thread(){
+//                @Override
+//                public void run() {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (finalPos == 0){
+////                                mainMenuController.initTasksTab();
+//                            }else if(finalPos == 1){
+//                                mainMenuController.initScoreTab();
+//                            }else if(finalPos == 2){
+//                                mainMenuController.initHistoryTab();
+//                            }else if(finalPos == 3){
+//                                mainMenuController.initSettingsTab();
+//                            }
+//                        }
+//                    });
+//                }
+//            }.start();
 
         }
 
