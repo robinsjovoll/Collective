@@ -19,13 +19,13 @@ var newFlat = new flat({
 	prize: prize,
 	flatMates: [email]
 }); 
-	setInterval(function(){ checkPeriod(newFlat.flatPIN);}, 600000); //CHECKS IF THE PERIOD IS OUT EVERY 10 MINUTES - 600000
-	user.find({email:email}, function(err,users){
-		if(users.length > 0){
-			users[0].admin = true;
-			users[0].save();
-		}
-	});
+	setInterval(function(){ checkPeriod(newFlat.flatPIN);}, 600000);
+	 user.find({email:email}, function(err,users){
+     		if(users.length > 0){
+     			users[0].admin = true;
+     			users[0].save();
+     		}
+     	});//CHECKS IF THE PERIOD IS OUT EVERY 10 MINUTES - 600000
 
 	for(var i = 0; i < preDefinedTaskNames.length; i++){
 		
@@ -55,6 +55,21 @@ exports.addUser = function(flatPIN,email,callback) {
 	});
 }
 
+exports.editFlat = function(flatPIN, flatName, flatPeriod, flatPrize, callback) {
+
+	flat.find({flatPIN:flatPIN}, function(err,flats) {
+		if(flats.length > 0){
+			var currFlat = flats[0];
+			currFlat.flatName = flatName;
+			currFlat.prize = flatPrize;
+			currFlat.period = flatPeriod;
+			currFlat.save(function(err){
+				callback({'response':"Flat settings updated.", 'res':true});
+			});
+		}
+	});
+}
+
 exports.getFlatMates = function(flatPIN, callback){
 	flat.find({flatPIN:flatPIN}, function(err, flats){
 		if (flats.length > 0){
@@ -75,6 +90,22 @@ exports.getFlatMates = function(flatPIN, callback){
 		callback({'response':"No such flat exists", 'res':false});
 		}
 	});
+}
+
+exports.getFlatSettings = function(flatPIN, callback) {
+
+	flat.find({flatPIN:flatPIN}, function(err,flats) {
+		if(flats.length > 0){
+			var currFlat = flats[0];
+			callback({'response' : [currFlat.flatName, currFlat.period, currFlat.prize], 'res':true});
+		}else{
+			
+			callback({'response':"Wrong PIN code", 'res':false});
+			
+			
+		}
+	});
+
 }
 
 exports.removeUser = function(flatPIN, email, callback){
@@ -115,48 +146,36 @@ exports.getScores = function(flatPIN, callback) {
 flat.find({flatPIN:flatPIN}, function(err, flats){
 	if(flats.length > 0){
 	var currFlat = flats[0];
-	for(var i = 0; i < currFlat.flatMates.length; i++)
-	{
 		user.find({
-			email: currFlat.flatMates[i]
+			email: {$in:currFlat.flatMates}
 		}, function(err, users){
 			if(users.length > 0)
 			{
-			//	console.log(users[i].username);
+				for(var i = 0; i < users.length; i++)
+				{
 					var userScoreObject = {
-					username: users[0].username,
-					score: users[0].score
+					username: users[i].username,
+					score: users[i].score
 					};
 					
-					// Workaround to avoid duplicates
-						var found = false;
-						
-						for(var i = 0; i < userScoreArray.length; i++) {
-							if (userScoreArray[i].username == userScoreObject.username) {
-								found = true;
-								break;
-							}
-						}
-						if(!found)
-						{				
-						userScoreArray.push(userScoreObject);
-						}
-					
-					
+					console.log(userScoreObject.username + " , " + userScoreObject.score);
+					GLOBAL.userScoreArray.push(userScoreObject);
+				}	
+
+				GLOBAL.userScoreArray.sort(function(a,b){
+				// Turn your strings into dates, and then subtract them
+				// to get a value that is either negative, positive, or zero.
+				return b.score - a.score;
+			});
+				
+				callback({"response": GLOBAL.userScoreArray, "res": true});
+				GLOBAL.userScoreArray = [];
 			}
 			else
 			{
 				callback({"response": "No such user exists", "res": false});
 			}
 		});		
-	}
-				userScoreArray.sort(function(a,b){
-				// Turn your strings into dates, and then subtract them
-				// to get a value that is either negative, positive, or zero.
-				return b.score - a.score;
-			});
-			
-	callback({"response": userScoreArray, "res": true});
 	}
 	else
 	{

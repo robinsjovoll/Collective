@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -348,8 +349,6 @@ public class MainMenuController extends AppMenu implements Serializable {
 //        params1.put("prize","Cake");
 //        params1.put("email", "robinsjovoll@hotmail.com");
 //        sr.getJSON(HttpType.LOGIN, getIpAddress() + ":8080/addFlat", params1);
-
-//        Log.e("MainController", getUser().toString());
 
     }
 
@@ -817,7 +816,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void initSettingsTab() {
         final ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
-        params.put("flatPIN", "123"); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", getUser().getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
         JSONObject json = sr.getJSON(HttpType.GETFLATSETTINGS,getIpAddress()+":8080/getFlatSettings", params);
         try {
             if(json != null){
