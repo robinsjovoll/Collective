@@ -20,14 +20,20 @@ var newFlat = new flat({
 	flatMates: [email]
 }); 
 	setInterval(function(){ checkPeriod(newFlat.flatPIN);}, 600000); //CHECKS IF THE PERIOD IS OUT EVERY 10 MINUTES - 600000
+	user.find({email:email}, function(err,users){
+		if(users.length > 0){
+			users[0].admin = true;
+			users[0].save();
+		}
+	});
 
 	for(var i = 0; i < preDefinedTaskNames.length; i++){
 		
-		taskReq.addPreDefinedTask(preDefinedTaskNames[i],preDefinedTaskScores[i], newFlat.flatPIN);
+		taskReq.addPredefinedTask(preDefinedTaskNames[i],preDefinedTaskScores[i], newFlat.flatPIN);
 	}
 	
 newFlat.save(function(err) {
-	callback({'response':"Successfully created flat", 'res':true});
+	callback({'response':"Successfully created flat","flatPIN":newFlat.flatPIN, 'res':true});
 });
 
 }
@@ -49,37 +55,61 @@ exports.addUser = function(flatPIN,email,callback) {
 	});
 }
 
-exports.editFlat = function(flatPIN, flatName, flatPeriod, flatPrize, callback) {
-
-	flat.find({flatPIN:flatPIN}, function(err,flats) {
-		if(flats.length > 0){
-			var currFlat = flats[0];
-			currFlat.flatName = flatName;
-			currFlat.prize = flatPrize;
-			currFlat.period = flatPeriod;
-			currFlat.save(function(err){
-				callback({'response':"Flat settings updated.", 'res':true});
+exports.getFlatMates = function(flatPIN, callback){
+	flat.find({flatPIN:flatPIN}, function(err, flats){
+		if (flats.length > 0){
+			user.find({email:{$in:flats[0].flatMates}}, function(err,users){
+				if(users.length > 0){
+					var usersInFlat = [];
+					for(var i = 0; i < users.length; i++){
+						usersInFlat.push([users[i].username,users[i].email]);
+					}
+					callback({"response":usersInFlat, "res": true});
+				}
+				else{
+					callback({'response':"No users exists", 'res':false});
+				}
 			});
-		}
-	});
-}
-
-exports.getFlatSettings = function(flatPIN, callback) {
-
-	flat.find({flatPIN:flatPIN}, function(err,flats) {
-		if(flats.length > 0){
-			var currFlat = flats[0];
-			callback({'response' : [currFlat.flatName, currFlat.period, currFlat.prize], 'res':true});
 		}else{
 			
-			callback({'response':"Wrong PIN code", 'res':false});
-			
+		callback({'response':"No such flat exists", 'res':false});
+		}
+	});
+}
+
+exports.removeUser = function(flatPIN, email, callback){
+	flat.find({flatPIN:flatPIN}, function(err,flats){
+		if(flats.length > 0){
+			var index = flats[0].flatMates.indexOf(email);
+			if (index > -1) {
+				flats[0].flatMates.splice(index, 1);
+			}
+			flats[0].save();
 			
 		}
 	});
-
+	user.remove({flatPIN: flatPIN, flatMates: email},callback({"response": "User " + email + " removed from flat", 'res':true})).exec();
 }
 
+exports.promoteUser = function(userToPromote, userToDemote, callback){
+	user.find({email:userToPromote}, function(err,users){
+		if(users.length > 0){
+			users[0].admin = true;
+			users[0].save();
+		}else {
+			callback({'response':"No such user exists", 'res':false});
+		}
+	});
+	user.find({email:userToDemote}, function(err,users){
+		if(users.length > 0){
+			users[0].admin = false;
+			users[0].save();
+			callback({"response": "The users admin status has now changed", 'res':true});
+		}else {
+			callback({'response':"No such user exists", 'res':false});
+		}
+	});
+}
 
 exports.getScores = function(flatPIN, callback) {
 flat.find({flatPIN:flatPIN}, function(err, flats){

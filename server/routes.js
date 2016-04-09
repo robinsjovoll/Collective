@@ -119,7 +119,7 @@ module.exports = function(app) {
 	 });
 	 
 	 // ADD NEW FLAT
- 	 app.post('/addFlat', function(req, res) {
+	 app.post('/addFlat', function(req, res) {
 		 var flatName = req.body.flatName;
 		 var period = req.body.period;
 		 var prize = req.body.prize;
@@ -143,29 +143,39 @@ module.exports = function(app) {
 		
 	 });
 	 
- 	 // EDIT FLAT
- 	 app.post('/editFlat', function(req, res) {
-		 var flatPIN = req.body.flatPIN;
-		 var flatName = req.body.flatName;
-		 var flatPeriod = req.body.flatPeriod;
-		 var flatPrize = req.body.flatPrize;
-		 
-		 flatReq.editFlat(flatPIN, flatName, flatPeriod, flatPrize, function(found) {
-			 console.log(found);
-			 res.json(found);
-		 });
-	 });
+	 // GET ALL FLATMATES IN SPECIFIC FLAT
+	 app.post('/getFlatMates', function(req,res){
+		var flatPIN = req.body.flatPIN;
 
-	 // GET FLAT SETINGS
-	 app.post('/getFlatSettings', function(req, res){
-		 var flatPIN = req.body.flatPIN;
-		 flatReq.getFlatSettings(flatPIN, function(found){
-			 console.log(found);
+		flatReq.getFlatMates(flatPIN, function(found){
+			console.log(found);
 			 res.json(found);
-		 });
+		});
+	 });
+	 
+	 
+	 app.put('/promoteUser', function(req,res){
+		var userToPromote = req.body.userToPromote;
+		var userToDemote = req.body.userToDemote;
+		
+		flatReq.promoteUser(userToPromote,userToDemote, function(found){
+			console.log(found);
+			 res.json(found);
+		});
 		
 	 });
-
+	 
+	 // REMOVE USER FROM FLAT
+	 app.del('/removeUser', function(req,res){
+		var flatPIN = req.body.flatPIN;
+		var email = req.body.email;
+		
+		flatReq.removeUser(flatPIN,email, function(found){
+			console.log(found);
+			 res.json(found);
+		});
+	 });
+	 
 	 // APPROVE SUGGESTED TASK
 	 app.post('/approveTask', function(req,res){
 		 var flatPIN = req.body.flatPIN;

@@ -42,7 +42,7 @@ user.find({email:email}, function(err,users){
 
 }
 
-exports.addPredinedTask = function(taskName,taskScore, flatPIN) { 
+exports.addPredefinedTask = function(taskName,taskScore, flatPIN) { 
 
 		var newTask = new task({
 			taskName: taskName,
