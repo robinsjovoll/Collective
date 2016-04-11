@@ -45,6 +45,7 @@ import com.mobile.collective.framework.MainViewPagerAdapter;
 import com.mobile.collective.framework.SlidingTabLayout;
 import com.mobile.collective.implementation.view.FlatmatesView;
 import com.mobile.collective.implementation.model.Period;
+import com.mobile.collective.implementation.view.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -323,7 +324,7 @@ public class MainMenuController extends AppMenu implements Serializable {
                     suggestedTaskList.setAdapter(customSuggestedListAdapter);
 
 
-                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, true); //TODO: GET THE ADMIN VARIABLE FROM USER CLASS.
+                    acceptedListAdapter = new CustomAcceptedListAdapter(this, acceptedTaskNames, acceptedTaskScores, getUser().isAdmin());
 //                    acceptedTaskList=(ListView)findViewById(R.id.accepted_task_list);
                     acceptedTaskList.setAdapter(acceptedListAdapter);
 
@@ -816,7 +817,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     public void initSettingsTab() {
         final ServerRequest sr = new ServerRequest();
         HashMap<String,String> params = new HashMap<>();
-        params.put("flatPIN", getUser().getFlatPin()); //TODO: GET FLAT PIN FROM USER MODEL.
+        params.put("flatPIN", getUser().getFlatPin());
         JSONObject json = sr.getJSON(HttpType.GETFLATSETTINGS,getIpAddress()+":8080/getFlatSettings", params);
         try {
             if(json != null){
@@ -863,7 +864,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             params.put("flatName", flatName);
             params.put("flatPeriod", Integer.toString(flatPeriod.getDuration()));
             params.put("flatPrize", flatPrize);
-            params.put("flatPIN","123");//TODO: GET FLAT PIN FROM USER MODEL
+            params.put("flatPIN",getUser().getFlatPin());
             ServerRequest sr = new ServerRequest();
             JSONObject json = sr.getJSON(HttpType.EDITFLAT, getIpAddress() + ":8080/editFlat", params);
 
@@ -1117,5 +1118,27 @@ public class MainMenuController extends AppMenu implements Serializable {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
+    }
+
+    /**
+     * Logs the current user out and sends them to login screen
+     * @param view
+     */
+    public void logout(View view){
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.are_you_sure_logout))
+                .setNegativeButton(getString(R.string.no),null)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        getUser().resetUser();
+                        SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPrefProf.edit();
+                        edit.putBoolean(getString(R.string.isLoggedInn), Boolean.FALSE);
+                        edit.commit();
+                        goTo(LoginActivity.class);
+
+                    }
+                }).create().show();
     }
 }

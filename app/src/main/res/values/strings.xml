@@ -86,6 +86,14 @@
     <string name="prize_hint">Premie</string>
     <string name="save_settingsBtn">Lagre</string>
     <string name="flatName_text">Navn:</string>
+    <string name="logout">Logg ut</string>
+    <string name="are_you_sure_logout">Er du sikker på at du vil logge ut?</string>
+
+    <!-- Find flat screen-->
+    <string name="find_new_flat">Finn nytt kollektiv</string>
+    <string name="find_flat">Bli med</string>
+    <string name="create_flat">Opprett nytt</string>
+    <string name="flat_pin">PIN-kode</string>
 
     <!-- Push notification-->
     <string name="push_title">Perioden over</string>
@@ -110,5 +118,6 @@
     <string name="are_you_sure_kick">Er du sikker på at du vil fjerne denne personen fra kollektivet?</string>
     <string name="are_you_sure_promote1">Er du sikker på at du vil oppgradere </string>
     <string name="are_you_sure_promote2">til admin, og dermed nedgradere deg selv?</string>
+    <string name="you_have_to_promote">Du må forfremme noen andre til admin før du kan forlate kollektivet</string>
 
 </resources>

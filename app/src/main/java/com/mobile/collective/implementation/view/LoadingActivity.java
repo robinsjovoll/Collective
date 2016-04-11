@@ -77,7 +77,6 @@ public class LoadingActivity extends AppMenu {
 
             SharedPreferences sharedPref = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
             boolean isLoggedInn = sharedPref.getBoolean(getString(R.string.isLoggedInn), false);
-            boolean isInFlat = sharedPref.getBoolean(getString(R.string.isInFlat), false);
 //            Log.e("LoadingScreen", "isloggedin: " + isLoggedInn);
             if (isLoggedInn) {
                 if(loggedIn){
@@ -93,9 +92,16 @@ public class LoadingActivity extends AppMenu {
 
                             getUser().setPeriodOver(json.getBoolean("periodOver"));
                             getUser().setMail(userinfo.getString("email"));
+                            SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = sharedPrefProf.edit();
                             if(json.has("flatpin")) {
                                 getUser().setFlatPin(json.getString("flatpin"));
+                                edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);
+                            }else {
+                                edit.putBoolean(getString(R.string.isInFlat), Boolean.FALSE);
                             }
+                            edit.commit();
+                            boolean isInFlat = sharedPref.getBoolean(getString(R.string.isInFlat), false);
                             getUser().setName(json.getString("username"));
                             if(json.getBoolean("isAdmin") == true)
                             {
@@ -105,7 +111,7 @@ public class LoadingActivity extends AppMenu {
 
                             if(isInFlat)
                             {
-                                Log.e("inflat","inflat");
+                                Log.e("LoadingActivity","inflat");
                                 goTo(MainMenuController.class);
                             }
                             else

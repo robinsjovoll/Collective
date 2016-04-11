@@ -12,6 +12,18 @@
         <!--android:layout_width="match_parent"-->
         <!--/>-->
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="20px"
+        android:layout_marginTop="20px"
+        android:background="@drawable/gradient_btn"
+        android:textColor="@color/white"
+        android:text="@string/logout"
+        android:onClick="logout"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +34,7 @@
         android:id="@+id/SettingsInformation"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="13dp"
         android:layout_centerHorizontal="true" />
 
     <TextView

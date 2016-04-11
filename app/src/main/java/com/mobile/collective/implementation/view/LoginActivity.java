@@ -102,8 +102,10 @@ public class LoginActivity extends AppMenu {
                 if(json.has("flatpin")) {
                     getUser().setFlatPin(json.getString("flatpin"));
                     edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);
-                    edit.commit();
+                }else{
+                    edit.putBoolean(getString(R.string.isInFlat), Boolean.FALSE);
                 }
+                edit.commit();
                 getUser().setName(json.getString("username"));
                 boolean isInFlat = sharedPrefProf.getBoolean(getString(R.string.isInFlat), false);
                 if(isInFlat)

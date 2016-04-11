@@ -90,9 +90,20 @@ public class FlatmatesView extends AppMenu {
         final String message;
         if(userToRemove.getText().toString().equals(getUser().getMail())) {
             message = getString(R.string.are_you_sure_leave);
-        }else {
+        }
+        else {
            message = getString(R.string.are_you_sure_kick);
         }
+        if(userToRemove.getText().toString().equals(getUser().getMail()) && getUser().isAdmin()){
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.you_have_to_promote))
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+        }else {
             new AlertDialog.Builder(this)
                     .setMessage(message)
                     .setNegativeButton(getString(R.string.no), null)
@@ -113,7 +124,7 @@ public class FlatmatesView extends AppMenu {
                                     e.printStackTrace();
                                 }
                             }
-                            if(userToRemove.getText().toString().equals(getUser().getMail())){
+                            if (userToRemove.getText().toString().equals(getUser().getMail())) {
                                 SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                                 SharedPreferences.Editor edit = sharedPrefProf.edit();
                                 edit.putBoolean(getString(R.string.isInFlat), Boolean.FALSE);
@@ -122,12 +133,13 @@ public class FlatmatesView extends AppMenu {
                                 getUser().removeAsAdmin();
                                 getUser().resetScore();
                                 goTo(FindFlatActivity.class);
-                            }else{
+                            } else {
                                 flatMatesListAdapter.notifyDataSetChanged();
                                 initFlatMatesView();
                             }
                         }
                     }).create().show();
+        }
 
 
     }

@@ -108,6 +108,14 @@ public class User {
         return thisPeriod;
     }
 
+    public void resetUser(){
+        this.name = "";
+        this.mail = "";
+        this.isAdmin = false;
+        this.flatPin = "";
+        this.periodOver = false;
+    }
+
     @Override
     public String toString() {
         return "FlatPIN: " + getFlatPin() + " email: " + getMail() + " username: " + getName() + " thisPeriod: " + getThisPeriod() + " lastPeriod: " + getLastPeriod();

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Find your flat"
+        android:text="@string/find_new_flat"
         android:id="@+id/textView"
         android:layout_marginTop="158dp"
         android:textColor="#FFFFFF"
@@ -23,14 +23,14 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:background="#FFFFFF"
-        android:hint="Flat PIN"
+        android:hint="@string/flat_pin"
         android:layout_marginTop="20dp"
         android:textAlignment="center" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Find"
+        android:text="@string/find_flat"
         android:id="@+id/find_button"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/flatPin_edittext"
@@ -41,7 +41,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create new flat"
+        android:text="@string/create_flat"
         android:id="@+id/createNew_button"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/find_button"
@@ -50,4 +50,17 @@
         android:textColor="#FFFFFF"
         android:paddingRight="20dp"
         android:paddingLeft="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20px"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/createNew_button"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gradient_btn"
+        android:textColor="@color/white"
+        android:text="@string/logout"
+        android:onClick="logoutFromFindFlat"
+        />
 </RelativeLayout>

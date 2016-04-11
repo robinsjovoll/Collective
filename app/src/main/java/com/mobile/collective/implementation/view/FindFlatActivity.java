@@ -1,7 +1,9 @@
 package com.mobile.collective.implementation.view;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -155,8 +157,27 @@ public class FindFlatActivity extends AppMenu {
         register_flat.show();
         register_flat.getWindow().setAttributes(lp);
 
+    }
 
+    /**
+     * Logs the user out
+     * @param view
+     */
+    public void logoutFromFindFlat(View view){
+        new AlertDialog.Builder(this)
+                .setMessage(getString(R.string.are_you_sure_logout))
+                .setNegativeButton(getString(R.string.no),null)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        getUser().resetUser();
+                        SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPrefProf.edit();
+                        edit.putBoolean(getString(R.string.isLoggedInn), Boolean.FALSE);
+                        edit.commit();
+                        goTo(LoginActivity.class);
 
+                    }
+                }).create().show();
     }
 }
