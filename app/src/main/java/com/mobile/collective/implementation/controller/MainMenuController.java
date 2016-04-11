@@ -96,6 +96,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     private final String BLUE = "#354579", LIGHTBLUE = "#7ACEF3", ORANGE ="#FF8A00", DARKORANGE = "#EC4912", DARKERORANGE = "#C02217";
     private final String[] colorArray = new String[]{BLUE, LIGHTBLUE, ORANGE, DARKORANGE, DARKERORANGE};
     private int colorInt;
+    private TextView lastWinner;
 
     /**
      * ListView in taskHistory display variables.
@@ -121,6 +122,9 @@ public class MainMenuController extends AppMenu implements Serializable {
     private String selectedTaskName = "Alle";
     private boolean isSelectedTaskName = true;
     private Spinner taskSpinner, personSpinner;
+    private Button button_this;
+    private Button button_last;
+    private Button button_earlier;
 
     /**
      *  FlatmatesView variables
@@ -663,7 +667,6 @@ public class MainMenuController extends AppMenu implements Serializable {
                             String date = periodWinner.getString("date").substring(8, 10) + "-" + periodWinner.getString("date").substring(5, 7) + "-" + periodWinner.getString("date").substring(0, 4);
                             String lastWinnerString = date + " - " + periodWinner.getString("username");
 
-                            TextView lastWinner = (TextView) findViewById(R.id.last_winner_person);
                             lastWinner.setText(lastWinnerString);
                         }else {
                             Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
@@ -679,6 +682,10 @@ public class MainMenuController extends AppMenu implements Serializable {
             }
         }
         isScoreTabInit = true;
+    }
+
+    public void setLastWinner(TextView lastWinner) {
+        this.lastWinner = lastWinner;
     }
 
     /**
@@ -795,9 +802,9 @@ public class MainMenuController extends AppMenu implements Serializable {
             }
         }
 
-        Button button_this = (Button)findViewById(R.id.this_periodBtn);
-        Button button_last = (Button)findViewById(R.id.last_periodBtn);
-        Button button_earlier = (Button)findViewById(R.id.earlierBtn);
+        if(getUser().getLastPeriod() == 0){
+            button_last.setVisibility(View.INVISIBLE);
+        }
 
         if(chosenPeriod.equals("thisPeriod")){
             button_this.setBackgroundResource(R.drawable.gradient_btn_selected);
@@ -809,6 +816,18 @@ public class MainMenuController extends AppMenu implements Serializable {
 
         isHistoryTabInit = true;
 
+    }
+
+    public void setButton_this(Button button_this) {
+        this.button_this = button_this;
+    }
+
+    public void setButton_earlier(Button button_earlier) {
+        this.button_earlier = button_earlier;
+    }
+
+    public void setButton_last(Button button_last) {
+        this.button_last = button_last;
     }
 
     /**

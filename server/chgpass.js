@@ -6,8 +6,8 @@ var user = require('config/user');
 
 var smtpTransport = nodemailer.createTransport("SMTP",{     
      auth: {         
-          user: "mail",  //MUST FILL IN THIS, CREATE A RANDOM AWESOME EMAIL ADDRESS      
-          pass: "*****"        
+          user: "kollektivet.ntnu@gmail.com",   
+          pass: "kollektivet123"        
           } 
 });   
 
@@ -34,21 +34,21 @@ user.findOne({ token: id }, function (err, doc){
      doc.salt = temp1;   
      doc.save();  
 
-callback({'response':"Password Sucessfully Changed",'res':true});  
+callback({'response':"Passord endret",'res':true});  
 }); 
 }else{  
 
-callback({'response':"New Password is Weak. Try a Strong Password !",'res':false});  
+callback({'response':"Nytt passord for svakt!",'res':false});  
 
 } 
 }else{  
 
-callback({'response':"Passwords do not match. Try Again !",'res':false});  
+callback({'response':"Passordene matcher ikke, prøv igjen!",'res':false});  
 
 } 
 }else{  
 
-callback({'response':"Error while changing password",'res':false});  
+callback({'response':"Feil under endring av passord",'res':false});  
 
 }  
 
@@ -77,11 +77,11 @@ var mailOptions = {
 smtpTransport.sendMail(mailOptions, function(error, response){     
      if(error){  
 console.log(error);
-callback({'response':"Error While Resetting password. Try Again !",'res':false});      
+callback({'response':"Feil under reseting av passord, prøv igjen !",'res':false});      
 
      }else{  
 
-callback({'response':"Check your Email and enter the verification code to reset your Password.",'res':true});      
+callback({'response':"Sjekk din epost for å finne koden som må skrives inn for å endre passord.",'res':true});      
 
      } 
 
@@ -89,7 +89,7 @@ callback({'response':"Check your Email and enter the verification code to reset 
 }); 
 }else{  
 
-callback({'response':"Email Does not Exists.",'res':false});  
+callback({'response':"Emailen eksisterer ikke.",'res':false});  
 
 } 
 }); 
@@ -115,21 +115,21 @@ user.findOne({ email: email }, function (err, doc){
      doc.temp_str = "";   
      doc.save();  
 
-callback({'response':"Password Sucessfully Changed",'res':true});  
+callback({'response':"Passord endret",'res':true});  
 
 });}else{  
 
-callback({'response':"New Password is Weak. Try a Strong Password !",'res':false});  
+callback({'response':"Nytt passord for svakt!",'res':false});  
 
 } 
 }else{  
 
-callback({'response':"Code does not match. Try Again !",'res':false});  
+callback({'response':"Koden matcher ikke, prøv igjen !",'res':false});  
 
 } 
 }else{  
 
-callback({'response':"Error",'res':true});  
+callback({'response':"Feil",'res':true});  
 
 } 
 }); 

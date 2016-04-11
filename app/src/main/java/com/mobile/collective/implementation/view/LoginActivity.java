@@ -99,6 +99,16 @@ public class LoginActivity extends AppMenu {
                 edit.commit();
                 getUser().setPeriodOver(json.getBoolean("periodOver"));
                 getUser().setMail(email);
+                if(json.has("thisPeriod")) {
+                    getUser().setThisPeriod(Integer.parseInt(json.getString("thisPeriod")));
+                }
+                if(json.has("lastPeriod")){
+                    if(!json.getString("lastPeriod").equals("0")){
+
+                        getUser().setLastPeriod(Integer.parseInt(json.getString("lastPeriod")));
+                    }
+
+                }
                 if(json.has("flatpin")) {
                     getUser().setFlatPin(json.getString("flatpin"));
                     edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);

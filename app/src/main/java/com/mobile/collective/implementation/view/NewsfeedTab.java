@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -22,7 +23,10 @@ public class NewsfeedTab extends Fragment {
         MainMenuController mainMenuController = (MainMenuController) getActivity();
         mainMenuController.setHistoryTabList((ListView)v.findViewById(R.id.historyList));
         mainMenuController.setTaskSpinner((Spinner) v.findViewById(R.id.taskSpinner));
-        mainMenuController.setPersonSpinner((Spinner)v.findViewById(R.id.personSpinner));
+        mainMenuController.setPersonSpinner((Spinner) v.findViewById(R.id.personSpinner));
+        mainMenuController.setButton_this((Button) v.findViewById(R.id.this_periodBtn));
+        mainMenuController.setButton_last((Button) v.findViewById(R.id.last_periodBtn));
+        mainMenuController.setButton_earlier((Button)v.findViewById(R.id.earlierBtn));
         mainMenuController.initHistoryTab();
         return v;
     }

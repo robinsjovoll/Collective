@@ -92,6 +92,16 @@ public class LoadingActivity extends AppMenu {
 
                             getUser().setPeriodOver(json.getBoolean("periodOver"));
                             getUser().setMail(userinfo.getString("email"));
+                            if(json.has("thisPeriod")) {
+                                getUser().setThisPeriod(Integer.parseInt(json.getString("thisPeriod")));
+                            }
+                            if(json.has("lastPeriod")){
+                                if(!json.getString("lastPeriod").equals("0")){
+
+                                    getUser().setLastPeriod(Integer.parseInt(json.getString("lastPeriod")));
+                                }
+
+                            }
                             SharedPreferences sharedPrefProf = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                             SharedPreferences.Editor edit = sharedPrefProf.edit();
                             if(json.has("flatpin")) {

@@ -33,7 +33,7 @@ var newFlat = new flat({
 	}
 	
 newFlat.save(function(err) {
-	callback({'response':"Successfully created flat","flatPIN":newFlat.flatPIN, 'res':true});
+	callback({'response':"Nytt kollektiv ble opprettet","flatPIN":newFlat.flatPIN, 'res':true});
 });
 
 }
@@ -46,10 +46,10 @@ exports.addUser = function(flatPIN,email,callback) {
 			var currFlat = flats[0];
 			currFlat.flatMates.push(email);
 			currFlat.save(function(err){
-				callback({'response':"You have now joined " + currFlat.flatName,"res":true});
+				callback({'response':"Du har nå blitt med i kollektivet med navnet: " + currFlat.flatName,"res":true});
 			});
 		}else {
-			callback({'response':"Wrong PIN code", 'res':false});
+			callback({'response':"Feil PIN-kode", 'res':false});
 		}
 		
 	});
@@ -64,7 +64,7 @@ exports.editFlat = function(flatPIN, flatName, flatPeriod, flatPrize, callback) 
 			currFlat.prize = flatPrize;
 			currFlat.period = flatPeriod;
 			currFlat.save(function(err){
-				callback({'response':"Flat settings updated.", 'res':true});
+				callback({'response':"Kollektivinstillingene ble oppdatert", 'res':true});
 			});
 		}
 	});
@@ -82,12 +82,12 @@ exports.getFlatMates = function(flatPIN, callback){
 					callback({"response":usersInFlat, "res": true});
 				}
 				else{
-					callback({'response':"No users exists", 'res':false});
+					callback({'response':"Brukeren eksisterer ikke", 'res':false});
 				}
 			});
 		}else{
 			
-		callback({'response':"No such flat exists", 'res':false});
+		callback({'response':"Kollektivet eksisterer ikke", 'res':false});
 		}
 	});
 }
@@ -100,7 +100,7 @@ exports.getFlatSettings = function(flatPIN, callback) {
 			callback({'response' : [currFlat.flatName, currFlat.period, currFlat.prize], 'res':true});
 		}else{
 			
-			callback({'response':"Wrong PIN code", 'res':false});
+			callback({'response':"Feil PIN-kode", 'res':false});
 			
 			
 		}
@@ -119,7 +119,7 @@ exports.removeUser = function(flatPIN, email, callback){
 			
 		}
 	});
-	user.remove({flatPIN: flatPIN, flatMates: email},callback({"response": "User " + email + " removed from flat", 'res':true})).exec();
+	user.remove({flatPIN: flatPIN, flatMates: email},callback({"response": "Brukeren " + email + " ble fjernet fra kollektivet", 'res':true})).exec();
 }
 
 exports.promoteUser = function(userToPromote, userToDemote, callback){
@@ -128,16 +128,16 @@ exports.promoteUser = function(userToPromote, userToDemote, callback){
 			users[0].admin = true;
 			users[0].save();
 		}else {
-			callback({'response':"No such user exists", 'res':false});
+			callback({'response':"Brukeren eksisterer ikke", 'res':false});
 		}
 	});
 	user.find({email:userToDemote}, function(err,users){
 		if(users.length > 0){
 			users[0].admin = false;
 			users[0].save();
-			callback({"response": "The users admin status has now changed", 'res':true});
+			callback({"response": "Brukernes admin status ble nå endret", 'res':true});
 		}else {
-			callback({'response':"No such user exists", 'res':false});
+			callback({'response':"Brukeren eksisterer ikke", 'res':false});
 		}
 	});
 }
@@ -173,13 +173,13 @@ flat.find({flatPIN:flatPIN}, function(err, flats){
 			}
 			else
 			{
-				callback({"response": "No such user exists", "res": false});
+				callback({"response": "Brukeren eksisterer ikke", "res": false});
 			}
 		});		
 	}
 	else
 	{
-		callback({"response": "No such flat exists", "res": false});
+		callback({"response": "Kollektivet eksisterer ikke", "res": false});
 	}
 });
 }
@@ -190,10 +190,10 @@ exports.getLastPeriodWinner = function(flatPIN, callback){
 			if(flats[0].previousWinners.length > 0){
 				callback({"response":flats[0].previousWinners[0], "res": true});
 			}else {
-				callback({"response": "No previous winners", "res": false});
+				callback({"response": "Ingen tidligere vinnere", "res": false});
 			}
 		}else{
-			callback({"response": "No such flat exists", "res": false});
+			callback({"response": "Kollektivet eksisterer ikke", "res": false});
 		}
 		
 	});
@@ -211,10 +211,8 @@ function checkFlatPIN(){
 	GLOBAL.tempID = makeid();
 	flat.find({flatPIN:GLOBAL.tempID}, function(err,flats){
 		if(flats.length > 0){
-			console.log("flatsExists = true");
 			checkFlatPIN();
 		}else {
-			console.log("flatsExists = false");
 			return GLOBAL.tempID;
 		}
 	});

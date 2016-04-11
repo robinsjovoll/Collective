@@ -133,7 +133,7 @@
 
     <Button
         android:layout_width="440px"
-        android:layout_height="80px"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/loginbtn"
         android:background="@drawable/gradient_btn"

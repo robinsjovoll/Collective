@@ -28,14 +28,14 @@ user.find({email:email}, function(err,users){
 			// console.log(tasks.length);
 			if(len == 0){
 				newTask.save(function(err){
-					callback({'response':"Successfully added task",'res':true});
+					callback({'response':"Ny oppgave laget",'res':true});
 				});
 			}else {
-				callback({'response':"Task already exists", 'res':false});
+				callback({'response':"Oppgaven finnes allerede", 'res':false});
 			}
 		});
 	}else{
-		callback({'response':"User does not exist", 'res':false});
+		callback({'response':"Brukeren eksisterer ikke", 'res':false});
 	}
 });
 
@@ -86,15 +86,15 @@ exports.doTask = function(taskName,email,flatPIN,date,callback) {
 					thisTask.save();
 					thisUser.save();
 					console.log(thisTask.taskHistory[thisTask.taskHistory.length-1]);
-					callback({"response":"Task done","res":true});
+					callback({"response":"Oppgave gjennomført","res":true});
 					
 				}else{
-					callback({"response":"No such user exists", "res":false});
+					callback({"response":"Brukeren eksisterer ikke", "res":false});
 				}
 			});
 		
 		}else {
-			callback({'response':"Task does not exist", 'res':false});
+			callback({'response':"Oppgaven eksisterer ikke", 'res':false});
 		}
 		
 		
@@ -107,7 +107,7 @@ exports.getTasks = function(flatPIN, callback) {
 		if(tasks.length > 0){
 			callback({"response":tasks,"res":true});
 		}else {
-			callback({"response":"No tasks exists", "res":false})
+			callback({"response":"Ingen oppgaver eksisterer", "res":false})
 		}
 		
 	});
@@ -123,21 +123,21 @@ exports.approveTask = function(flatPIN, taskName, email, callback) {
 					if(tasks[0].approvedByUser.length > flats[0].flatMates.length/2){
 						tasks[0].approved = true;
 						tasks[0].save();
-						callback({"response":"Approved", "res":true});
+						callback({"response":"Godkjent", "res":true});
 					}else{
 						
-					callback({"response":taskName + " still needs " + Math.ceil(flats[0].flatMates.length/2 - tasks[0].approvedByUser.length) + " approvals","res":true});
+					callback({"response":taskName + " trenger fortsatt " + Math.ceil(flats[0].flatMates.length/2 - tasks[0].approvedByUser.length) + " godkjenninger","res":true});
 					}
 				}else{
 					
-				callback({"response":"No such flat exists","res":false});
+				callback({"response":"Kollektivet eksisterer ikke","res":false});
 				}
 				
 			});
 			tasks[0].save();
 		}else{
 			
-		callback({"response":"No such task exists","res":false});
+		callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 		
 	});
@@ -151,13 +151,13 @@ exports.disapproveTask = function(flatPIN, taskName, email, callback) {
 			if (index > -1) {
 				tasks[0].approvedByUser.splice(index, 1);
 				tasks[0].save();
-				callback({"response":taskName + " is now disapproved","res":true});
+				callback({"response":taskName + " er nå ikke godkjent","res":true});
 			}else{
-				callback({"response":"No such user exists", "res":false});
+				callback({"response":"Brukeren eksisterer ikke", "res":false});
 			}
 		}else{
 			
-		callback({"response":"No such task exists","res":false});
+		callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 	});
 }
@@ -167,7 +167,7 @@ exports.getTaskHistory = function(flatPIN, taskName, callback){
 		if(tasks.length > 0){
 			callback({"response": tasks[0].taskHistory, "res":true});
 		}else {
-			callback({"response":"No such task exists","res":false});
+			callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 	});
 }
@@ -200,7 +200,7 @@ exports.getFeedHistory = function(flatPIN, numberOfHistories, callback){
 				callback({"response": feedHistory,"res":true});
 			}
 		}else{
-			callback({"response":"No such task exists","res":false});
+			callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 		
 	});
@@ -234,7 +234,7 @@ exports.getTasksFeedBasedOnTaskName = function(flatPIN,numberOfHistories, taskNa
 				callback({"response": feedHistory,"res":true});
 			}
 		}else{
-			callback({"response":"No such task exists","res":false});
+			callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 	});
 }
@@ -269,7 +269,7 @@ exports.getTasksFeedBasedOnUsername = function(flatPIN,numberOfHistories, userna
 				callback({"response": feedHistory,"res":true});
 			}
 		}else{
-			callback({"response":"No such task exists","res":false});
+			callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 	});
 }
@@ -304,17 +304,17 @@ exports.getTasksFeedBasedOnUsernameAndTaskName = function(flatPIN,numberOfHistor
 				callback({"response": feedHistory,"res":true});
 			}
 		}else{
-			callback({"response":"No such task exists","res":false});
+			callback({"response":"Oppgaven eksisterer ikke","res":false});
 		}
 	});
 }
 
 exports.deleteTask = function(flatPIN, taskName, callback){
-	 task.remove({flatPIN: flatPIN, taskName: taskName},callback({"response": "Task removed"})).exec();
+	 task.remove({flatPIN: flatPIN, taskName: taskName},callback({"response": "Oppgaven ble fjernet"})).exec();
 }
 
 exports.editTask = function(flatPIN, oldTaskName, newTaskName, taskScore, callback){
-	task.update({flatPIN: flatPIN, taskName:oldTaskName}, { taskName : newTaskName, taskScore: taskScore}, callback({"response": "Task updated", "res": true})).exec();
+	task.update({flatPIN: flatPIN, taskName:oldTaskName}, { taskName : newTaskName, taskScore: taskScore}, callback({"response": "Oppgaven ble oppdatert", "res": true})).exec();
 }
 
 

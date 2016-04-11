@@ -12,7 +12,7 @@
     <!-- Login Screen-->
     <string name="email_autofill">example@mail.com</string>
     <string name="password_fill">******</string>
-    <string name="login">Login</string>
+    <string name="login">Logg inn</string>
     <string name="register">Registrer</string>
     <string name="forgot_password">Glemt Passord</string>
 

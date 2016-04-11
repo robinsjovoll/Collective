@@ -10,7 +10,7 @@ public class User {
     private String flatPin;
     private boolean isAdmin;
     private boolean periodOver;
-    private int thisPeriod = 7, lastPeriod = 30;
+    private int thisPeriod = 0, lastPeriod = 0;
 
     public User(String name, String mail, String hash, String salt, boolean isAdmin){
         this.name = name;

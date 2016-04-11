@@ -37,19 +37,19 @@ flat.find({flatMates:email}, function(err,flats){
 			periodOver = false;
 		}
 	}
-	callback({'response':"Login Success",'res':true,'token':id,'grav':grav_url, 'flatpin':flatpin,'isAdmin':users[0].admin, "username":users[0].username, "periodOver": periodOver});  
+	callback({'response':"Du ble logget inn!",'res':true,'token':id,'grav':grav_url, 'flatpin':flatpin,'isAdmin':users[0].admin, "username":users[0].username, "periodOver": periodOver});  
     });
 
 }else{  
 
-callback({'response':"Invalid Password",'res':false}); 
+callback({'response':"Galt passord",'res':false}); 
  
 /* callback({'response':"Email already Registered"});   */
 
 } 
 }else {  
 
-callback({'response':"User not exist",'res':false});  
+callback({'response':"Brukeren eksisterer ikke",'res':false});  
 } 
 }); 
 } 

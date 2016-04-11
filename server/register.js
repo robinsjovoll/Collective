@@ -35,12 +35,12 @@ var len = users.length;
 if(len == 0){   
      newuser.save(function (err) {   
 
-     callback({'response':"Sucessfully Registered", 'res':true});  
+     callback({'response':"Registrering vellykket", 'res':true});  
 
 }); 
 }else{    
 
-     callback({'response':"Email already Registered", 'res':false});  
+     callback({'response':"Emailen er allerede registrert", 'res':false});  
 }});
 /* }else{      
 

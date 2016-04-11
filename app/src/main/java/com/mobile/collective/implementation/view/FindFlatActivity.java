@@ -32,11 +32,11 @@ import java.util.HashMap;
  */
 public class FindFlatActivity extends AppMenu {
 
-    EditText flatPin_EditText;
-    EditText flatName_EditText, flatPrize_EditText;
-    Button find_button, newFlat_button, save_flatSettings;
-    Spinner periodSpinner;
-    HashMap<String,String> params = new HashMap<>();
+    private EditText flatPin_EditText;
+    private  EditText flatName_EditText, flatPrize_EditText;
+    private Button find_button, newFlat_button, save_flatSettings, logoutBtn;
+    private Spinner periodSpinner;
+    private HashMap<String,String> params = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -110,7 +110,8 @@ public class FindFlatActivity extends AppMenu {
         periodSpinner = (Spinner)register_flat.findViewById(R.id.periodSpinner);
         periodSpinner.setAdapter(new ArrayAdapter<Period>(this, R.layout.spinner_item, Period.values()));
         periodSpinner.setSelection(Period.valueOf(7).ordinal());
-
+        logoutBtn = (Button)register_flat.findViewById(R.id.logoutBtn);
+        logoutBtn.setVisibility(View.INVISIBLE);
         save_flatSettings = (Button)register_flat.findViewById(R.id.save_button);
         save_flatSettings.setOnClickListener(new View.OnClickListener() {
             @Override

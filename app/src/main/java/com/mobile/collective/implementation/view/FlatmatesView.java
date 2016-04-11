@@ -94,7 +94,7 @@ public class FlatmatesView extends AppMenu {
         else {
            message = getString(R.string.are_you_sure_kick);
         }
-        if(userToRemove.getText().toString().equals(getUser().getMail()) && getUser().isAdmin()){
+        if(userToRemove.getText().toString().equals(getUser().getMail()) && getUser().isAdmin() && flatMatesList.getAdapter().getCount() > 1){
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.you_have_to_promote))
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {

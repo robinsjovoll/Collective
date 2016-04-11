@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mobile.collective.R;
 import com.mobile.collective.implementation.controller.MainMenuController;
@@ -20,6 +21,7 @@ public class ScoreTab extends Fragment {
         View v =inflater.inflate(R.layout.activity_score,container,false);
         MainMenuController mainMenuController = (MainMenuController) getActivity();
         mainMenuController.setScoreList((ListView)v.findViewById(R.id.listView_scores));
+        mainMenuController.setLastWinner((TextView) v.findViewById(R.id.last_winner_person));
         mainMenuController.initScoreTab();
         return v;
     }
