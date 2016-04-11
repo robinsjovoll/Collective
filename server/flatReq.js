@@ -14,6 +14,7 @@ var newFlat = new flat({
 	flatName: flatName,
 	flatPIN: GLOBAL.tempID,
 	period: period,
+	lastPeriod: "0",
 	periodStartDate: new Date(),
 	flatPeriodCount : 0,
 	prize: prize,
@@ -62,7 +63,20 @@ exports.editFlat = function(flatPIN, flatName, flatPeriod, flatPrize, callback) 
 			var currFlat = flats[0];
 			currFlat.flatName = flatName;
 			currFlat.prize = flatPrize;
-			currFlat.period = flatPeriod;
+			if(currFlat.period != flatPeriod){
+				currFlat.lastPeriod = currFlat.period;
+				currFlat.period = flatPeriod;
+				user.find({email:{$in:currFlat.flatMates}}, function(err,users){
+					if(users.length > 0){
+						for(var i = 0; i < users.length; i++){
+							
+							users[i].score = 0;
+							users[i].save();
+						}
+					}
+				
+				});
+			}
 			currFlat.save(function(err){
 				callback({'response':"Kollektivinstillingene ble oppdatert", 'res':true});
 			});
@@ -188,7 +202,7 @@ exports.getLastPeriodWinner = function(flatPIN, callback){
 	flat.find({flatPIN:flatPIN}, function(err,flats){
 		if(flats.length > 0){
 			if(flats[0].previousWinners.length > 0){
-				callback({"response":flats[0].previousWinners[0], "res": true});
+				callback({"response":flats[0].previousWinners[flats[0].previousWinners.length -1], "res": true});
 			}else {
 				callback({"response": "Ingen tidligere vinnere", "res": false});
 			}
@@ -227,7 +241,7 @@ function checkPeriod(flatPIN){
 			var tempPeriodDate = new Date(flats[0].periodStartDate);
 			var periodDate = addDays(tempPeriodDate, parseInt(flats[0].period));
 			
-			// console.log("currDate: " + currDate + " periodDate: " + periodDate);
+			console.log("currDate: " + currDate + " periodDate: " + periodDate);
 			console.log(currDate > periodDate);
 			if(currDate > periodDate){
 				// for(var j = 0; j < flats[0].flatMates.length; j++){
@@ -268,6 +282,7 @@ function checkPeriod(flatPIN){
 				flats[0].flatPeriodCount = flats[0].flatPeriodCount + 1;
 				var newPeriodDate = addDays(periodDate, 1);
 				flats[0].periodStartDate = newPeriodDate;
+				flats[0].lastPeriod = flats[0].period;
 				flats[0].save();
 			}
 		}

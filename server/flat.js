@@ -6,6 +6,8 @@ var flatSchema = mongoose.Schema({
 	flatName: String,
 	flatPIN: String,
 	period: String,
+	lastPeriod: String,
+	periodStartDate: {type: Date, default: Date.now},
 	prize: String,
 	flatMates: [String],
 	previousWinners: [{

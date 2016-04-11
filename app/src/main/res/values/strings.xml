@@ -88,6 +88,8 @@
     <string name="flatName_text">Navn:</string>
     <string name="logout">Logg ut</string>
     <string name="are_you_sure_logout">Er du sikker på at du vil logge ut?</string>
+    <string name="changed_period">Du har valgt en ny periode enn tidligere. Dette vil føre til at alle tidligere opptjente poeng i denne perioden vil bli nullstilt samtidig som ny periodestart vil bli satt
+    til idag. Vil du fullføre?</string>
 
     <!-- Find flat screen-->
     <string name="find_new_flat">Finn nytt kollektiv</string>

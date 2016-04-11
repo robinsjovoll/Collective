@@ -85,6 +85,13 @@ public class MainMenuController extends AppMenu implements Serializable {
     private CustomAcceptedListAdapter acceptedListAdapter;
 
     /**
+     * ListView in settingsTab variables
+     */
+    private Spinner periodSpinner;
+    private EditText EflatName, periodPrize;
+
+
+    /**
      * ListView in scoreTab variables
      */
     private ListView scoreList;
@@ -848,15 +855,14 @@ public class MainMenuController extends AppMenu implements Serializable {
                     String flatPrize = flatSettings.get(2).toString();
 
                     /*Set text to current flat name.*/
-                    ((EditText) findViewById(R.id.flatName)).setText(flatName, TextView.BufferType.EDITABLE);
+                    EflatName.setText(flatName, TextView.BufferType.EDITABLE);
 
                     /*Populate Spinner with the enum values.*/
-                    Spinner periodSpinner = (Spinner) findViewById(R.id.periodSpinner);
-                    periodSpinner.setAdapter(new ArrayAdapter<Period>(this, android.R.layout.simple_spinner_item, Period.values()));
+                    periodSpinner.setAdapter(new ArrayAdapter<Period>(this, R.layout.spinner_item, Period.values()));
                     periodSpinner.setSelection(Period.valueOf(flatPeriod.toString()).ordinal());
 
                     /*Set text to current prize.*/
-                    ((EditText) findViewById(R.id.period_prize)).setText(flatPrize, TextView.BufferType.EDITABLE);
+                    periodPrize.setText(flatPrize, TextView.BufferType.EDITABLE);
 
                 }else{
                     Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_LONG).show();
@@ -869,32 +875,83 @@ public class MainMenuController extends AppMenu implements Serializable {
         }
     }
 
+    public void setPeriodPrize(EditText periodPrize) {
+        this.periodPrize = periodPrize;
+    }
 
+    public void setEflatName(EditText eflatName) {
+        EflatName = eflatName;
+    }
+
+    public void setPeriodSpinner(Spinner periodSpinner) {
+        this.periodSpinner = periodSpinner;
+    }
 
     public void save_settings(View view){
         final LinearLayout settings_view = (LinearLayout) view.getParent();
         final String flatName = ((EditText) settings_view.findViewById(R.id.flatName)).getText().toString();
         final Period flatPeriod = Period.valueOf((((Spinner) settings_view.findViewById(R.id.periodSpinner)).getSelectedItem().toString()));
         final String flatPrize = ((EditText) settings_view.findViewById(R.id.period_prize)).getText().toString();
-        if (flatName.isEmpty() || flatPrize.isEmpty()) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
-        }else{
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("flatName", flatName);
-            params.put("flatPeriod", Integer.toString(flatPeriod.getDuration()));
-            params.put("flatPrize", flatPrize);
-            params.put("flatPIN",getUser().getFlatPin());
-            ServerRequest sr = new ServerRequest();
-            JSONObject json = sr.getJSON(HttpType.EDITFLAT, getIpAddress() + ":8080/editFlat", params);
+        if(flatPeriod.getDuration() != getUser().getThisPeriod()){
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.changed_period))
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 
-            if (json != null) {
-                try {
-                    Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            if (flatName.isEmpty() || flatPrize.isEmpty()) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
+                            }else{
+                                HashMap<String, String> params = new HashMap<String, String>();
+                                params.put("flatName", flatName);
+                                params.put("flatPeriod", Integer.toString(flatPeriod.getDuration()));
+                                params.put("flatPrize", flatPrize);
+                                params.put("flatPIN",getUser().getFlatPin());
+                                ServerRequest sr = new ServerRequest();
+                                JSONObject json = sr.getJSON(HttpType.EDITFLAT, getIpAddress() + ":8080/editFlat", params);
+
+                                if (json != null) {
+                                    try {
+                                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                                        getUser().setLastPeriod(getUser().getThisPeriod());
+                                        getUser().setThisPeriod(flatPeriod.getDuration());
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                        }
+                    }).create().show();
+        }else {
+            if (flatName.isEmpty() || flatPrize.isEmpty()) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_filled), Toast.LENGTH_SHORT).show();
+            }else{
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("flatName", flatName);
+                params.put("flatPeriod", Integer.toString(flatPeriod.getDuration()));
+                params.put("flatPrize", flatPrize);
+                params.put("flatPIN",getUser().getFlatPin());
+                ServerRequest sr = new ServerRequest();
+                JSONObject json = sr.getJSON(HttpType.EDITFLAT, getIpAddress() + ":8080/editFlat", params);
+
+                if (json != null) {
+                    try {
+                        Toast.makeText(getApplication(), json.getString("response"), Toast.LENGTH_LONG).show();
+                        getUser().setLastPeriod(getUser().getThisPeriod());
+                        getUser().setThisPeriod(flatPeriod.getDuration());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+
+
     }
 
     /**
