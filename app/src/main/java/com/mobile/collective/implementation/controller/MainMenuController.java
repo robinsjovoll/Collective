@@ -421,6 +421,7 @@ public class MainMenuController extends AppMenu implements Serializable {
             }
         }
         customSuggestedListAdapter.notifyDataSetChanged();
+        initTasksTab();
     }
 
     /**

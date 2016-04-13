@@ -34,13 +34,13 @@ public class RegisterActivity extends AppMenu {
     /**
      * Different regex expressions that validates the different inputs.
      */
-    private static final String USERNAME_PATTERN = "^[a-z0-9_-]{3,15}$";
+    private static final String USERNAME_PATTERN = "^[a-z0-9_-]{1,15}$";
     private Pattern usernamePattern;
     private Matcher usernameMatcher;
 
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{1,})$";
     private Pattern emailPattern;
     private Matcher emailMatcher;
 

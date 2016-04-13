@@ -14,7 +14,7 @@
         android:layout_marginLeft="40px"
         android:paddingLeft="20px"
         android:background="#ffffff"
-        android:maxLength="15"
+        android:maxLength="25"
         android:inputType="textPersonName"
         android:id="@+id/description_edittext"
         android:hint="@string/description"
