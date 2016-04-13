@@ -47,7 +47,7 @@ exports.addUser = function(flatPIN,email,callback) {
 			var currFlat = flats[0];
 			currFlat.flatMates.push(email);
 			currFlat.save(function(err){
-				callback({'response':"Du har nå blitt med i kollektivet med navnet: " + currFlat.flatName,"res":true});
+				callback({'response':"Du har nå blitt med i kollektivet med navnet: " + currFlat.flatName,"res":true, "flatName":currFlat.flatName, 'prize':currFlat.prize,'thisPeriod':currFlat.thisPeriod,'lastPeriod':currFlat.lastPeriod});
 			});
 		}else {
 			callback({'response':"Feil PIN-kode", 'res':false});
@@ -131,6 +131,12 @@ exports.removeUser = function(flatPIN, email, callback){
 			}
 			flats[0].save();
 			
+		}
+	});
+	user.find({email:email}, function(err,users){
+		if(users.length > 0 ){
+			users[0].admin = false;
+			users[0].save();
 		}
 	});
 	user.remove({flatPIN: flatPIN, flatMates: email},callback({"response": "Brukeren " + email + " ble fjernet fra kollektivet", 'res':true})).exec();

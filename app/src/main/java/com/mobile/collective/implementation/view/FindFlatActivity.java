@@ -83,6 +83,22 @@ public class FindFlatActivity extends AppMenu {
                 edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);
                 edit.putString(getString(R.string.flatPIN), pin);
                 edit.commit();
+                if(json.has("flatName")){
+                    getUser().setFlatName(json.getString("flatName"));
+                }
+                if(json.has("prize")){
+                    getUser().setFlatPrize(json.getString("prize"));
+                }
+                if(json.has("thisPeriod")) {
+                    getUser().setThisPeriod(Integer.parseInt(json.getString("thisPeriod")));
+                }
+                if(json.has("lastPeriod")){
+                    if(!json.getString("lastPeriod").equals("0")){
+
+                        getUser().setLastPeriod(Integer.parseInt(json.getString("lastPeriod")));
+                    }
+
+                }
                 getUser().setFlatPin(pin);
                 goTo(MainMenuController.class);
             }
@@ -100,7 +116,7 @@ public class FindFlatActivity extends AppMenu {
     public void registerNewFlat(){
         final Dialog register_flat = new Dialog(FindFlatActivity.this);
         register_flat.setTitle(getResources().getString(R.string.register_flat));
-        register_flat.setContentView(R.layout.activity_settings);
+        register_flat.setContentView(R.layout.dialog_settings);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(register_flat.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -145,6 +161,9 @@ public class FindFlatActivity extends AppMenu {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        getUser().setFlatName(flatName);
+                        getUser().setFlatPrize(flatPrize);
                         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = sharedPreferences.edit();
                         edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);

@@ -92,6 +92,12 @@ public class LoadingActivity extends AppMenu {
 
                             getUser().setPeriodOver(json.getBoolean("periodOver"));
                             getUser().setMail(userinfo.getString("email"));
+                            if(json.has("flatName")){
+                                getUser().setFlatName(json.getString("flatName"));
+                            }
+                            if(json.has("prize")){
+                                getUser().setFlatPrize(json.getString("prize"));
+                            }
                             if(json.has("thisPeriod")) {
                                 getUser().setThisPeriod(Integer.parseInt(json.getString("thisPeriod")));
                             }

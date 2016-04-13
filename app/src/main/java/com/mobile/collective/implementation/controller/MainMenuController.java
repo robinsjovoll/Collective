@@ -89,6 +89,8 @@ public class MainMenuController extends AppMenu implements Serializable {
      */
     private Spinner periodSpinner;
     private EditText EflatName, periodPrize;
+    private Button saveBtn;
+    private TextView PIN_code;
 
 
     /**
@@ -103,7 +105,7 @@ public class MainMenuController extends AppMenu implements Serializable {
     private final String BLUE = "#354579", LIGHTBLUE = "#7ACEF3", ORANGE ="#FF8A00", DARKORANGE = "#EC4912", DARKERORANGE = "#C02217";
     private final String[] colorArray = new String[]{BLUE, LIGHTBLUE, ORANGE, DARKORANGE, DARKERORANGE};
     private int colorInt;
-    private TextView lastWinner;
+    private TextView lastWinner, flatPrize, flatName;
 
     /**
      * ListView in taskHistory display variables.
@@ -643,6 +645,8 @@ public class MainMenuController extends AppMenu implements Serializable {
         if (json != null) {
             try {
                 if (json.getBoolean("res")) {
+                    flatName.setText(getUser().getFlatName() + "(" + getUser().getFlatPin() + ")");
+                    flatPrize.setText(getUser().getFlatPrize());
                     JSONArray response = json.getJSONArray("response");
                     arrayListUsers = new ArrayList<>();
                     arrayListScores = new ArrayList<>();
@@ -676,7 +680,7 @@ public class MainMenuController extends AppMenu implements Serializable {
 
                             lastWinner.setText(lastWinnerString);
                         }else {
-                            Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), json.getString("response"), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -689,6 +693,14 @@ public class MainMenuController extends AppMenu implements Serializable {
             }
         }
         isScoreTabInit = true;
+    }
+
+    public void setFlatName(TextView flatName) {
+        this.flatName = flatName;
+    }
+
+    public void setFlatPrize(TextView flatPrize) {
+        this.flatPrize = flatPrize;
     }
 
     public void setLastWinner(TextView lastWinner) {
@@ -850,9 +862,12 @@ public class MainMenuController extends AppMenu implements Serializable {
                 if(json.getBoolean("res")) {
                     JSONArray flatSettings = json.getJSONArray("response");
 
+
                     String flatName = flatSettings.get(0).toString();
                     Period flatPeriod = Period.valueOf(Integer.parseInt(flatSettings.get(1).toString()));
                     String flatPrize = flatSettings.get(2).toString();
+
+                    PIN_code.setText(getUser().getFlatPin());
 
                     /*Set text to current flat name.*/
                     EflatName.setText(flatName, TextView.BufferType.EDITABLE);
@@ -870,9 +885,31 @@ public class MainMenuController extends AppMenu implements Serializable {
             }else{
                 Log.e("MainMenuContorller", "Could not connect to server");
             }
+            if(!getUser().isAdmin()){
+                saveBtn.setVisibility(View.INVISIBLE);
+                EflatName.setFocusable(false);
+                EflatName.setFocusableInTouchMode(false);
+                EflatName.setClickable(false);
+//                EflatName.setEnabled(false);
+                periodPrize.setFocusable(false);
+                periodPrize.setFocusableInTouchMode(false);
+                periodPrize.setClickable(false);
+//                periodPrize.setEnabled(false);
+//                periodSpinner.getSelectedView().setEnabled(false);
+                periodSpinner.setEnabled(false);
+
+            }
         } catch (JSONException e) {
            e.printStackTrace();
         }
+    }
+
+    public void setPIN_code(TextView PIN_code) {
+        this.PIN_code = PIN_code;
+    }
+
+    public void setSaveBtn(Button saveBtn) {
+        this.saveBtn = saveBtn;
     }
 
     public void setPeriodPrize(EditText periodPrize) {

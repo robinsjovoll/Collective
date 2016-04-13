@@ -26,12 +26,16 @@ flat.find({flatMates:email}, function(err,flats){
 	var flatpin;
 	var period;
 	var lastPeriod;
+	var prize;
+	var flatName;
 	var periodOver = false;
 	if(flats.length > 0)
 	{
 		flatpin = flats[0].flatPIN;
 		period = flats[0].period;
 		lastPeriod = flats[0].lastPeriod;
+		prize = flats[0].prize;
+		flatName = flats[0].flatName;
 		
 		if(users[0].userPeriodCount < flats[0].flatPeriodCount){
 			periodOver = true;
@@ -41,7 +45,8 @@ flat.find({flatMates:email}, function(err,flats){
 			periodOver = false;
 		}
 	}
-	callback({'response':"Du ble logget inn!",'res':true,'token':id,'grav':grav_url, 'flatpin':flatpin,'isAdmin':users[0].admin, "username":users[0].username, "periodOver": periodOver, "thisPeriod":period, "lastPeriod":lastPeriod});  
+	callback({'response':"Du ble logget inn!",'res':true,'token':id,'grav':grav_url, 'flatpin':flatpin,'isAdmin':users[0].admin, "username":users[0].username, "periodOver": periodOver, "thisPeriod":period, "lastPeriod":lastPeriod,
+				'prize':prize,'flatName':flatName});  
     });
 
 }else{  

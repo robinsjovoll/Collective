@@ -12,7 +12,7 @@ import com.mobile.collective.implementation.model.User;
  */
 public abstract class AppMenu extends AppCompatActivity {
     private static AndroidFileIO fileIO;
-    private static final String IP_ADDRESS = "http://192.168.1.102";
+    private static final String IP_ADDRESS = "http://10.22.34.111";
     private static User loggedInUser;
 
     @Override

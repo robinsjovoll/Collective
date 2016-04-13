@@ -38,33 +38,13 @@
         android:layout_marginTop="13dp"
         android:layout_centerHorizontal="true" />
 
+
+
     <TextView
         android:layout_width="540px"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:id="@+id/flatPIN_header"
-        android:text="@string/flatPIN_text"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/flatPIN_PIN"
-        android:text="@string/flatPIN_text"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        />
-
-
-    <TextView
-        android:layout_width="540px"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30px"
         android:id="@+id/flatName_header"
         android:text="@string/flatName_text"
         android:textColor="@color/white"
@@ -86,7 +66,7 @@
         android:layout_gravity="center"
         android:id="@+id/period_lengthTxt"
         android:text="@string/period_length"
-        android:layout_marginTop="30px"
+        android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:textSize="16sp"
         />
@@ -104,7 +84,7 @@
         android:layout_gravity="center"
         android:id="@+id/period_prizeTxt"
         android:text="@string/period_prize"
-        android:layout_marginTop="30px"
+        android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:textSize="16sp"
         />
@@ -125,7 +105,7 @@
         android:text="@string/save_settingsBtn"
         android:id="@+id/save_button"
         android:onClick="save_settings"
-        android:layout_marginTop="20px"
+        android:layout_marginTop="20dp"
         android:background="@drawable/gradient_btn"
         android:textColor="#FFFFFF" />
 

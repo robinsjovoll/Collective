@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.mobile.collective.R;
 import com.mobile.collective.implementation.controller.MainMenuController;
@@ -23,6 +25,8 @@ public class SettingsTab extends Fragment {
         mainMenuController.setPeriodSpinner((Spinner) v.findViewById(R.id.periodSpinner));
         mainMenuController.setEflatName((EditText) v.findViewById(R.id.flatName));
         mainMenuController.setPeriodPrize((EditText) v.findViewById(R.id.period_prize));
+        mainMenuController.setSaveBtn((Button) v.findViewById(R.id.save_button));
+        mainMenuController.setPIN_code((TextView) v.findViewById(R.id.flatPIN_PIN));
         mainMenuController.initSettingsTab();
         return v;
     }

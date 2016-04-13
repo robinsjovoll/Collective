@@ -7,7 +7,7 @@ public class User {
     private Color color;
     private String hash, salt;
     private int periodScore, globalScore;
-    private String flatPin;
+    private String flatPin, flatName, flatPrize;
     private boolean isAdmin;
     private boolean periodOver;
     private int thisPeriod = 0, lastPeriod = 0;
@@ -114,6 +114,22 @@ public class User {
         this.isAdmin = false;
         this.flatPin = "";
         this.periodOver = false;
+    }
+
+    public void setFlatName(String flatName) {
+        this.flatName = flatName;
+    }
+
+    public String getFlatName() {
+        return flatName;
+    }
+
+    public String getFlatPrize() {
+        return flatPrize;
+    }
+
+    public void setFlatPrize(String flatPrize) {
+        this.flatPrize = flatPrize;
     }
 
     @Override

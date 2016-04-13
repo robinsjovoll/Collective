@@ -99,6 +99,12 @@ public class LoginActivity extends AppMenu {
                 edit.commit();
                 getUser().setPeriodOver(json.getBoolean("periodOver"));
                 getUser().setMail(email);
+                if(json.has("flatName")){
+                    getUser().setFlatName(json.getString("flatName"));
+                }
+                if(json.has("prize")){
+                    getUser().setFlatPrize(json.getString("prize"));
+                }
                 if(json.has("thisPeriod")) {
                     getUser().setThisPeriod(Integer.parseInt(json.getString("thisPeriod")));
                 }

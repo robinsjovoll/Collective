@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Flat mates"
+        android:text="@string/flatMates_title"
         android:id="@+id/flatmatesText"
         android:layout_gravity="center_horizontal"
         android:textSize="30dp"
@@ -39,7 +39,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gå tilbake"
+        android:text="@string/go_back"
         android:id="@+id/flatmatesview_return"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="0dp"

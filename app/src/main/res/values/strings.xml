@@ -43,6 +43,7 @@
     <!-- Score Screen-->
     <string name="score_title">Poeng</string>
     <string name="last_winner">Vinner av forrige periode: </string>
+    <string name="prize_this_period">Premie for denne perioden:</string>
 
     <!-- Task Screen-->
     <string name="task_title">Oppgaver</string>
@@ -86,6 +87,7 @@
     <string name="prize_hint">Premie</string>
     <string name="save_settingsBtn">Lagre</string>
     <string name="flatName_text">Navn:</string>
+    <string name="flatPIN_text">PIN-kode:</string>
     <string name="logout">Logg ut</string>
     <string name="are_you_sure_logout">Er du sikker på at du vil logge ut?</string>
     <string name="changed_period">Du har valgt en ny periode enn tidligere. Dette vil føre til at alle tidligere opptjente poeng i denne perioden vil bli nullstilt samtidig som ny periodestart vil bli satt
@@ -121,5 +123,7 @@
     <string name="are_you_sure_promote1">Er du sikker på at du vil oppgradere </string>
     <string name="are_you_sure_promote2">til admin, og dermed nedgradere deg selv?</string>
     <string name="you_have_to_promote">Du må forfremme noen andre til admin før du kan forlate kollektivet</string>
+    <string name="flatMates_title">Samboere</string>
+    <string name="go_back">Gå tilbake</string>
 
 </resources>

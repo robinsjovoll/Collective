@@ -17,6 +17,7 @@
         android:textColor="#FFFFFF"
         android:paddingTop="20dp" />
 
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,10 +29,43 @@
         android:layout_marginTop="-40dp"
         android:layout_marginBottom="0dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/flatName_score"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:paddingTop="20dp"
+        />
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="600px"
+        android:layout_height="500px"
+        android:layout_marginTop="20px"
         android:id="@+id/listView_scores" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/prize_this_period"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:paddingTop="20dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/prize_this_period"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:paddingTop="20dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
