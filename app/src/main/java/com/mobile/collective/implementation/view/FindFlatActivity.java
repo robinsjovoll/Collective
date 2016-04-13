@@ -164,6 +164,7 @@ public class FindFlatActivity extends AppMenu {
 
                         getUser().setFlatName(flatName);
                         getUser().setFlatPrize(flatPrize);
+                        getUser().setThisPeriod(Integer.parseInt(period));
                         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.profile_preferences), Context.MODE_PRIVATE);
                         SharedPreferences.Editor edit = sharedPreferences.edit();
                         edit.putBoolean(getString(R.string.isInFlat), Boolean.TRUE);

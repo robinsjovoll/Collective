@@ -172,7 +172,7 @@ public class LoginActivity extends AppMenu {
             @Override
             public void onClick(View v) {
                 Log.e("LoginActivity","ContinueClicked");
-                final String resetEmail = eEmail.getText().toString();
+                final String resetEmail = eEmail.getText().toString().replaceAll("\\s+","");
                 params = new HashMap<String, String>();
                 params.put("email", resetEmail);
                 ServerRequest sr = new ServerRequest();
